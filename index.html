@@ -1882,46 +1882,53 @@
             </div>
           </div>
 
-          <!-- Charts Row -->
-          <div class="charts-row" style="margin-top:20px;">
-            <div class="chart-box" style="flex: 2; min-width: 320px;">
-              <div class="chart-header">
+          <!-- Charts Grid -->
+          <div class="charts-grid" style="margin-top:20px;">
+            <div class="chart-card">
+              <div class="chart-card-head">
                 <div>
-                  <h4 class="chart-title">Tren Omset Bulanan TCO vs Merchandise (Feb - Nov 2026)</h4>
-                  <p class="chart-subtitle">Distribusi perolehan omset bulanan Tim Ryan berdasarkan kategori produk</p>
+                  <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-900);">
+                    <i class="fa-solid fa-chart-column" style="color:var(--primary-red); margin-right:6px;"></i>
+                    Tren Omset Bulanan TCO vs Merchandise (Feb &ndash; Nov 2026)
+                  </h4>
+                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--slate-500);">Distribusi perolehan omset bulanan Tim Ryan berdasarkan kategori produk</p>
                 </div>
               </div>
               <div id="tcoMonthlyChart" style="min-height: 320px;"></div>
             </div>
 
-            <div class="chart-box" style="flex: 1; min-width: 280px;">
-              <div class="chart-header">
+            <div class="chart-card">
+              <div class="chart-card-head">
                 <div>
-                  <h4 class="chart-title">Komposisi Omset per Kategori</h4>
-                  <p class="chart-subtitle">Proporsi pendapatan Merchandise vs TCO vs Bundling</p>
+                  <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-900);">
+                    <i class="fa-solid fa-chart-pie" style="color:var(--primary-red); margin-right:6px;"></i>
+                    Komposisi Omset per Kategori
+                  </h4>
+                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--slate-500);">Proporsi omset Merchandise vs TCO vs Bundling</p>
                 </div>
               </div>
               <div id="tcoTypeChart" style="min-height: 320px;"></div>
             </div>
           </div>
 
-          <!-- Sales Leaderboard Chart -->
-          <div class="charts-row" style="margin-top:20px;">
-            <div class="chart-box" style="width: 100%;">
-              <div class="chart-header">
-                <div>
-                  <h4 class="chart-title">Leaderboard Perolehan Omset TCO &amp; Merchandise Wiraniaga Tim Ryan</h4>
-                  <p class="chart-subtitle">Peringkat kontribusi revenue aksesoris &amp; merchandise per salesperson Tim Feryanto</p>
-                </div>
+          <!-- Leaderboard Chart Card -->
+          <div class="chart-card" style="margin-bottom: 24px;">
+            <div class="chart-card-head">
+              <div>
+                <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-900);">
+                  <i class="fa-solid fa-ranking-star" style="color:var(--primary-red); margin-right:6px;"></i>
+                  Leaderboard Perolehan Omset TCO &amp; Merchandise Wiraniaga Tim Ryan
+                </h4>
+                <p style="margin:4px 0 0 0; font-size:12px; color:var(--slate-500);">Peringkat kontribusi revenue aksesoris &amp; merchandise per salesperson Tim Feryanto</p>
               </div>
-              <div id="tcoLeaderboardChart" style="min-height: 380px;"></div>
             </div>
+            <div id="tcoLeaderboardChart" style="min-height: 380px;"></div>
           </div>
 
-          <!-- Filter & Data Table -->
-          <div class="card-box" style="margin-top:20px;">
-            <div class="card-box-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-              <div style="font-weight:700; font-size:15px; color:var(--navy-900); display:flex; align-items:center; gap:8px;">
+          <!-- Data Table Card -->
+          <div class="table-card" style="padding: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+              <div style="font-weight:700; font-size:14px; color:var(--slate-800); display:flex; align-items:center; gap:8px;">
                 <i class="fa-solid fa-list-check" style="color:var(--primary-red);"></i>
                 Daftar Detail Transaksi TCO &amp; Merchandise Tim Ryan
                 <span class="badge-status badge-cash" id="tcoTableFilteredBadge" style="font-size:11px; margin-left:6px;">85 Transaksi</span>
@@ -1937,14 +1944,14 @@
             </div>
 
             <!-- Filter Controls -->
-            <div class="filter-bar" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:16px;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:16px;">
               <div>
                 <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Pencarian Bebas:</label>
-                <input type="text" id="tcoSearchInput" class="form-control" placeholder="Cari konsumen, sales, part..." style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+                <input type="text" id="tcoSearchInput" class="form-control" placeholder="Cari konsumen, sales, part..." style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--slate-300);">
               </div>
               <div>
                 <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Filter Kategori:</label>
-                <select id="tcoTypeFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+                <select id="tcoTypeFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--slate-300);">
                   <option value="all">Semua Kategori</option>
                   <option value="MERCHANDISE">Merchandise GR</option>
                   <option value="TCO">Aksesoris TCO</option>
@@ -1953,13 +1960,13 @@
               </div>
               <div>
                 <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Filter Wiraniaga:</label>
-                <select id="tcoSalesFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+                <select id="tcoSalesFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--slate-300);">
                   <option value="all">Semua Wiraniaga</option>
                 </select>
               </div>
               <div>
                 <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Status Pemasangan:</label>
-                <select id="tcoStatusFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+                <select id="tcoStatusFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--slate-300);">
                   <option value="all">Semua Status</option>
                   <option value="TERPASANG">Terpasang</option>
                   <option value="BELUM TERPASANG">Belum Terpasang</option>
@@ -1968,11 +1975,11 @@
             </div>
 
             <!-- Table -->
-            <div class="table-responsive" style="overflow-x:auto;">
-              <table class="data-table" id="tcoTable" style="width:100%; font-size:12px;">
+            <div class="table-responsive">
+              <table class="data-table" id="tcoTable">
                 <thead>
                   <tr>
-                    <th style="width:40px;">No</th>
+                    <th style="width:40px; text-align:center;">No</th>
                     <th>Bulan</th>
                     <th>Konsumen</th>
                     <th>Wiraniaga Tim Ryan</th>
@@ -1991,7 +1998,7 @@
             </div>
 
             <!-- Pagination -->
-            <div id="tcoPagination" style="margin-top:12px;"></div>
+            <div id="tcoPagination" style="margin-top:16px;"></div>
           </div>
         </section>
 

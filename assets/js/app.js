@@ -4133,6 +4133,694 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     });
   }
 
+
+  /* ==========================================================================
+     TCO & MERCHANDISE MODULE - KHUSUS TIM RYAN (FERYANTO)
+     ========================================================================== */
+
+  function getTcoBaseList() {
+    const d = (window.RYAN_DATA && window.RYAN_DATA.tcoData) ? window.RYAN_DATA.tcoData : (data && data.tcoData ? data.tcoData : null);
+    if (!d || !d.items) return [];
+    return d.items;
+  }
+
+  function initTco() {
+    populateTcoFilterOptions();
+    bindTcoEvents();
+    updateTcoKpis();
+    renderTcoTable();
+    renderTcoCharts();
+  }
+
+  function populateTcoFilterOptions() {
+    const salesSelect = document.getElementById('tcoSalesFilter');
+    if (!salesSelect) return;
+    const baseList = getTcoBaseList();
+    const salesmen = Array.from(new Set(baseList.map(item => item.salesName).filter(Boolean))).sort();
+
+    const currentVal = (state.tco && state.tco.salesman) ? state.tco.salesman : 'all';
+    let html = '<option value="all">Semua Wiraniaga</option>';
+    salesmen.forEach(s => {
+      const count = baseList.filter(item => item.salesName === s).length;
+      const rev = baseList.filter(item => item.salesName === s).reduce((sum, item) => sum + item.price, 0);
+      const revJt = (rev / 1e6).toFixed(1).replace('.', ',') + ' Jt';
+      html += `<option value="${s}" ${currentVal === s ? 'selected' : ''}>${s} (${count} item - Rp ${revJt})</option>`;
+    });
+    salesSelect.innerHTML = html;
+  }
+
+  function bindTcoEvents() {
+    // Refresh button
+    const btnRefresh = document.getElementById('btnRefreshTco');
+    if (btnRefresh) {
+      btnRefresh.addEventListener('click', () => {
+        if (!state.tco) state.tco = {};
+        state.tco.search = '';
+        state.tco.month = 'all';
+        state.tco.type = 'all';
+        state.tco.salesman = 'all';
+        state.tco.status = 'all';
+        state.tco.page = 1;
+
+        const searchInput = document.getElementById('tcoSearchInput');
+        if (searchInput) searchInput.value = '';
+        const typeFilter = document.getElementById('tcoTypeFilter');
+        if (typeFilter) typeFilter.value = 'all';
+        const salesFilter = document.getElementById('tcoSalesFilter');
+        if (salesFilter) salesFilter.value = 'all';
+        const statusFilter = document.getElementById('tcoStatusFilter');
+        if (statusFilter) statusFilter.value = 'all';
+
+        document.querySelectorAll('#tcoMonthPills .tco-month-pill').forEach(btn => {
+          if (btn.getAttribute('data-month') === 'all') btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+
+        updateTcoKpis();
+        renderTcoTable();
+        renderTcoCharts();
+      });
+    }
+
+    // Monthly selector pill buttons
+    const monthPills = document.querySelectorAll('#tcoMonthPills .tco-month-pill');
+    monthPills.forEach(btn => {
+      btn.addEventListener('click', () => {
+        monthPills.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (!state.tco) state.tco = {};
+        state.tco.month = btn.getAttribute('data-month') || 'all';
+        state.tco.page = 1;
+        updateTcoKpis();
+        renderTcoTable();
+        renderTcoCharts();
+      });
+    });
+
+    // Search input with debounce
+    const searchInput = document.getElementById('tcoSearchInput');
+    if (searchInput) {
+      let debounceTimer;
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          if (!state.tco) state.tco = {};
+          state.tco.search = e.target.value.trim().toLowerCase();
+          state.tco.page = 1;
+          renderTcoTable();
+        }, 200);
+      });
+    }
+
+    // Category Type Filter
+    const typeFilter = document.getElementById('tcoTypeFilter');
+    if (typeFilter) {
+      typeFilter.addEventListener('change', (e) => {
+        if (!state.tco) state.tco = {};
+        state.tco.type = e.target.value;
+        state.tco.page = 1;
+        updateTcoKpis();
+        renderTcoTable();
+        renderTcoCharts();
+      });
+    }
+
+    // Sales Filter
+    const salesFilter = document.getElementById('tcoSalesFilter');
+    if (salesFilter) {
+      salesFilter.addEventListener('change', (e) => {
+        if (!state.tco) state.tco = {};
+        state.tco.salesman = e.target.value;
+        state.tco.page = 1;
+        renderTcoTable();
+      });
+    }
+
+    // Status Filter
+    const statusFilter = document.getElementById('tcoStatusFilter');
+    if (statusFilter) {
+      statusFilter.addEventListener('change', (e) => {
+        if (!state.tco) state.tco = {};
+        state.tco.status = e.target.value;
+        state.tco.page = 1;
+        renderTcoTable();
+      });
+    }
+
+    // Reset button
+    const btnReset = document.getElementById('btnResetTcoFilter');
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        if (!state.tco) state.tco = {};
+        state.tco.search = '';
+        state.tco.month = 'all';
+        state.tco.type = 'all';
+        state.tco.salesman = 'all';
+        state.tco.status = 'all';
+        state.tco.page = 1;
+
+        const sInput = document.getElementById('tcoSearchInput');
+        if (sInput) sInput.value = '';
+        const tF = document.getElementById('tcoTypeFilter');
+        if (tF) tF.value = 'all';
+        const saF = document.getElementById('tcoSalesFilter');
+        if (saF) saF.value = 'all';
+        const stF = document.getElementById('tcoStatusFilter');
+        if (stF) stF.value = 'all';
+
+        document.querySelectorAll('#tcoMonthPills .tco-month-pill').forEach(btn => {
+          if (btn.getAttribute('data-month') === 'all') btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+
+        updateTcoKpis();
+        renderTcoTable();
+        renderTcoCharts();
+      });
+    }
+
+    // Export CSV
+    const btnExport = document.getElementById('btnExportTcoCsv');
+    if (btnExport) {
+      btnExport.addEventListener('click', () => {
+        exportTcoCsv();
+      });
+    }
+  }
+
+  function getTcoFilteredList() {
+    const base = getTcoBaseList();
+    const st = state.tco || {};
+    return base.filter(item => {
+      // Month
+      if (st.month && st.month !== 'all' && item.month !== st.month) {
+        return false;
+      }
+      // Type
+      if (st.type && st.type !== 'all' && item.type !== st.type) {
+        return false;
+      }
+      // Salesman
+      if (st.salesman && st.salesman !== 'all' && item.salesName !== st.salesman) {
+        return false;
+      }
+      // Status
+      if (st.status && st.status !== 'all' && item.status !== st.status) {
+        return false;
+      }
+      // Search
+      if (st.search) {
+        const q = st.search;
+        const text = `${item.custName || ''} ${item.salesName || ''} ${item.partName || ''} ${item.type || ''} ${item.month || ''} ${item.note || ''}`.toLowerCase();
+        if (!text.includes(q)) return false;
+      }
+      return true;
+    });
+  }
+
+  function updateTcoKpis() {
+    const baseList = getTcoBaseList();
+    const st = state.tco || {};
+    const selectedMonth = st.month || 'all';
+    const selectedType = st.type || 'all';
+
+    // Filter items according to month and type for KPIs
+    const scopeItems = baseList.filter(item => {
+      if (selectedMonth !== 'all' && item.month !== selectedMonth) return false;
+      if (selectedType !== 'all' && item.type !== selectedType) return false;
+      return true;
+    });
+
+    const totalRev = scopeItems.reduce((sum, item) => sum + item.price, 0);
+    const totalCount = scopeItems.length;
+
+    const merchRev = scopeItems.filter(x => x.type === 'MERCHANDISE').reduce((sum, x) => sum + x.price, 0);
+    const merchCount = scopeItems.filter(x => x.type === 'MERCHANDISE').length;
+
+    const tcoRev = scopeItems.filter(x => x.type === 'TCO').reduce((sum, x) => sum + x.price, 0);
+    const tcoCount = scopeItems.filter(x => x.type === 'TCO').length;
+
+    const bundlingRev = scopeItems.filter(x => x.type === 'BUNDLING').reduce((sum, x) => sum + x.price, 0);
+    const bundlingCount = scopeItems.filter(x => x.type === 'BUNDLING').length;
+
+    const terpasangCount = scopeItems.filter(x => x.status === 'TERPASANG').length;
+    const terpasangPct = totalCount > 0 ? ((terpasangCount / totalCount) * 100).toFixed(1) : '100.0';
+
+    const elTotalRev = document.getElementById('tcoKpiTotalRevenue');
+    const elTotalItems = document.getElementById('tcoKpiTotalItems');
+    const elTcoRev = document.getElementById('tcoKpiTcoRev');
+    const elTcoItems = document.getElementById('tcoKpiTcoItems');
+    const elMerchRev = document.getElementById('tcoKpiMerchRev');
+    const elMerchItems = document.getElementById('tcoKpiMerchItems');
+    const elBundlingRev = document.getElementById('tcoKpiBundlingRev');
+    const elStatusSummary = document.getElementById('tcoKpiStatusSummary');
+
+    const fmtJt = val => 'Rp ' + (val / 1e6).toFixed(2).replace('.', ',') + ' Jt';
+
+    if (elTotalRev) elTotalRev.textContent = fmtJt(totalRev);
+    if (elTotalItems) {
+      elTotalItems.textContent = `${totalCount} Transaksi / Item (${selectedMonth === 'all' ? 'Feb - Nov 2026' : selectedMonth})`;
+    }
+    if (elTcoRev) elTcoRev.textContent = fmtJt(tcoRev);
+    if (elTcoItems) {
+      const share = totalRev > 0 ? ((tcoRev / totalRev) * 100).toFixed(1) + '%' : '0%';
+      elTcoItems.textContent = `${tcoCount} Transaksi TCO (${share} Share)`;
+    }
+    if (elMerchRev) elMerchRev.textContent = fmtJt(merchRev);
+    if (elMerchItems) {
+      const share = totalRev > 0 ? ((merchRev / totalRev) * 100).toFixed(1) + '%' : '0%';
+      elMerchItems.textContent = `${merchCount} Item Merchandise (${share} Share)`;
+    }
+    if (elBundlingRev) elBundlingRev.textContent = fmtJt(bundlingRev);
+    if (elStatusSummary) {
+      elStatusSummary.textContent = `${bundlingCount} Bundling | ${terpasangCount} Terpasang (${terpasangPct}%)`;
+    }
+  }
+
+  function renderTcoCharts() {
+    if (typeof ApexCharts === 'undefined') return;
+
+    const baseList = getTcoBaseList();
+    if (!baseList || baseList.length === 0) return;
+
+    const months = ['Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November'];
+    const monthShorts = ['Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov'];
+
+    // 1. Monthly Stacked Bar Chart: TCO vs Merchandise vs Bundling
+    const elMonthlyChart = document.getElementById('tcoMonthlyChart');
+    if (elMonthlyChart) {
+      const merchSeries = [];
+      const tcoSeries = [];
+      const bundlingSeries = [];
+
+      months.forEach(m => {
+        const mItems = baseList.filter(x => x.month === m);
+        const mMerch = mItems.filter(x => x.type === 'MERCHANDISE').reduce((sum, x) => sum + x.price, 0);
+        const mTco = mItems.filter(x => x.type === 'TCO').reduce((sum, x) => sum + x.price, 0);
+        const mBundling = mItems.filter(x => x.type === 'BUNDLING').reduce((sum, x) => sum + x.price, 0);
+
+        merchSeries.push(mMerch);
+        tcoSeries.push(mTco);
+        bundlingSeries.push(mBundling);
+      });
+
+      if (state.charts['tcoMonthly']) {
+        state.charts['tcoMonthly'].updateSeries([
+          { name: 'Merchandise GR', data: merchSeries },
+          { name: 'Aksesoris TCO', data: tcoSeries },
+          { name: 'Bundling', data: bundlingSeries }
+        ]);
+      } else {
+        const optionsMonthly = {
+          chart: {
+            type: 'bar',
+            height: 320,
+            stacked: true,
+            toolbar: { show: false },
+            fontFamily: 'Plus Jakarta Sans, sans-serif'
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              borderRadius: 4,
+              columnWidth: '55%'
+            }
+          },
+          colors: ['#8b5cf6', '#0284c7', '#f59e0b'],
+          series: [
+            { name: 'Merchandise GR', data: merchSeries },
+            { name: 'Aksesoris TCO', data: tcoSeries },
+            { name: 'Bundling', data: bundlingSeries }
+          ],
+          xaxis: {
+            categories: monthShorts,
+            labels: { style: { colors: '#64748b', fontSize: '11px', fontWeight: 600 } }
+          },
+          yaxis: {
+            labels: {
+              formatter: val => (val / 1e6).toFixed(1) + ' Jt',
+              style: { colors: '#64748b', fontSize: '11px' }
+            }
+          },
+          tooltip: {
+            y: {
+              formatter: val => 'Rp ' + Number(val).toLocaleString('id-ID')
+            }
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            fontSize: '11px',
+            fontWeight: 600
+          },
+          grid: { borderColor: '#f1f5f9' }
+        };
+
+        state.charts['tcoMonthly'] = new ApexCharts(elMonthlyChart, optionsMonthly);
+        state.charts['tcoMonthly'].render();
+      }
+    }
+
+    // 2. Type Composition Donut Chart
+    const elTypeChart = document.getElementById('tcoTypeChart');
+    if (elTypeChart) {
+      const selectedMonth = (state.tco && state.tco.month) ? state.tco.month : 'all';
+      const scopeItems = selectedMonth === 'all' ? baseList : baseList.filter(x => x.month === selectedMonth);
+
+      const merchRev = scopeItems.filter(x => x.type === 'MERCHANDISE').reduce((sum, x) => sum + x.price, 0);
+      const tcoRev = scopeItems.filter(x => x.type === 'TCO').reduce((sum, x) => sum + x.price, 0);
+      const bundlingRev = scopeItems.filter(x => x.type === 'BUNDLING').reduce((sum, x) => sum + x.price, 0);
+
+      if (state.charts['tcoType']) {
+        state.charts['tcoType'].updateSeries([merchRev, tcoRev, bundlingRev]);
+      } else {
+        const optionsType = {
+          chart: {
+            type: 'donut',
+            height: 320,
+            toolbar: { show: false },
+            fontFamily: 'Plus Jakarta Sans, sans-serif'
+          },
+          series: [merchRev, tcoRev, bundlingRev],
+          labels: ['Merchandise GR', 'Aksesoris TCO', 'Bundling'],
+          colors: ['#8b5cf6', '#0284c7', '#f59e0b'],
+          dataLabels: {
+            enabled: true,
+            formatter: (val) => val.toFixed(1) + '%'
+          },
+          legend: {
+            position: 'bottom',
+            fontSize: '11px',
+            fontWeight: 600
+          },
+          tooltip: {
+            y: {
+              formatter: val => 'Rp ' + Number(val).toLocaleString('id-ID')
+            }
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: '65%',
+                labels: {
+                  show: true,
+                  name: { show: true, fontSize: '13px', fontWeight: 600, color: '#64748b' },
+                  value: {
+                    show: true,
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    formatter: val => 'Rp ' + (Number(val) / 1e6).toFixed(1) + ' Jt'
+                  },
+                  total: {
+                    show: true,
+                    label: 'Total Omset',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: '#64748b',
+                    formatter: w => {
+                      const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                      return 'Rp ' + (total / 1e6).toFixed(1) + ' Jt';
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        state.charts['tcoType'] = new ApexCharts(elTypeChart, optionsType);
+        state.charts['tcoType'].render();
+      }
+    }
+
+    // 3. Sales Leaderboard Horizontal Bar Chart
+    const elLeaderboardChart = document.getElementById('tcoLeaderboardChart');
+    if (elLeaderboardChart) {
+      const selectedMonth = (state.tco && state.tco.month) ? state.tco.month : 'all';
+      const scopeItems = selectedMonth === 'all' ? baseList : baseList.filter(x => x.month === selectedMonth);
+
+      const salesRevMap = {};
+      scopeItems.forEach(item => {
+        salesRevMap[item.salesName] = (salesRevMap[item.salesName] || 0) + item.price;
+      });
+
+      const sortedSales = Object.entries(salesRevMap)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 15);
+
+      const salesNames = sortedSales.map(x => x[0]);
+      const salesRevValues = sortedSales.map(x => x[1]);
+
+      if (state.charts['tcoLeaderboard']) {
+        state.charts['tcoLeaderboard'].updateOptions({
+          xaxis: { categories: salesNames }
+        });
+        state.charts['tcoLeaderboard'].updateSeries([{ name: 'Total Omset TCO & Merchandise', data: salesRevValues }]);
+      } else {
+        const optionsLeaderboard = {
+          chart: {
+            type: 'bar',
+            height: 380,
+            toolbar: { show: false },
+            fontFamily: 'Plus Jakarta Sans, sans-serif'
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true,
+              borderRadius: 4,
+              barHeight: '65%',
+              distributed: false
+            }
+          },
+          colors: ['#e11d48'],
+          series: [{ name: 'Total Omset TCO & Merchandise', data: salesRevValues }],
+          xaxis: {
+            categories: salesNames,
+            labels: {
+              formatter: val => (val / 1e6).toFixed(1) + ' Jt',
+              style: { colors: '#64748b', fontSize: '11px', fontWeight: 600 }
+            }
+          },
+          yaxis: {
+            labels: {
+              style: { colors: '#0f172a', fontSize: '12px', fontWeight: 600 }
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: val => 'Rp ' + (val / 1e6).toFixed(2).replace('.', ',') + ' Jt',
+            textAnchor: 'start',
+            offsetX: 5,
+            style: { fontSize: '11px', fontWeight: 700, colors: ['#0f172a'] }
+          },
+          tooltip: {
+            y: {
+              formatter: val => 'Rp ' + Number(val).toLocaleString('id-ID')
+            }
+          },
+          grid: { borderColor: '#f1f5f9' }
+        };
+
+        state.charts['tcoLeaderboard'] = new ApexCharts(elLeaderboardChart, optionsLeaderboard);
+        state.charts['tcoLeaderboard'].render();
+      }
+    }
+  }
+
+  function renderTcoTable() {
+    const tbody = document.getElementById('tcoTableBody');
+    if (!tbody) return;
+
+    const filtered = getTcoFilteredList();
+    const totalRecords = filtered.length;
+    const st = state.tco || {};
+    const pageSize = st.pageSize || 25;
+    const totalPages = Math.ceil(totalRecords / pageSize) || 1;
+
+    if (!st.page || st.page > totalPages) st.page = totalPages;
+    if (st.page < 1) st.page = 1;
+
+    const startIndex = (st.page - 1) * pageSize;
+    const pagedData = filtered.slice(startIndex, startIndex + pageSize);
+
+    // Update table badge
+    const badgeEl = document.getElementById('tcoTableFilteredBadge');
+    if (badgeEl) {
+      badgeEl.textContent = `${totalRecords} Transaksi Ditemukan`;
+    }
+
+    if (pagedData.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="10" style="text-align:center; padding:32px; color:var(--slate-500);">
+            <i class="fa-solid fa-folder-open" style="font-size:28px; margin-bottom:8px; display:block; color:var(--slate-400);"></i>
+            Tidak ada transaksi TCO &amp; Merchandise yang cocok dengan filter yang dipilih.
+          </td>
+        </tr>
+      `;
+      renderTcoPagination(totalRecords, totalPages);
+      return;
+    }
+
+    let rowsHtml = '';
+    pagedData.forEach((item, idx) => {
+      const rowNo = startIndex + idx + 1;
+
+      // Category badge
+      let catBadge = '';
+      if (item.type === 'MERCHANDISE') {
+        catBadge = '<span class="badge-status badge-purple" style="font-size:10px;"><i class="fa-solid fa-shirt"></i> Merchandise GR</span>';
+      } else if (item.type === 'TCO') {
+        catBadge = '<span class="badge-status badge-cai" style="font-size:10px;"><i class="fa-solid fa-car-side"></i> Aksesoris TCO</span>';
+      } else if (item.type === 'BUNDLING') {
+        catBadge = '<span class="badge-status badge-amber" style="font-size:10px;"><i class="fa-solid fa-boxes-stacked"></i> Bundling</span>';
+      } else {
+        catBadge = `<span class="badge-status">${item.type}</span>`;
+      }
+
+      // Payment badge
+      let payBadge = '';
+      if (item.payment === 'LUNAS') {
+        payBadge = '<span class="badge-status badge-cash" style="font-size:10px;"><i class="fa-solid fa-check"></i> Lunas</span>';
+      } else {
+        payBadge = '<span class="badge-status badge-hot" style="font-size:10px;"><i class="fa-solid fa-hourglass-half"></i> DP</span>';
+      }
+
+      // Status Pemasangan badge
+      let statusBadge = '';
+      if (item.status === 'TERPASANG') {
+        statusBadge = '<span class="badge-status badge-datang" style="font-size:10px;"><i class="fa-solid fa-circle-check"></i> Terpasang</span>';
+      } else {
+        statusBadge = '<span class="badge-status badge-belum" style="font-size:10px;"><i class="fa-solid fa-clock"></i> Belum Terpasang</span>';
+      }
+
+      const priceFormatted = 'Rp ' + Number(item.price).toLocaleString('id-ID');
+
+      rowsHtml += `
+        <tr>
+          <td style="text-align:center; color:var(--slate-500); font-weight:600;">${rowNo}</td>
+          <td><span style="font-weight:700; color:var(--navy-900);">${item.month}</span></td>
+          <td style="font-weight:600; color:var(--navy-900);">${item.custName || '-'}</td>
+          <td><span style="font-weight:700; color:var(--primary-red);">${item.salesName}</span></td>
+          <td style="max-width:240px; font-weight:600; color:var(--slate-800);">${item.partName}</td>
+          <td>${catBadge}</td>
+          <td style="text-align:right; font-weight:700; color:var(--navy-900);">${priceFormatted}</td>
+          <td>${payBadge}</td>
+          <td>${statusBadge}</td>
+          <td style="color:var(--slate-600); font-size:11px;">${item.note || '-'}</td>
+        </tr>
+      `;
+    });
+
+    tbody.innerHTML = rowsHtml;
+    renderTcoPagination(totalRecords, totalPages);
+  }
+
+  function renderTcoPagination(totalRecords, totalPages) {
+    const container = document.getElementById('tcoPagination');
+    if (!container) return;
+
+    if (totalRecords === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const st = state.tco || {};
+    const currentPage = st.page || 1;
+    const pageSize = st.pageSize || 25;
+    const startRecord = (currentPage - 1) * pageSize + 1;
+    const endRecord = Math.min(currentPage * pageSize, totalRecords);
+
+    let html = `
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:12px;">
+        <div style="color:var(--slate-600);">
+          Menampilkan <strong>${startRecord} - ${endRecord}</strong> dari <strong>${totalRecords}</strong> transaksi
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button type="button" class="btn-secondary" id="btnTcoPrev" ${currentPage === 1 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+            <i class="fa-solid fa-chevron-left"></i> Prev
+          </button>
+          <span style="padding:0 8px; font-weight:700; color:var(--navy-900);">
+            Halaman ${currentPage} / ${totalPages}
+          </span>
+          <button type="button" class="btn-secondary" id="btnTcoNext" ${currentPage >= totalPages ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+            Next <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    `;
+
+    container.innerHTML = html;
+
+    const btnPrev = document.getElementById('btnTcoPrev');
+    if (btnPrev && currentPage > 1) {
+      btnPrev.addEventListener('click', () => {
+        state.tco.page--;
+        renderTcoTable();
+        const pane = document.getElementById('pane-tco');
+        if (pane) pane.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+
+    const btnNext = document.getElementById('btnTcoNext');
+    if (btnNext && currentPage < totalPages) {
+      btnNext.addEventListener('click', () => {
+        state.tco.page++;
+        renderTcoTable();
+        const pane = document.getElementById('pane-tco');
+        if (pane) pane.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+  }
+
+  function exportTcoCsv() {
+    const list = getTcoFilteredList();
+    if (!list || list.length === 0) {
+      alert('Tidak ada data TCO untuk diekspor!');
+      return;
+    }
+
+    const headers = [
+      'No',
+      'Bulan',
+      'Nama Konsumen',
+      'Wiraniaga Tim Ryan',
+      'Nama Part / Aksesoris / Merchandise',
+      'Kategori',
+      'Harga Part (Rp)',
+      'Status Pembayaran',
+      'Status Pemasangan',
+      'Catatan Tambahan'
+    ];
+
+    const rows = list.map((item, idx) => [
+      idx + 1,
+      `"${(item.month || '').replace(/"/g, '""')}"`,
+      `"${(item.custName || '').replace(/"/g, '""')}"`,
+      `"${(item.salesName || '').replace(/"/g, '""')}"`,
+      `"${(item.partName || '').replace(/"/g, '""')}"`,
+      `"${(item.type || '').replace(/"/g, '""')}"`,
+      item.price || 0,
+      `"${(item.payment || '').replace(/"/g, '""')}"`,
+      `"${(item.status || '').replace(/"/g, '""')}"`,
+      `"${(item.note || '').replace(/"/g, '""')}"`
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    const mStr = (state.tco && state.tco.month) ? state.tco.month : 'all';
+    link.setAttribute('download', `TCO_Merchandise_Tim_Ryan_2026_${mStr}_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+
   // =========================================================================
   // BOOTSTRAP INITIALIZATION
   // =========================================================================
