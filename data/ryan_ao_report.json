@@ -1,0 +1,135 @@
+{
+  "title": "AREA OPERATION REPORT - TUNAS NATIONAL & KIARA CONDONG",
+  "asOf": "05/05/2026",
+  "branch": "Tunas Toyota Kiara Condong (Bandung)",
+  "spv": "Feryanto (Pak Ryan) - Tim 1",
+  "metrics": {
+    "matchingRatio": 38,
+    "fullStock": 77,
+    "freeForSales": 71,
+    "matchedStock": 6,
+    "invoicableStock": 77,
+    "osOrders": 16,
+    "osFirmed": 13,
+    "osUnfirmed": 3,
+    "potentialDoFromOs": 6,
+    "onHandStock": 8,
+    "mdp": -2,
+    "oapTarget": 79,
+    "gapFromTargetNewSpk": 73,
+    "efficiencySto": 103,
+    "spvRyanShare": {
+      "targetDo": 35,
+      "targetPctShare": 44.3,
+      "firmedOsRyan": 6,
+      "potentialDoRyan": 3,
+      "gapRyan": 32
+    }
+  },
+  "waterfallDo": [
+    {
+      "period": "1-5 Mei",
+      "units": 0
+    },
+    {
+      "period": "6-10 Mei",
+      "units": 0
+    },
+    {
+      "period": "11-15 Mei",
+      "units": 0
+    },
+    {
+      "period": "16-20 Mei",
+      "units": 0
+    },
+    {
+      "period": "21-25 Mei",
+      "units": 4
+    },
+    {
+      "period": "25-31 Mei",
+      "units": 2
+    }
+  ],
+  "modelBreakdown": [
+    {
+      "model": "Avanza New",
+      "gapOs": 2,
+      "w1": 1,
+      "w2": 0,
+      "w3": 1,
+      "w4": 0,
+      "firmed": 0,
+      "pl": 0,
+      "unmatchNotes": "AVANZA G CVT UNMATCH"
+    },
+    {
+      "model": "Veloz New",
+      "gapOs": 0,
+      "w1": 0,
+      "w2": 0,
+      "w3": 0,
+      "w4": 0,
+      "firmed": 0,
+      "pl": 0,
+      "unmatchNotes": "-"
+    },
+    {
+      "model": "Raize",
+      "gapOs": 1,
+      "w1": 1,
+      "w2": 0,
+      "w3": 0,
+      "w4": 0,
+      "firmed": 0,
+      "pl": 0,
+      "unmatchNotes": "RAIZE 1.2 G MT"
+    },
+    {
+      "model": "Calya",
+      "gapOs": 1,
+      "w1": 0,
+      "w2": 0,
+      "w3": 0,
+      "w4": 1,
+      "firmed": 0,
+      "pl": 2,
+      "unmatchNotes": "2 Unit Pending Loan"
+    },
+    {
+      "model": "Rush",
+      "gapOs": 1,
+      "w1": 1,
+      "w2": 0,
+      "w3": 0,
+      "w4": 0,
+      "firmed": 0,
+      "pl": 0,
+      "unmatchNotes": "-"
+    },
+    {
+      "model": "Hilux D-Cab",
+      "gapOs": 1,
+      "w1": 1,
+      "w2": 0,
+      "w3": 0,
+      "w4": 0,
+      "firmed": 0,
+      "pl": 0,
+      "unmatchNotes": "-"
+    },
+    {
+      "model": "Hiace Premio / STD",
+      "gapOs": 0,
+      "w1": 0,
+      "w2": 0,
+      "w3": 0,
+      "w4": 0,
+      "firmed": 0,
+      "pl": 4,
+      "unmatchNotes": "4 Unit Pending Loan"
+    }
+  ],
+  "imagePath": "assets/img/reports/ao_report.png"
+}

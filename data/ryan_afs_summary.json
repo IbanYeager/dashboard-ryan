@@ -1,0 +1,59 @@
+{
+  "title": "Dashboard AFS (Aftersales) Kiaracondong — Start 2024 sd 2026",
+  "branch": "Tunas Toyota Kiara Condong",
+  "totalUnitEntry": 15199,
+  "totalRevenueM": 21.96,
+  "tCareUnits": 7614,
+  "tCareRatio": 50.1,
+  "serviceAdvisors": [
+    {
+      "name": "DIDIN",
+      "ue": 5084,
+      "revenueM": 7.84,
+      "tCareUe": 2463,
+      "tCareRatio": 48.4,
+      "shareRevenue": "35.7%"
+    },
+    {
+      "name": "FICKY",
+      "ue": 5059,
+      "revenueM": 7.15,
+      "tCareUe": 2493,
+      "tCareRatio": 49.3,
+      "shareRevenue": "32.6%"
+    },
+    {
+      "name": "ACEP",
+      "ue": 5056,
+      "revenueM": 6.97,
+      "tCareUe": 2658,
+      "tCareRatio": 52.6,
+      "shareRevenue": "31.7%"
+    }
+  ],
+  "serviceBreakdown": {
+    "retail": {
+      "units": 13360,
+      "pct": 87.9
+    },
+    "fleet": {
+      "units": 1839,
+      "pct": 12.1
+    },
+    "tCare": {
+      "units": 7614,
+      "pct": 50.1
+    },
+    "nonTCare": {
+      "units": 7585,
+      "pct": 49.9
+    }
+  },
+  "salesLink": {
+    "spv": "Feryanto (Pak Ryan)",
+    "unitsSupported": 336,
+    "sbiActiveCount": 704,
+    "caiRate": 76.3,
+    "notes": "Seluruh 336 unit delivery 2026 dan 704 database SBI Tim Ryan terintegrasi ke sistem AFS Kiara Condong didukung 3 Service Advisor resmi (Didin, Ficky, Acep)."
+  }
+}

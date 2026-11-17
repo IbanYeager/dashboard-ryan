@@ -1,0 +1,149 @@
+{
+  "years": {
+    "2024": {
+      "totalDo": 677,
+      "hybridUnits": 54,
+      "hybridPct": 8,
+      "retail": 541,
+      "fleet": 66,
+      "topLeasing": "TAF (48%) & MTF (29%)"
+    },
+    "2025": {
+      "totalDo": 854,
+      "hybridUnits": 105,
+      "hybridPct": 12.3,
+      "retail": 689,
+      "fleet": 91,
+      "topLeasing": "TAF (44%) & MTF (33%)"
+    },
+    "2026": {
+      "totalDoCabang": 682,
+      "totalDoRyan": 336,
+      "ryanShare": "49.3%",
+      "topLeasing": "MTF (35.4%) & TAF (37.1%)"
+    }
+  },
+  "monthlyLeasing2026": {
+    "months": [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP"
+    ],
+    "totalDo": [
+      73,
+      77,
+      52,
+      72,
+      65,
+      89,
+      76,
+      91,
+      87
+    ],
+    "cash": [
+      14,
+      30,
+      10,
+      16,
+      11,
+      14,
+      11,
+      30,
+      17
+    ],
+    "mtf": [
+      15,
+      14,
+      12,
+      16,
+      25,
+      28,
+      28,
+      22,
+      27
+    ],
+    "taf": [
+      30,
+      17,
+      16,
+      19,
+      18,
+      27,
+      21,
+      26,
+      22
+    ],
+    "acc": [
+      9,
+      6,
+      5,
+      10,
+      4,
+      12,
+      9,
+      10,
+      10
+    ],
+    "kkbBca": [
+      0,
+      3,
+      2,
+      4,
+      2,
+      3,
+      3,
+      0,
+      5
+    ],
+    "muf": [
+      3,
+      4,
+      2,
+      5,
+      3,
+      3,
+      2,
+      2,
+      1
+    ],
+    "niaga": [
+      0,
+      1,
+      1,
+      2,
+      1,
+      0,
+      0,
+      0,
+      3
+    ],
+    "others": [
+      2,
+      2,
+      4,
+      0,
+      1,
+      2,
+      2,
+      1,
+      2
+    ]
+  },
+  "ryanLeasingDistribution": {
+    "TAFS": 79,
+    "MTF": 92,
+    "CASH": 87,
+    "ACC": 37,
+    "KKB BCA": 9,
+    "BCAF": 6,
+    "MUF": 5,
+    "ADIRA": 4,
+    "OTHERS": 17
+  }
+}

@@ -1,0 +1,368 @@
+[
+  {
+    "wiraniaga": "ERICK",
+    "fullName": "Erick Januar Lisapaly",
+    "salesman": "ERICK",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "KIARACONDONG",
+      "BOJONGLOA"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "VELOZ HV",
+      "RANGGA",
+      "AVANZA"
+    ],
+    "focusModel": "VELOZ HV, RANGGA, AVANZA",
+    "aktivitas": [
+      "RESIDENTIAL KIARASARI",
+      "TESTDRIVE VELOZ (15-8-26)",
+      "IKLAN",
+      "LIVE TIKTOK",
+      "MOBILE SETIAP SABTU PAGI",
+      "TESTDRIVE VELOZ"
+    ],
+    "agenda": "Residential Kiarasari, Test Drive Veloz, Iklan, Live TikTok, Mobile Sabtu Pagi"
+  },
+  {
+    "wiraniaga": "YANI",
+    "fullName": "Yani Andriyani",
+    "salesman": "YANI",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "KIARACONDONG",
+      "BOJONGLOA"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "VELOZ HV",
+      "RANGGA",
+      "AVANZA"
+    ],
+    "focusModel": "VELOZ HV, RANGGA, AVANZA",
+    "aktivitas": [
+      "RESIDENTIAL KIARASARI",
+      "TESTDRIVE VELOZ (15-8-26)",
+      "IKLAN",
+      "LIVE TIKTOK",
+      "MOBILE SETIAP SABTU PAGI",
+      "TESTDRIVE VELOZ"
+    ],
+    "agenda": "Residential Kiarasari, Test Drive Veloz, Iklan, Live TikTok, Mobile Sabtu Pagi"
+  },
+  {
+    "wiraniaga": "JUARNA",
+    "fullName": "Juarna Karman Putra",
+    "salesman": "JUARNA",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "KIARACONDONG",
+      "BOJONGLOA"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "VELOZ HV",
+      "RANGGA",
+      "AVANZA"
+    ],
+    "focusModel": "VELOZ HV, RANGGA, AVANZA",
+    "aktivitas": [
+      "RESIDENTIAL KIARASARI",
+      "TESTDRIVE VELOZ (15-8-26)",
+      "IKLAN",
+      "LIVE TIKTOK",
+      "MOBILE SETIAP SABTU PAGI",
+      "TESTDRIVE VELOZ"
+    ],
+    "agenda": "Residential Kiarasari, Test Drive Veloz, Iklan, Live TikTok, Mobile Sabtu Pagi"
+  },
+  {
+    "wiraniaga": "YENI",
+    "fullName": "Yeni",
+    "salesman": "YENI",
+    "spv": "Alvin",
+    "isRyan": false,
+    "kecamatan": [
+      "UJUNG BERUNG",
+      "ANTAPANI",
+      "BUAH BATU"
+    ],
+    "targetSpk": 2,
+    "targetDo": 2,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "ZENIX",
+      "REBORN",
+      "VELOZ HV"
+    ],
+    "focusModel": "ZENIX, REBORN, VELOZ HV",
+    "aktivitas": [
+      "MOBILE SETIAP MINGGU PAGI",
+      "TESTDRIVE VELOZ",
+      "IKLAN",
+      "RESIDENTIAL BUAH BATU",
+      "TESTDRIVE (17-8-26)"
+    ],
+    "agenda": "Mobile Minggu Pagi, Test Drive Veloz, Iklan, Residential Buah Batu"
+  },
+  {
+    "wiraniaga": "DADAN",
+    "fullName": "Dadan Darmadi",
+    "salesman": "DADAN",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "UJUNG BERUNG",
+      "ANTAPANI",
+      "BUAH BATU"
+    ],
+    "targetSpk": 2,
+    "targetDo": 2,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "ZENIX",
+      "REBORN",
+      "VELOZ HV"
+    ],
+    "focusModel": "ZENIX, REBORN, VELOZ HV",
+    "aktivitas": [
+      "MOBILE SETIAP MINGGU PAGI",
+      "TESTDRIVE VELOZ",
+      "IKLAN",
+      "RESIDENTIAL BUAH BATU",
+      "TESTDRIVE (17-8-26)"
+    ],
+    "agenda": "Mobile Minggu Pagi, Test Drive Veloz, Iklan, Residential Buah Batu"
+  },
+  {
+    "wiraniaga": "NOVA",
+    "fullName": "Nova Khairunnisa Sumarna",
+    "salesman": "NOVA",
+    "spv": "Alvin",
+    "isRyan": false,
+    "kecamatan": [
+      "UJUNG BERUNG",
+      "ANTAPANI",
+      "BUAH BATU"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "ZENIX",
+      "REBORN",
+      "VELOZ HV"
+    ],
+    "focusModel": "ZENIX, REBORN, VELOZ HV",
+    "aktivitas": [
+      "MOBILE SETIAP MINGGU PAGI",
+      "TESTDRIVE VELOZ",
+      "IKLAN",
+      "RESIDENTIAL BUAH BATU",
+      "TESTDRIVE (17-8-26)"
+    ],
+    "agenda": "Mobile Minggu Pagi, Test Drive Veloz, Iklan, Residential Buah Batu"
+  },
+  {
+    "wiraniaga": "RAHMA",
+    "fullName": "Rahmawati",
+    "salesman": "RAHMA",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "ANDIR",
+      "ARCAMANIK",
+      "ANTAPANI"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 1,
+    "actualDo": 1,
+    "plan": "",
+    "fokusModel": [
+      "AVANZA",
+      "RUSH",
+      "REBORN",
+      "RANGGA"
+    ],
+    "focusModel": "AVANZA, RUSH, REBORN, RANGGA",
+    "aktivitas": [
+      "MOBILE",
+      "TESTDRIVE RANGGA",
+      "IKLAN",
+      "LIVE TIKTOK"
+    ],
+    "agenda": "Mobile, Test Drive Rangga, Iklan, Live TikTok"
+  },
+  {
+    "wiraniaga": "FIA",
+    "fullName": "Nofia Nurifah",
+    "salesman": "FIA",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "ANDIR",
+      "ARCAMANIK",
+      "ANTAPANI"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "AVANZA",
+      "RUSH",
+      "REBORN",
+      "RANGGA"
+    ],
+    "focusModel": "AVANZA, RUSH, REBORN, RANGGA",
+    "aktivitas": [
+      "MOBILE",
+      "TESTDRIVE RANGGA",
+      "IKLAN",
+      "LIVE TIKTOK"
+    ],
+    "agenda": "Mobile, Test Drive Rangga, Iklan, Live TikTok"
+  },
+  {
+    "wiraniaga": "EGY",
+    "fullName": "Regyawan Kurnia",
+    "salesman": "EGY",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "ANDIR",
+      "ARCAMANIK",
+      "ANTAPANI"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "AVANZA",
+      "RUSH",
+      "REBORN",
+      "RANGGA"
+    ],
+    "focusModel": "AVANZA, RUSH, REBORN, RANGGA",
+    "aktivitas": [
+      "MOBILE",
+      "TESTDRIVE RANGGA",
+      "IKLAN",
+      "LIVE TIKTOK"
+    ],
+    "agenda": "Mobile, Test Drive Rangga, Iklan, Live TikTok"
+  },
+  {
+    "wiraniaga": "JAJANG",
+    "fullName": "Jajang Nurjaman",
+    "salesman": "JAJANG",
+    "spv": "Feryanto (Pak Ryan)",
+    "isRyan": true,
+    "kecamatan": [
+      "CIDADAP",
+      "BUAH BATU"
+    ],
+    "targetSpk": 2,
+    "targetDo": 2,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "AGYA",
+      "AVANZA",
+      "VELOZ"
+    ],
+    "focusModel": "AGYA, AVANZA, VELOZ",
+    "aktivitas": [
+      "RESIDENTIAL CIWASTRA PARK",
+      "TESTDRIVE VELOZ (16-8-26)",
+      "IKLAN",
+      "LIVE TIKTOK"
+    ],
+    "agenda": "Residential Ciwastra Park, Test Drive Veloz, Iklan, Live TikTok"
+  },
+  {
+    "wiraniaga": "NURI",
+    "fullName": "Nuri",
+    "salesman": "NURI",
+    "spv": "Riva",
+    "isRyan": false,
+    "kecamatan": [
+      "CIDADAP",
+      "BUAH BATU"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "AGYA",
+      "AVANZA",
+      "VELOZ"
+    ],
+    "focusModel": "AGYA, AVANZA, VELOZ",
+    "aktivitas": [
+      "RESIDENTIAL CIWASTRA PARK",
+      "TESTDRIVE VELOZ (16-8-26)",
+      "IKLAN",
+      "LIVE TIKTOK"
+    ],
+    "agenda": "Residential Ciwastra Park, Test Drive Veloz, Iklan, Live TikTok"
+  },
+  {
+    "wiraniaga": "SHINTA",
+    "fullName": "Shinta",
+    "salesman": "SHINTA",
+    "spv": "Riva",
+    "isRyan": false,
+    "kecamatan": [
+      "CIDADAP",
+      "BUAH BATU"
+    ],
+    "targetSpk": 1,
+    "targetDo": 1,
+    "actualSpk": 0,
+    "actualDo": 0,
+    "plan": "",
+    "fokusModel": [
+      "AGYA",
+      "AVANZA",
+      "VELOZ"
+    ],
+    "focusModel": "AGYA, AVANZA, VELOZ",
+    "aktivitas": [
+      "RESIDENTIAL CIWASTRA PARK",
+      "TESTDRIVE VELOZ (16-8-26)",
+      "IKLAN",
+      "LIVE TIKTOK"
+    ],
+    "agenda": "Residential Ciwastra Park, Test Drive Veloz, Iklan, Live TikTok"
+  }
+]

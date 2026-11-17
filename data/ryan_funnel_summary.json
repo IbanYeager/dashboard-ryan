@@ -1,0 +1,13 @@
+{
+  "activity": 830,
+  "contact": 245,
+  "prospect": 100,
+  "hotProspect": 25,
+  "spk": 15,
+  "do": 12,
+  "crActivityToContact": "29.5",
+  "crContactToProspect": "40.8",
+  "crProspectToHot": "25.0",
+  "crHotToSpk": "60.0",
+  "crSpkToDo": "80.0"
+}

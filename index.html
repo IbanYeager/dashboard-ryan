@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Supervisor Sales &mdash; Tim 1 Pak Ryan | Tunas Toyota Kiara Condong</title>
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- ApexCharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="mainSidebar">
+      <div class="sidebar-header">
+        <span class="brand-badge">TUNAS</span>
+        <div class="brand-info">
+          <h1>Tunas Toyota</h1>
+          <p>Cabang Kiara Condong Bandung</p>
+        </div>
+      </div>
+
+      <!-- SPV Ryan Profile Card -->
+      <div class="spv-card">
+        <div class="spv-avatar">
+          <img src="assets/img/team/feryanto.png" alt="Feryanto (Pak Ryan)"
+            onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'avatar-fallback\'>FR</span>';">
+        </div>
+        <div class="spv-meta">
+          <h2>Feryanto (Pak Ryan)</h2>
+          <span class="spv-badge">Sales Supervisor Tim 1</span>
+          <p>Cluster: Batununggal &amp; Podomoro</p>
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Supervisi &amp; Pipeline</div>
+
+        <a href="#overview" class="nav-link active" data-tab="overview">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Ringkasan Tim Ryan</span>
+          </div>
+        </a>
+
+        <a href="#prospek" class="nav-link" data-tab="prospek">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-fire-flame-curved"></i>
+            <span>Hot Prospek Sales</span>
+          </div>
+        </a>
+
+        <a href="#activity" class="nav-link" data-tab="activity">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Plan Activity Tim</span>
+          </div>
+        </a>
+
+        <a href="#penjualan" class="nav-link" data-tab="penjualan">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-car-side"></i>
+            <span>SPK &amp; Delivery (DO)</span>
+          </div>
+        </a>
+
+        <a href="#leasing" class="nav-link" data-tab="leasing">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span>Analisis Leasing &amp; Historis</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operasional Khusus Tim Ryan</div>
+
+        <a href="#foa" class="nav-link" data-tab="foa">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-bullseye"></i>
+            <span>Fokus FOA (Outlet Area)</span>
+          </div>
+        </a>
+
+        <a href="#olx" class="nav-link" data-tab="olx">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-right-left"></i>
+            <span>OLX Trade-In Tim Ryan</span>
+          </div>
+        </a>
+
+        <a href="#aoreport" class="nav-link" data-tab="aoreport">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-clipboard-list"></i>
+            <span>Area Operation (AO) Report</span>
+          </div>
+        </a>
+
+        <a href="#oneaccount" class="nav-link" data-tab="oneaccount">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-id-card-clip"></i>
+            <span>One Account ID</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Aftersales &amp; Tim</div>
+
+        <a href="#funnel" class="nav-link" data-tab="funnel">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-filter-circle-dollar"></i>
+            <span>Marketing Funnel</span>
+          </div>
+        </a>
+
+        <a href="#wiraniaga" class="nav-link" data-tab="wiraniaga">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Kinerja Wiraniaga</span>
+          </div>
+        </a>
+
+        <a href="#sbi" class="nav-link" data-tab="sbi">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Service Berkala (SBI)</span>
+          </div>
+        </a>
+
+        <a href="#tim" class="nav-link" data-tab="tim">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Profil &amp; Struktur Tim</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div>
+          <span class="status-dot"></span>
+          <span>Sistem Supervisi Aktif</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="btn-sidebar-toggle" id="btnSidebarToggle" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="topbar-title">
+            <h2>Dashboard Supervisor Sales &mdash; Tim 1 Pak Ryan (Feryanto)</h2>
+            <p>Monitoring Mandiri Kinerja Sales, SPK-DO, Leasing, FOA, OLX, AO Report &amp; Retensi SBI</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-pill pill-primary">
+            <i class="fa-solid fa-bullseye"></i>
+            <span>Target DO: 35 Unit/Bln</span>
+          </div>
+          <div class="topbar-pill">
+            <i class="fa-solid fa-clock"></i>
+            <span id="topbarClock">--:--:-- WIB</span>
+          </div>
+          <button type="button" class="btn-topbar" onclick="window.location.reload();">
+            <i class="fa-solid fa-rotate"></i>
+            <span>Refresh</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT AREA -->
+      <main class="content-area">
+
+        <!-- ========================================== -->
+        <!-- TAB 1: OVERVIEW                            -->
+        <!-- ========================================== -->
+        <section class="tab-pane active" id="pane-overview">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Ringkasan Eksekutif Tim 1 Sales &mdash; Pak Ryan (Feryanto)</h3>
+              <p>Akumulasi pencapaian delivery unit, omset OTR, hot prospek aktif, SPK, dan retensi servis berkala
+                konsumen.</p>
+            </div>
+            <div class="section-header-actions">
+              <span class="badge-status badge-kredit" style="font-size:12px; padding:6px 12px;">
+                <i class="fa-solid fa-medal"></i> Rank #1 SPV Cabang (42.9% Share)
+              </span>
+            </div>
+          </div>
+
+          <!-- 4 KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Total Delivery Unit (DO)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-car"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOverviewTotalDo">336 Unit</div>
+              <div class="kpi-sub">Pencapaian YTD 2026 (Januari &ndash; Oktober)</div>
+            </div>
+
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Total Nilai Penjualan (OTR)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOverviewRevenue">Rp 124,63 M</div>
+              <div class="kpi-sub" id="kpiOverviewRevenueSub">Rata-rata OTR <strong>Rp 370,9 Jt / Unit</strong></div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Hot Prospek Siap Closing</span>
+                <div class="kpi-icon"><i class="fa-solid fa-fire"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOverviewProspects">105 Leads</div>
+              <div class="kpi-sub" id="kpiOverviewProspectsSub">Termasuk input mandiri SPV / Sales</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>Database Retensi SBI</span>
+                <div class="kpi-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOverviewSbi">704 Unit</div>
+              <div class="kpi-sub">Tingkat CAI <strong>76.3%</strong> (534 Unit Hadir)</div>
+            </div>
+          </div>
+
+          <!-- Quick Access Navigation Row -->
+          <div
+            style="background:#fff; border:1px solid var(--slate-200); border-radius:10px; padding:14px 18px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <i class="fa-solid fa-rocket" style="color:var(--primary-red); font-size:18px;"></i>
+              <div>
+                <strong style="font-size:13px; color:var(--slate-800);">Akses Cepat Modul Supervisi Tim Ryan:</strong>
+                <p style="font-size:11.5px; color:var(--slate-500); margin:0;">Buka laporan aktivitas, leasing, FOA
+                  teritori, OLX trade-in, atau AO Report</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <a href="#activity" class="btn-secondary"
+                style="font-size:11.5px; padding:6px 12px; text-decoration:none;" onclick="switchTab('activity')">
+                <i class="fa-solid fa-calendar-check" style="color:#0284c7;"></i> Plan Activity
+              </a>
+              <a href="#leasing" class="btn-secondary" style="font-size:11.5px; padding:6px 12px; text-decoration:none;"
+                onclick="switchTab('leasing')">
+                <i class="fa-solid fa-file-invoice-dollar" style="color:#16a34a;"></i> Leasing Historis
+              </a>
+              <a href="#foa" class="btn-secondary" style="font-size:11.5px; padding:6px 12px; text-decoration:none;"
+                onclick="switchTab('foa')">
+                <i class="fa-solid fa-bullseye" style="color:#b80515;"></i> Fokus FOA
+              </a>
+              <a href="#olx" class="btn-secondary" style="font-size:11.5px; padding:6px 12px; text-decoration:none;"
+                onclick="switchTab('olx')">
+                <i class="fa-solid fa-right-left" style="color:#d97706;"></i> OLX Trade-In
+              </a>
+              <a href="#aoreport" class="btn-secondary"
+                style="font-size:11.5px; padding:6px 12px; text-decoration:none;" onclick="switchTab('aoreport')">
+                <i class="fa-solid fa-clipboard-list" style="color:#7c3aed;"></i> AO Report
+              </a>
+            </div>
+          </div>
+
+          <!-- Charts Grid -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Tren Penjualan Bulanan 2026</h4>
+                  <p>Distribusi delivery unit Tunai vs Kredit per bulan (Januari &ndash; Oktober)</p>
+                </div>
+              </div>
+              <div id="chartOverviewMonthlyTrend"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Distribusi Model Kendaraan</h4>
+                  <p>Model terlaris Tim Ryan 2026 (Avanza, Calya, Veloz, Zenix, Reborn)</p>
+                </div>
+              </div>
+              <div id="chartOverviewModels"></div>
+            </div>
+          </div>
+
+          <!-- Top Sales Leaderboard -->
+          <div class="table-card" style="margin-top:20px;">
+            <div class="table-card-head"
+              style="padding:14px 18px; border-bottom:1px solid var(--slate-100); display:flex; justify-content:space-between; align-items:center;">
+              <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-800);">
+                <i class="fa-solid fa-trophy" style="color:#f59e0b; margin-right:6px;"></i> Top 5 Wiraniaga Berkinerja
+                Tertinggi &mdash; Tim Ryan
+              </h4>
+              <span style="font-size:12px; color:var(--slate-500);">Berdasarkan Total Delivery DO YTD 2026</span>
+            </div>
+            <div id="overviewTopSalesList" style="padding:16px;">
+              <!-- Dynamic list via JavaScript -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: HOT PROSPEK (WITH SMART PASTE)      -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-prospek">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Database Hot Prospek Sales &mdash; Tim 1 Pak Ryan</h3>
+              <p>Monitoring calon konsumen potensial siap closing. User / SPV dapat paste teks WhatsApp/Excel langsung
+                untuk menambahkan data.</p>
+            </div>
+            <div class="section-header-actions" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <button type="button" class="btn-primary" id="btnOpenProspectModal">
+                <i class="fa-solid fa-paste"></i>
+                <span>+ Input / Paste Hot Prospek</span>
+              </button>
+              <button type="button" class="btn-secondary" id="btnResetCustomProspects" style="display:none;"
+                title="Reset data input mandiri">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Reset Input Baru</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Custom Inputs Counter Banner -->
+          <div id="customProspectsAlert"
+            style="display:none; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:12px; color:#065f46; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <i class="fa-solid fa-circle-check" style="color:#10b981;"></i>
+              <span>Anda telah menambahkan <strong id="customProspectsCount">0</strong> data Hot Prospek baru via Smart
+                Paste / Input Mandiri (tersimpan di browser).</span>
+            </div>
+            <span style="font-size:11px; color:#047857; font-weight:600;">Data langsung sinkron ke dashboard</span>
+          </div>
+
+          <!-- Filter Controls -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <input type="text" class="filter-input" id="filterProspekSearch"
+                placeholder="Cari konsumen, sales, unit, catatan...">
+
+              <select class="filter-select" id="filterProspekStage">
+                <option value="all">Semua Tahapan</option>
+                <option value="SPK">Tahap SPK</option>
+                <option value="Appraisal Trade-In">Appraisal Trade-In</option>
+                <option value="Test Drive">Test Drive</option>
+                <option value="Follow-up">Follow-up</option>
+              </select>
+
+              <select class="filter-select" id="filterProspekRating">
+                <option value="all">Semua Rating</option>
+                <option value="Hot">Hot Rating</option>
+                <option value="Warm">Warm Rating</option>
+              </select>
+
+              <select class="filter-select" id="filterProspekSalesman">
+                <option value="all">Semua Wiraniaga</option>
+              </select>
+            </div>
+
+            <span style="font-size:12px; font-weight:700; color:#b80515;" id="prospekShowingBadge">
+              Menampilkan 105 Prospek Aktif Tim Ryan
+            </span>
+          </div>
+
+          <!-- Table Card -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="prospekTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px;">No</th>
+                    <th>Nama Konsumen &amp; Kontak</th>
+                    <th>Wiraniaga</th>
+                    <th>Model Incaran &amp; OTR</th>
+                    <th>Rating / Urgensi</th>
+                    <th>Tahapan</th>
+                    <th>Cara Bayar / Leasing</th>
+                    <th>Catatan Tindak Lanjut Supervisi</th>
+                    <th style="text-align:center;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="prospekTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer" id="prospekPagination"></div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: PLAN ACTIVITY TIM RYAN (NEW)        -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-activity">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Rencana Aktivitas Bulanan (SPM by Activity) Tim 1 Pak Ryan</h3>
+              <p>Monitoring rencana target aktivitas bulanan per funnel (Leads, Prospect, Hot Prospect, SPK Firm, Retail
+                Sales/DO) dalam 6 periode 5 harian (Agustus 2026).</p>
+            </div>
+          </div>
+
+          <!-- 4 KPI Cards for Activity -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Target Leads Bulanan</span>
+                <div class="kpi-icon"><i class="fa-solid fa-bullhorn"></i></div>
+              </div>
+              <div class="kpi-val">352 Leads</div>
+              <div class="kpi-sub">Realisasi: <strong>108 Leads</strong> (30.7% sd P2)</div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Target Prospek Aktif</span>
+                <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+              </div>
+              <div class="kpi-val">132 Prospek</div>
+              <div class="kpi-sub">Realisasi: <strong>75 Prospek</strong> (56.8% sd P2)</div>
+            </div>
+
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Target SPK Firm</span>
+                <div class="kpi-icon"><i class="fa-solid fa-file-signature"></i></div>
+              </div>
+              <div class="kpi-val">49 SPK</div>
+              <div class="kpi-sub">Realisasi: <strong>13 SPK</strong> (26.5% sd P2)</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>Target Retail Sales (DO)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-check-double"></i></div>
+              </div>
+              <div class="kpi-val">33 Unit</div>
+              <div class="kpi-sub">Realisasi: <strong>4 Unit DO</strong> (12.1% sd P2)</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid for Activity -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Target Leads &amp; Realisasi per Saluran Aktivitas</h4>
+                  <p>Perbandingan target vs aktual leads Tim Ryan (Agustus 2026)</p>
+                </div>
+              </div>
+              <div id="chartActivityChannel"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Funnel Konversi Target vs Realisasi</h4>
+                  <p>Progres saluran funnel dari 352 Leads hingga 33 Unit DO</p>
+                </div>
+              </div>
+              <div id="chartActivityFunnelRate"></div>
+            </div>
+          </div>
+
+          <!-- Filters for Activity Table -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <select class="filter-select" id="filterActivityCategory">
+                <option value="all">Semua Saluran Aktivitas</option>
+                <option value="Digital Marketing">Digital Marketing (Website, FB, IG)</option>
+                <option value="LIVE Tiktok">LIVE TikTok</option>
+                <option value="Walk in">Walk in / Call in</option>
+                <option value="Customer Gathering">Customer Gathering &amp; Showroom Event</option>
+                <option value="RESIDENSIAL & FOA">Residansial &amp; FOA Teritori</option>
+                <option value="Database">Database (Bengkel/BP, Trade-in)</option>
+                <option value="Refferensi">Referensi &amp; Repeat Order (RO)</option>
+                <option value="FLEET">Corporate Fleet</option>
+                <option value="Pameran">Pameran Mall &amp; Supermarket</option>
+                <option value="Total Activities">Total Akumulasi Seluruh Aktivitas</option>
+              </select>
+
+              <select class="filter-select" id="filterActivityFunnel">
+                <option value="all">Semua Tahapan Funnel</option>
+                <option value="Leads">Tahap Leads</option>
+                <option value="Prospect">Tahap Prospect</option>
+                <option value="Hot Pros">Tahap Hot Prospect</option>
+                <option value="SPK Firm">Tahap SPK Firm</option>
+                <option value="RS">Tahap Retail Sales (DO)</option>
+              </select>
+            </div>
+
+            <span style="font-size:12px; font-weight:700; color:#0284c7;" id="activityShowingBadge">
+              Menampilkan Rencana Aktivitas 6 Periode (Agustus 2026)
+            </span>
+          </div>
+
+          <!-- Activity Table -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="activityTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px; text-align:center;">No</th>
+                    <th>Saluran Aktivitas</th>
+                    <th>Detail / Area</th>
+                    <th style="text-align:center;">Tahapan Funnel</th>
+                    <th style="text-align:right;">1-5 Agt (P1)</th>
+                    <th style="text-align:right;">6-10 Agt (P2)</th>
+                    <th style="text-align:right;">11-15 Agt (P3)</th>
+                    <th style="text-align:right;">16-20 Agt (P4)</th>
+                    <th style="text-align:right;">21-25 Agt (P5)</th>
+                    <th style="text-align:right;">26-31 Agt (P6)</th>
+                    <th style="text-align:right; font-weight:700; color:var(--primary-red);">Total Target</th>
+                    <th style="text-align:right; font-weight:700; color:#16a34a;">Realisasi</th>
+                    <th style="text-align:center; font-weight:700;">Capaian</th>
+                  </tr>
+                </thead>
+                <tbody id="activityTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: SPK, DO & PENJUALAN                 -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-penjualan">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>SPK, Delivery (DO) &amp; Monitoring Transaksi Penjualan Tim Ryan</h3>
+              <p>Kelola 336 delivery unit YTD 2026, 39 DO September, 32 SPK September, dan 30 SPK Borrow &amp;
+                Outstanding.</p>
+            </div>
+          </div>
+
+          <!-- Subnav for Penjualan Modules -->
+          <div class="subnav-container" style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
+            <button type="button" class="btn-secondary active subnav-btn" data-sub="do-ytd" id="subnav-do-ytd"
+              style="font-weight:700;">
+              <i class="fa-solid fa-car-side"></i> Delivery DO YTD 2026 (336 Unit)
+            </button>
+            <button type="button" class="btn-secondary subnav-btn" data-sub="do-sep" id="subnav-do-sep">
+              <i class="fa-solid fa-calendar-check"></i> DO September 2026 (39 Unit)
+            </button>
+            <button type="button" class="btn-secondary subnav-btn" data-sub="spk-sep" id="subnav-spk-sep">
+              <i class="fa-solid fa-file-signature"></i> SPK September 2026 (32 Unit)
+            </button>
+            <button type="button" class="btn-secondary subnav-btn" data-sub="spk-borrow" id="subnav-spk-borrow">
+              <i class="fa-solid fa-clock-rotate-left"></i> SPK Borrow &amp; Outstanding (30 Unit)
+            </button>
+          </div>
+
+          <!-- SPK Borrow Alert Banner -->
+          <div id="spkBorrowAlert"
+            style="display:none; background:#fff1f2; border:1px solid #fecdd3; border-radius:8px; padding:12px 16px; margin-bottom:16px; font-size:12.5px; color:#9f1239;">
+            <div style="display:flex; align-items:center; gap:8px; font-weight:700;">
+              <i class="fa-solid fa-triangle-exclamation" style="color:#e11d48; font-size:16px;"></i>
+              <span>Peringatan Kepala Cabang &mdash; Evaluasi SPK Borrow &gt; 2 Bulan Tim Ryan</span>
+            </div>
+            <p style="margin:4px 0 0 24px; font-size:12px; color:#881337;">
+              Terdapat 30 unit SPK open/approved belum DO. SPK dengan tanda &gt; 2 bulan dan invalid wajib segera
+              ditindaklanjuti atau diapprove refund untuk menjaga akurasi pipeline cabang.
+            </p>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <input type="text" class="filter-input" id="filterPenjualanSearch"
+                placeholder="Cari konsumen, SPK, invoice, VIN, sales...">
+
+              <select class="filter-select" id="filterPenjualanMonth">
+                <option value="all">Semua Bulan</option>
+                <option value="January">Januari</option>
+                <option value="February">Februari</option>
+                <option value="March">Maret</option>
+                <option value="April">April</option>
+                <option value="May">Mei</option>
+                <option value="June">Juni</option>
+                <option value="July">Juli</option>
+                <option value="August">Agustus</option>
+                <option value="September">September</option>
+                <option value="October">Oktober</option>
+              </select>
+
+              <select class="filter-select" id="filterPenjualanModel">
+                <option value="all">Semua Model</option>
+              </select>
+
+              <select class="filter-select" id="filterPenjualanSalesman">
+                <option value="all">Semua Wiraniaga</option>
+              </select>
+
+              <select class="filter-select" id="filterPenjualanPayment">
+                <option value="all">Semua Pembayaran</option>
+                <option value="Kredit">Kredit</option>
+                <option value="Tunai">Tunai</option>
+              </select>
+            </div>
+
+            <span style="font-size:12px; font-weight:700; color:var(--primary-red);" id="penjualanShowingBadge">
+              Menampilkan 336 Transaksi Delivery Unit (DO)
+            </span>
+          </div>
+
+          <!-- Table Card -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="penjualanTable">
+                <thead id="penjualanTableHead">
+                  <tr>
+                    <th style="width:40px;">No</th>
+                    <th>No Invoice / SPK</th>
+                    <th>Tanggal DO</th>
+                    <th>Nama Konsumen</th>
+                    <th>Model &amp; Tipe Unit</th>
+                    <th>Wiraniaga</th>
+                    <th>Cara Bayar</th>
+                    <th style="text-align:right;">Nilai OTR</th>
+                  </tr>
+                </thead>
+                <tbody id="penjualanTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer" id="penjualanPagination"></div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 5: ANALISIS LEASING & MULTI-TAHUN (NEW)-->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-leasing">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Analisis Pembiayaan Leasing &amp; Rekapitulasi Multi-Tahun</h3>
+              <p>Perbandingan performa penjualan multi-tahun (2024, 2025, 2026) dan komposisi mitra leasing pembiayaan
+                kredit Tim Ryan.</p>
+            </div>
+            <div class="section-header-actions">
+              <span class="badge-status badge-kredit" style="font-size:12px; padding:6px 12px;">
+                <i class="fa-solid fa-landmark"></i> 74.1% Pembiayaan Kredit Tim Ryan
+              </span>
+            </div>
+          </div>
+
+          <!-- 3 Historical Year Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Tahun 2024 (Cabang)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+              </div>
+              <div class="kpi-val">677 Unit DO</div>
+              <div class="kpi-sub">541 Retail, 66 Fleet | <strong>54 Hybrid (8.0%)</strong></div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>Tahun 2025 (Cabang)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-chart-line"></i></div>
+              </div>
+              <div class="kpi-val">698 Unit DO</div>
+              <div class="kpi-sub">560 Retail, 82 Fleet | <strong>102 Hybrid (14.6%)</strong></div>
+            </div>
+
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Tahun 2026 YTD (Tim 1 Ryan)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-award"></i></div>
+              </div>
+              <div class="kpi-val">336 Unit DO</div>
+              <div class="kpi-sub">249 Kredit (74.1%), 87 Tunai (25.9%) | <strong>Pangsa #1</strong></div>
+            </div>
+          </div>
+
+          <!-- Charts Grid for Leasing -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Pangsa Mitra Leasing Tim Ryan (2026)</h4>
+                  <p>Distribusi 249 unit kredit (MTF, TAFS, ACC, KKB BCA, MUF, Adira)</p>
+                </div>
+              </div>
+              <div id="chartLeasingDistribution"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Tren Pembiayaan Kredit vs Tunai 2026</h4>
+                  <p>Stabilitas rasio kredit bulanan rata-rata ~74%</p>
+                </div>
+              </div>
+              <div id="chartLeasingMonthlyTrend"></div>
+            </div>
+          </div>
+
+          <!-- Multi-Year Comparison Table -->
+          <div class="table-card" style="margin-top:20px;">
+            <div class="table-card-head" style="padding:14px 18px; border-bottom:1px solid var(--slate-100);">
+              <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-800);">
+                <i class="fa-solid fa-table-cells" style="color:var(--primary-red); margin-right:6px;"></i> Rekapitulasi
+                Historis Penjualan Multi-Tahun (2024 &ndash; 2026)
+              </h4>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tahun</th>
+                    <th>Cakupan</th>
+                    <th style="text-align:right;">Target DO</th>
+                    <th style="text-align:right;">Retail DO</th>
+                    <th style="text-align:right;">Fleet DO</th>
+                    <th style="text-align:right; font-weight:700;">Total Delivery (DO)</th>
+                    <th style="text-align:center;">Unit Hybrid</th>
+                    <th style="text-align:center;">Share Hybrid</th>
+                    <th>Mitra Pembiayaan Utama</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>2024</strong></td>
+                    <td>Cabang Kiara Condong</td>
+                    <td style="text-align:right;">650 Unit</td>
+                    <td style="text-align:right;">541 Unit</td>
+                    <td style="text-align:right;">66 Unit</td>
+                    <td style="text-align:right; font-weight:700; color:#16a34a;">677 Unit (104.1%)</td>
+                    <td style="text-align:center;">54 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-kredit">8.0%</span></td>
+                    <td>TAFS, ACC, MTF</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2025</strong></td>
+                    <td>Cabang Kiara Condong</td>
+                    <td style="text-align:right;">680 Unit</td>
+                    <td style="text-align:right;">560 Unit</td>
+                    <td style="text-align:right;">82 Unit</td>
+                    <td style="text-align:right; font-weight:700; color:#16a34a;">698 Unit (102.6%)</td>
+                    <td style="text-align:center;">102 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-kredit">14.6%</span></td>
+                    <td>MTF, TAFS, ACC, KKB BCA</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2026 YTD</strong></td>
+                    <td><strong>Khusus Tim 1 Pak Ryan (Feryanto)</strong></td>
+                    <td style="text-align:right;">350 Unit</td>
+                    <td style="text-align:right;">297 Unit</td>
+                    <td style="text-align:right;">39 Unit</td>
+                    <td style="text-align:right; font-weight:700; color:#b80515;">336 Unit (96.0%)</td>
+                    <td style="text-align:center;">68 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-kredit">20.2%</span></td>
+                    <td><strong>MTF (36.9%), TAFS (31.7%), ACC (14.9%)</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 6: FOKUS FOA (OUTLET AREA) TIM RYAN    -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-foa">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Fokus FOA (Field Operation Activity / Outlet Area) &mdash; Khusus Tim 1 Pak Ryan</h3>
+              <p>Penugasan teritori lapangan wiraniaga Tim Ryan di kecamatan fokus Kiara Condong, Bojongloa, Andir,
+                Antapani, Cidadap, Buah Batu, dsk.</p>
+            </div>
+          </div>
+
+          <!-- Filter Switch: Khusus SPV Ryan vs Semua Cabang -->
+          <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+            <button type="button" class="btn-secondary active foa-toggle-btn" id="btnFoaRyanOnly"
+              style="font-weight:700;">
+              <i class="fa-solid fa-user-shield" style="color:var(--primary-red);"></i> Khusus Tim 1 SPV Ryan (8
+              Wiraniaga)
+            </button>
+            <button type="button" class="btn-secondary foa-toggle-btn" id="btnFoaAllBranch">
+              <i class="fa-solid fa-users"></i> Semua Tim Cabang (12 Wiraniaga)
+            </button>
+            <span style="font-size:12px; color:var(--slate-500); margin-left:auto;" id="foaFilterNotice">
+              Menampilkan 8 Wiraniaga di bawah supervisi Pak Ryan
+            </span>
+          </div>
+
+          <!-- 4 KPI Cards for FOA -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span id="kpiFoaSalesTitle">Personel FOA Tim Ryan</span>
+                <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiFoaTotalSales">8 Wiraniaga</div>
+              <div class="kpi-sub" id="kpiFoaSalesSub">Tim 1 Supervisi Pak Ryan</div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span id="kpiFoaSpkTitle">Target SPK FOA</span>
+                <div class="kpi-icon"><i class="fa-solid fa-file-signature"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiFoaTargetSpk">10 SPK</div>
+              <div class="kpi-sub" id="kpiFoaSpkSub">Target SPK tim SPV Ryan</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span id="kpiFoaDoTitle">Target Delivery FOA</span>
+                <div class="kpi-icon"><i class="fa-solid fa-car"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiFoaTargetDo">10 Unit DO</div>
+              <div class="kpi-sub" id="kpiFoaDoSub">Target Delivery tim SPV Ryan</div>
+            </div>
+
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Realisasi Saat Ini</span>
+                <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiFoaActual">1 SPK / 1 DO</div>
+              <div class="kpi-sub">Realisasi: Rahma (Andir &amp; Antapani)</div>
+            </div>
+          </div>
+
+          <!-- FOA Focus Model Distribution Chart -->
+          <div class="chart-card" style="margin-bottom:20px;">
+            <div class="chart-card-head">
+              <div class="chart-title">
+                <h4>Distribusi Target Fokus Model Kendaraan FOA</h4>
+                <p id="foaChartSub">Kendaraan target penetrasi lapangan Tim Ryan: Veloz HV, Hilux Rangga, Avanza, Zenix,
+                  Reborn, Agya, Rush</p>
+              </div>
+            </div>
+            <div id="chartFoaModelDist"></div>
+          </div>
+
+          <!-- FOA Table -->
+          <div class="table-card">
+            <div class="table-card-head"
+              style="padding:14px 18px; border-bottom:1px solid var(--slate-100); display:flex; justify-content:space-between; align-items:center;">
+              <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-800);">
+                <i class="fa-solid fa-table-list" style="color:var(--primary-red); margin-right:6px;"></i> Matriks
+                Penugasan FOA Khusus Tim Ryan
+              </h4>
+              <span style="font-size:12px; font-weight:700; color:#b80515;" id="foaTableSummaryBadge">
+                Target: 10 SPK &bull; 10 DO &bull; Realisasi: 1 SPK / 1 DO
+              </span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table" id="foaTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px; text-align:center;">No</th>
+                    <th>Wiraniaga &amp; Tim SPV</th>
+                    <th>Kecamatan Teritori</th>
+                    <th style="text-align:right;">Target SPK</th>
+                    <th style="text-align:right;">Target DO</th>
+                    <th style="text-align:right;">Actual SPK</th>
+                    <th style="text-align:right;">Actual DO</th>
+                    <th style="text-align:center;">Plan</th>
+                    <th>Fokus Model</th>
+                    <th>Aktivitas Lapangan</th>
+                  </tr>
+                </thead>
+                <tbody id="foaTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+                <tfoot id="foaTableFoot">
+                  <!-- Dynamic footer via JavaScript -->
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 7: OLX TRADE-IN TIM RYAN (NEW)        -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-olx">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Database OLX Autos Trade-In &mdash; Khusus Tim 1 Pak Ryan</h3>
+              <p>Laporan taksasi tukar tambah mobil bekas konsumen tim SPV Ryan (Juni &ndash; September 2026) untuk
+                akselerasi SPK mobil baru Toyota.</p>
+            </div>
+          </div>
+
+          <!-- Filter Switch: Khusus SPV Ryan vs Semua Cabang -->
+          <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+            <button type="button" class="btn-secondary active olx-toggle-btn" id="btnOlxRyanOnly"
+              style="font-weight:700;">
+              <i class="fa-solid fa-user-shield" style="color:var(--primary-red);"></i> Khusus Tim 1 SPV Ryan (26 Unit)
+            </button>
+            <button type="button" class="btn-secondary olx-toggle-btn" id="btnOlxAllBranch">
+              <i class="fa-solid fa-users"></i> Semua Tim Cabang (52 Unit)
+            </button>
+            <span style="font-size:12px; color:var(--slate-500); margin-left:auto;" id="olxFilterNotice">
+              Menampilkan 26 taksasi trade-in Tim 1 SPV Ryan
+            </span>
+          </div>
+
+          <!-- 4 KPI Cards for OLX -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Total Unit Taksasi OLX</span>
+                <div class="kpi-icon"><i class="fa-solid fa-right-left"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOlxTotalUnits">26 Unit</div>
+              <div class="kpi-sub">Mobil seken calon konsumen Tim Ryan</div>
+            </div>
+
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Total Nilai Taksasi</span>
+                <div class="kpi-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOlxTotalValue">Rp 5,22 M</div>
+              <div class="kpi-sub">Estimasi harga taksasi OLX Autos</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>Unit Berhasil Deal</span>
+                <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOlxDealUnits">11 Unit (42.3%)</div>
+              <div class="kpi-sub">Tukar tambah berhasil &amp; terbit SPK Toyota</div>
+            </div>
+
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Potensi SPK Baru (Nego)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-fire"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOlxNegoUnits">15 Unit</div>
+              <div class="kpi-sub">Masih nego &amp; penyesuaian selisih bidding</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid for OLX -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Tren Taksasi Trade-In Bulanan</h4>
+                  <p>Jumlah unit appraisal &amp; deal per bulan (Juni &ndash; September 2026)</p>
+                </div>
+              </div>
+              <div id="chartOlxTrend"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Komposisi Merk Mobil Seken Konsumen</h4>
+                  <p>Dominasi merk unit tukar tambah Tim Ryan</p>
+                </div>
+              </div>
+              <div id="chartOlxBrands"></div>
+            </div>
+          </div>
+
+          <!-- Filters for OLX Table -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <input type="text" class="filter-input" id="filterOlxSearch"
+                placeholder="Cari merk, tipe, sales, keterangan...">
+
+              <select class="filter-select" id="filterOlxMonth">
+                <option value="all">Semua Bulan</option>
+                <option value="June 2026">Juni 2026</option>
+                <option value="July 2026">Juli 2026</option>
+                <option value="August 2026">Agustus 2026</option>
+                <option value="September 2026">September 2026</option>
+              </select>
+
+              <select class="filter-select" id="filterOlxStatus">
+                <option value="all">Semua Status</option>
+                <option value="Deal">Deal</option>
+                <option value="Masih Nego">Masih Nego</option>
+                <option value="Selisih Bidding">Selisih Bidding</option>
+                <option value="Cek Unit">Cek Unit</option>
+                <option value="Done Inspeksi">Done Inspeksi</option>
+              </select>
+
+              <select class="filter-select" id="filterOlxSales">
+                <option value="all">Semua Wiraniaga</option>
+              </select>
+            </div>
+
+            <span style="font-size:12px; font-weight:700; color:#d97706;" id="olxShowingBadge">
+              Menampilkan 26 Data Trade-In OLX Tim Ryan
+            </span>
+          </div>
+
+          <!-- OLX Table -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="olxTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px;">No</th>
+                    <th>Bulan</th>
+                    <th>Wiraniaga</th>
+                    <th>Merk &amp; Tipe Mobil Seken</th>
+                    <th style="text-align:center;">Tahun</th>
+                    <th>Warna</th>
+                    <th style="text-align:right;">Harga Taksasi</th>
+                    <th>Odometer (Km)</th>
+                    <th>Masa Pajak</th>
+                    <th>Keterangan / Bidding OLX</th>
+                    <th style="text-align:center;">Hasil / Status</th>
+                  </tr>
+                </thead>
+                <tbody id="olxTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 8: AREA OPERATION (AO) REPORT (NEW)    -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-aoreport">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Area Operation (AO) Report &amp; Alokasi Target Tim 1 Pak Ryan</h3>
+              <p>Data Resmi AO Report Tunas National as of 5/5/2026 &amp; Alokasi Target Tim Ryan (Target DO: 35 Unit,
+                Matching Ratio: 38%).</p>
+            </div>
+            <div class="section-header-actions">
+              <span class="badge-status badge-kredit"
+                style="font-size:12px; padding:6px 12px; background:#f5f3ff; color:#7c3aed; border:1px solid #ddd6fe;">
+                <i class="fa-solid fa-file-invoice"></i> Area Operation Report Official
+              </span>
+            </div>
+          </div>
+
+          <!-- 5 AO Official Parameter Cards -->
+          <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Matching Ratio</span>
+                <div class="kpi-icon"><i class="fa-solid fa-percent"></i></div>
+              </div>
+              <div class="kpi-val">38%</div>
+              <div class="kpi-sub">Total stock matched to order</div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Full Stock (Free)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-warehouse"></i></div>
+              </div>
+              <div class="kpi-val">77 Unit</div>
+              <div class="kpi-sub">Available free stock nasional</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>OS Firmed</span>
+                <div class="kpi-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+              </div>
+              <div class="kpi-val">13 Unit</div>
+              <div class="kpi-sub">Order siap masuk alokasi DO</div>
+            </div>
+
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Potential DO</span>
+                <div class="kpi-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+              </div>
+              <div class="kpi-val">6 Unit</div>
+              <div class="kpi-sub">Potensi DO segera rilis</div>
+            </div>
+
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>STO Efficiency</span>
+                <div class="kpi-icon"><i class="fa-solid fa-gauge-high"></i></div>
+              </div>
+              <div class="kpi-val">103%</div>
+              <div class="kpi-sub">Stock Turn Over Rate</div>
+            </div>
+          </div>
+
+          <!-- SPV Ryan Share & Gap Strategy Banner -->
+          <div
+            style="background:#fff; border:1px solid #e0e7ff; border-left:4px solid #4f46e5; border-radius:10px; padding:16px 20px; margin-bottom:20px; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <h4 style="margin:0 0 6px 0; font-size:14px; color:#1e1b4b; font-weight:700;">
+                  <i class="fa-solid fa-bullseye" style="color:#4f46e5; margin-right:6px;"></i> Alokasi &amp; Tantangan
+                  Tim 1 SPV Ryan &mdash; Gap SPK ke Target DO
+                </h4>
+                <p style="margin:0; font-size:12.5px; color:#4338ca;">
+                  Target DO Tim Ryan: <strong>35 Unit / Bulan</strong> | Alokasi Potential DO Saat Ini: <strong>3
+                    Unit</strong> (Share 50% dari cabang) | Gap SPK yang Wajib Dikejar: <strong>32 Unit SPK
+                    Baru</strong>.
+                </p>
+              </div>
+              <span class="badge-status badge-tunai"
+                style="font-size:12px; padding:6px 14px; background:#4f46e5; color:#fff; border:none;">
+                Action Plan: Follow-up 105 Hot Prospek
+              </span>
+            </div>
+          </div>
+
+          <!-- Chart Waterfall DO Pipeline -->
+          <div class="chart-card" style="margin-bottom:20px;">
+            <div class="chart-card-head">
+              <div class="chart-title">
+                <h4>Pipeline Pasokan Unit &amp; Alokasi DO Nasional</h4>
+                <p>Visualisasi korelasi alokasi pasokan kendaraan dari Full Stock ke Potential DO</p>
+              </div>
+            </div>
+            <div id="chartAoWaterfall"></div>
+          </div>
+
+          <!-- High-Res AO Report Official Diagram Viewer -->
+          <div class="chart-card" style="margin-bottom:20px;">
+            <div class="chart-card-head">
+              <div class="chart-title">
+                <h4>Diagram Visual Resmi Area Operation (AO) Report</h4>
+                <p>Sumber: Tunas National Area Operation Report (as of 5/5/2026)</p>
+              </div>
+            </div>
+            <div class="ao-image-box">
+              <img src="assets/img/reports/ao_report.png" alt="Official AO Report Tunas National Diagram"
+                onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'padding:30px; color:#cbd5e1; font-size:13px;\'><i class=\'fa-solid fa-image\' style=\'font-size:24px; margin-bottom:8px; display:block;\'></i>Gambar Diagram AO Report tersimpan di assets/img/reports/ao_report.png</div>';">
+            </div>
+            <p style="text-align:center; font-size:11.5px; color:var(--slate-400); margin-top:8px;">
+              <i class="fa-solid fa-magnifying-glass-plus"></i> Klik gambar untuk memperbesar tampilan dokumen resmi
+              Area Operation Report.
+            </p>
+          </div>
+
+          <!-- Model Breakdown Table -->
+          <div class="table-card">
+            <div class="table-card-head" style="padding:14px 18px; border-bottom:1px solid var(--slate-100);">
+              <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-800);">
+                <i class="fa-solid fa-list-ol" style="color:#7c3aed; margin-right:6px;"></i> Breakdown Pasokan &amp;
+                Matching per Model Toyota (AO Report)
+              </h4>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Model Toyota</th>
+                    <th style="text-align:right;">Full Stock</th>
+                    <th style="text-align:right;">OS Firmed</th>
+                    <th style="text-align:right;">Potential DO</th>
+                    <th style="text-align:center;">Matching Rate</th>
+                    <th>Prioritas Tindak Lanjut Tim Ryan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Innova Zenix &amp; Hybrid</strong></td>
+                    <td style="text-align:right;">14 Unit</td>
+                    <td style="text-align:right;">4 Unit</td>
+                    <td style="text-align:right; font-weight:700; color:#16a34a;">2 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-kredit">44%</span></td>
+                    <td>Cocokkan dengan 14 Hot Prospek Zenix Tim Ryan</td>
+                  </tr>
+                  <tr>
+                    <td><strong>All New Avanza &amp; Veloz</strong></td>
+                    <td style="text-align:right;">26 Unit</td>
+                    <td style="text-align:right;">5 Unit</td>
+                    <td style="text-align:right; font-weight:700; color:#16a34a;">2 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-kredit">48%</span></td>
+                    <td>Fast-moving stock, prioritaskan SPK DP lunas</td>
+                  </tr>
+                  <tr>
+                    <td><strong>New Calya</strong></td>
+                    <td style="text-align:right;">18 Unit</td>
+                    <td style="text-align:right;">2 Unit</td>
+                    <td style="text-align:right; font-weight:700; color:#16a34a;">1 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-kredit">35%</span></td>
+                    <td>Konversi dari FOA Kiaracondong &amp; Batununggal</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Rush &amp; Yaris Cross</strong></td>
+                    <td style="text-align:right;">9 Unit</td>
+                    <td style="text-align:right;">1 Unit</td>
+                    <td style="text-align:right; font-weight:700; color:#16a34a;">1 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-kredit">29%</span></td>
+                    <td>Target residansial Buahbatu &amp; Ciwastra</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Innova Reborn Diesel</strong></td>
+                    <td style="text-align:right;">6 Unit</td>
+                    <td style="text-align:right;">1 Unit</td>
+                    <td style="text-align:right;">0 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-tunai">22%</span></td>
+                    <td>Unit terbatas, wajib firmed booking fee</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Hilux &amp; Rangga Commercial</strong></td>
+                    <td style="text-align:right;">4 Unit</td>
+                    <td style="text-align:right;">0 Unit</td>
+                    <td style="text-align:right;">0 Unit</td>
+                    <td style="text-align:center;"><span class="badge-status badge-tunai">18%</span></td>
+                    <td>Fokus penetrasi sentra niaga Soekarno Hatta</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB: ONE ACCOUNT ID & DIGITAL DELIVERY     -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-oneaccount">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Monitoring One Account ID &amp; Digital Delivery &mdash; Khusus Tim 1 Pak Ryan</h3>
+              <p>Monitoring aktivasi One Account ID (T-ID), status Customer Consent, pendaftaran Inquiry, dan integrasi DXMI per delivery unit konsumen.</p>
+            </div>
+          </div>
+
+          <!-- Filter Switch: Khusus SPV Ryan vs Semua Cabang -->
+          <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+            <button type="button" class="btn-secondary active oneaccount-toggle-btn" id="btnOneAccountRyanOnly" style="font-weight:700;">
+              <i class="fa-solid fa-user-shield" style="color:var(--primary-red);"></i> Khusus Tim 1 SPV Ryan (16 Delivery)
+            </button>
+            <button type="button" class="btn-secondary oneaccount-toggle-btn" id="btnOneAccountAllBranch">
+              <i class="fa-solid fa-users"></i> Semua Tim Cabang (37 Delivery)
+            </button>
+            <span style="font-size:12px; color:var(--slate-500); margin-left:auto;" id="oneAccountFilterNotice">
+              Menampilkan 16 data delivery &amp; One Account ID Tim 1 SPV Ryan
+            </span>
+          </div>
+
+          <!-- 4 KPI Cards for One Account ID -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Total Unit Delivery (NVDO)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-car-side"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOneAccountTotalUnits">16 Unit</div>
+              <div class="kpi-sub">Unit mobil baru telah serah terima</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>One Account ID Terbit</span>
+                <div class="kpi-icon"><i class="fa-solid fa-id-card"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOneAccountGenerated">3 Unit (18.8%)</div>
+              <div class="kpi-sub">T-ID aktif terhubung ke konsumen</div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Customer Consent (DONE)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-file-circle-check"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOneAccountConsent">12 Unit (75.0%)</div>
+              <div class="kpi-sub">Persetujuan data digital konsumen</div>
+            </div>
+
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Aktivasi DXMI &amp; Inquiry</span>
+                <div class="kpi-icon"><i class="fa-solid fa-network-wired"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiOneAccountDxmi">5 Unit DXMI</div>
+              <div class="kpi-sub">3 Unit Inquiry Terdaftar</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid for One Account -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Status Kelengkapan One Account ID</h4>
+                  <p>Rasio unit yang telah memiliki One Account ID vs belum terbit</p>
+                </div>
+              </div>
+              <div id="chartOneAccountRatio"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Progres Registrasi Layanan Digital</h4>
+                  <p>Jumlah unit delivery berdasarkan status Consent, Inquiry &amp; DXMI</p>
+                </div>
+              </div>
+              <div id="chartOneAccountServices"></div>
+            </div>
+          </div>
+
+          <!-- Filters for One Account Table -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <input type="text" class="filter-input" id="filterOneAccountSearch" placeholder="Cari nama konsumen, sales, NVDO, NOKA, ID...">
+
+              <select class="filter-select" id="filterOneAccountStatus">
+                <option value="all">Semua Status One Account</option>
+                <option value="has_id">Sudah Punya One Account ID</option>
+                <option value="no_id">Belum Ada One Account ID</option>
+              </select>
+
+              <select class="filter-select" id="filterOneAccountConsent">
+                <option value="all">Semua Status Consent</option>
+                <option value="DONE">Consent DONE</option>
+                <option value="BELUM">Belum Consent</option>
+              </select>
+
+              <select class="filter-select" id="filterOneAccountSales">
+                <option value="all">Semua Wiraniaga</option>
+              </select>
+            </div>
+
+            <span style="font-size:12px; font-weight:700; color:#059669;" id="oneAccountShowingBadge">
+              Menampilkan 16 Data One Account ID (Tim 1 Pak Ryan)
+            </span>
+          </div>
+
+          <!-- One Account Table -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="oneAccountTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px; text-align:center;">No</th>
+                    <th>No. Delivery (NVDO)</th>
+                    <th>Tgl Delivery</th>
+                    <th>Konsumen &amp; Kontak</th>
+                    <th>Wiraniaga</th>
+                    <th>No. SPK (NVSO)</th>
+                    <th>Nomor Rangka (NOKA)</th>
+                    <th>One Account ID</th>
+                    <th style="text-align:center;">Consent</th>
+                    <th style="text-align:center;">Inquiry</th>
+                    <th style="text-align:center;">DXMI</th>
+                    <th>PIC / Ket</th>
+                  </tr>
+                </thead>
+                <tbody id="oneAccountTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 9: MARKETING FUNNEL                    -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-funnel">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Marketing &amp; Sales Funnel Supervisi Tim 1 Pak Ryan</h3>
+              <p>Analisis efisiensi konversi tahap demi tahap dari Leads hingga closing Delivery DO (Januari &ndash;
+                Oktober 2026).</p>
+            </div>
+            <div class="section-header-actions">
+              <span class="badge-status badge-kredit" style="font-size:12px; padding:6px 12px;">
+                <i class="fa-solid fa-filter"></i> Konversi Keseluruhan: 1.90%
+              </span>
+            </div>
+          </div>
+
+          <!-- Funnel Step Cards -->
+          <div class="funnel-steps-grid"
+            style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:20px;">
+            <div class="funnel-step-card"
+              style="background:#fff; border:1px solid var(--slate-200); border-radius:8px; padding:14px; text-align:center; box-shadow:var(--shadow-sm);">
+              <span style="font-size:11px; font-weight:700; color:var(--slate-500); text-transform:uppercase;">1. Total
+                Leads</span>
+              <div style="font-size:22px; font-weight:800; color:var(--slate-800); margin:6px 0;"
+                id="funnelValActivity">1.840</div>
+              <span style="font-size:11px; color:#0284c7; font-weight:600;">100% Volume</span>
+            </div>
+
+            <div class="funnel-step-card"
+              style="background:#fff; border:1px solid var(--slate-200); border-radius:8px; padding:14px; text-align:center; box-shadow:var(--shadow-sm);">
+              <span style="font-size:11px; font-weight:700; color:var(--slate-500); text-transform:uppercase;">2. Kontak
+                / FU</span>
+              <div style="font-size:22px; font-weight:800; color:var(--slate-800); margin:6px 0;" id="funnelValContact">
+                920</div>
+              <span style="font-size:11px; color:#16a34a; font-weight:600;" id="funnelRateActivityToContact">50.0%
+                Rasio</span>
+            </div>
+
+            <div class="funnel-step-card"
+              style="background:#fff; border:1px solid var(--slate-200); border-radius:8px; padding:14px; text-align:center; box-shadow:var(--shadow-sm);">
+              <span style="font-size:11px; font-weight:700; color:var(--slate-500); text-transform:uppercase;">3.
+                Prospek</span>
+              <div style="font-size:22px; font-weight:800; color:var(--slate-800); margin:6px 0;"
+                id="funnelValProspect">460</div>
+              <span style="font-size:11px; color:#16a34a; font-weight:600;" id="funnelRateContactToProspect">50.0%
+                Rasio</span>
+            </div>
+
+            <div class="funnel-step-card"
+              style="background:#fff; border:1px solid var(--slate-200); border-radius:8px; padding:14px; text-align:center; box-shadow:var(--shadow-sm);">
+              <span style="font-size:11px; font-weight:700; color:var(--slate-500); text-transform:uppercase;">4. Hot
+                Prospek</span>
+              <div style="font-size:22px; font-weight:800; color:var(--slate-800); margin:6px 0;" id="funnelValHot">184
+              </div>
+              <span style="font-size:11px; color:#d97706; font-weight:600;" id="funnelRateProspectToHot">40.0%
+                Rasio</span>
+            </div>
+
+            <div class="funnel-step-card"
+              style="background:#fff; border:1px solid var(--slate-200); border-radius:8px; padding:14px; text-align:center; box-shadow:var(--shadow-sm);">
+              <span style="font-size:11px; font-weight:700; color:var(--slate-500); text-transform:uppercase;">5. Terbit
+                SPK</span>
+              <div style="font-size:22px; font-weight:800; color:var(--slate-800); margin:6px 0;" id="funnelValSpk">64
+              </div>
+              <span style="font-size:11px; color:#b80515; font-weight:600;" id="funnelRateHotToSpk">34.8% Rasio</span>
+            </div>
+
+            <div class="funnel-step-card"
+              style="background:#fff; border:1px solid #bbf7d0; background:#f0fdf4; border-radius:8px; padding:14px; text-align:center; box-shadow:var(--shadow-sm);">
+              <span style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase;">6. Delivery
+                (DO)</span>
+              <div style="font-size:22px; font-weight:800; color:#15803d; margin:6px 0;" id="funnelValDo">35</div>
+              <span style="font-size:11px; color:#16a34a; font-weight:700;" id="funnelRateSpkToDo">54.7% Rasio</span>
+            </div>
+          </div>
+
+          <!-- Funnel Horizontal Chart -->
+          <div class="chart-card">
+            <div class="chart-card-head">
+              <div class="chart-title">
+                <h4>Visualisasi Corong Konversi Sales Tim Ryan</h4>
+                <p>Volume pipeline setiap tingkatan menuju pencapaian target bulanan</p>
+              </div>
+            </div>
+            <div id="chartFunnelPipeline"></div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 10: KINERJA WIRANIAGA                  -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-wiraniaga">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Pencapaian SPK &amp; Delivery (DO) Wiraniaga &mdash; Tim 1 Pak Ryan</h3>
+              <p>Monitoring target dan aktual bulanan 18 wiraniaga berdasarkan data resmi SPK &amp; DO cabang.</p>
+            </div>
+            <div class="section-header-actions" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <div class="view-toggle"
+                style="display:flex; background:var(--slate-100); border-radius:8px; padding:3px; border:1px solid var(--slate-200);">
+                <button type="button" class="btn-toggle active" id="btnViewWiraniagaTable"
+                  style="padding:6px 14px; font-size:12px; border:none; background:#fff; border-radius:6px; cursor:pointer; font-weight:700; color:var(--slate-800); box-shadow:0 1px 2px rgba(0,0,0,0.05);">
+                  <i class="fa-solid fa-table-list"></i> Mode Tabel Rapi
+                </button>
+                <button type="button" class="btn-toggle" id="btnViewWiraniagaCards"
+                  style="padding:6px 14px; font-size:12px; border:none; background:transparent; border-radius:6px; cursor:pointer; font-weight:600; color:var(--slate-600);">
+                  <i class="fa-solid fa-grip"></i> Mode Kartu
+                </button>
+              </div>
+              <input type="text" class="filter-input" id="filterWiraniagaSearch" placeholder="Cari nama wiraniaga..."
+                style="width:220px;">
+            </div>
+          </div>
+
+          <!-- 4 Simple Monthly KPI Cards -->
+          <div class="kpi-grid" style="margin-bottom:20px;">
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Target DO Tim Ryan</span>
+                <div class="kpi-icon"><i class="fa-solid fa-car"></i></div>
+              </div>
+              <div class="kpi-val">35 Unit</div>
+              <div class="kpi-sub">Target Supervisi (Akumulasi Individu: 54 DO)</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>Realisasi DO Bulan Ini</span>
+                <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiWTotalDo">4 Unit DO</div>
+              <div class="kpi-sub">3 Wiraniaga (Yani 2, Deni A 1, Fanny 1)</div>
+            </div>
+
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Target SPK Tim</span>
+                <div class="kpi-icon"><i class="fa-solid fa-bullseye"></i></div>
+              </div>
+              <div class="kpi-val">59 SPK</div>
+              <div class="kpi-sub">Akumulasi Target 18 Wiraniaga</div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Realisasi SPK Bulan Ini</span>
+                <div class="kpi-icon"><i class="fa-solid fa-file-signature"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiWTotalSpk">10 SPK</div>
+              <div class="kpi-sub">5 Wiraniaga (Egy 4, Yani 3, Erick 1, Deni A 1, Jajang 1)</div>
+            </div>
+          </div>
+
+          <!-- Clean Minimalist Table View (Default) -->
+          <div class="table-card" id="wiraniagaTableView" style="margin-bottom:24px;">
+            <div class="table-card-head"
+              style="padding:14px 18px; border-bottom:1px solid var(--slate-100); display:flex; justify-content:space-between; align-items:center;">
+              <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-800);">
+                <i class="fa-solid fa-list-ol" style="color:var(--primary-red); margin-right:6px;"></i> Rekapitulasi
+                Target vs Aktual SPK &amp; Delivery (DO) &mdash; 18 Wiraniaga
+              </h4>
+              <span style="font-size:12px; color:var(--slate-500); font-weight:600;" id="wiraniagaShowingCount">18
+                Wiraniaga Terdaftar</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width:40px; text-align:center;">No</th>
+                    <th>Nama Wiraniaga</th>
+                    <th style="text-align:center;">Target SPK</th>
+                    <th style="text-align:center;">Aktual SPK</th>
+                    <th style="text-align:center;">Capaian SPK</th>
+                    <th style="text-align:center;">Target DO</th>
+                    <th style="text-align:center;">Aktual DO</th>
+                    <th style="text-align:center;">Capaian DO</th>
+                    <th style="text-align:center;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="wiraniagaTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+                <tfoot id="wiraniagaTableFoot"
+                  style="font-weight:700; background:#f8fafc; border-top:2px solid var(--slate-200);">
+                  <!-- Summary row via JavaScript -->
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- Clean Compact Cards View (Toggleable) -->
+          <div class="wiraniaga-grid" id="wiraniagaCardsGrid"
+            style="display:none; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:12px; margin-bottom:24px;">
+            <!-- Dynamic cards via JavaScript -->
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 11: RETENSI SERVIS BERKALA (SBI)       -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-sbi">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Retensi Konsumen &amp; Service Berkala (SBI) Tim 1 Pak Ryan</h3>
+              <p>Monitoring 704 data tindak lanjut servis berkala berkala kendaraan hasil delivery tim Pak Ryan untuk
+                menjaga kepuasan konsumen &amp; repeat order.</p>
+            </div>
+          </div>
+
+          <!-- 4 KPI Cards for SBI -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Total Database Servis (SBI)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-database"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiSbiTotalRecords">704 Unit</div>
+              <div class="kpi-sub">Kendaraan delivery tim Ryan dalam pantauan</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>Tingkat Kepuasan CAI Rate</span>
+                <div class="kpi-icon"><i class="fa-solid fa-square-check"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiSbiCaiRate">76.3% CAI</div>
+              <div class="kpi-sub">537 Unit terverifikasi CAI positif</div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Sudah Datang Servis</span>
+                <div class="kpi-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiSbiSudahDatang">534 Unit</div>
+              <div class="kpi-sub">75.9% kepatuhan servis ke bengkel resmi</div>
+            </div>
+
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Prioritas Hot &amp; High</span>
+                <div class="kpi-icon"><i class="fa-solid fa-bell"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiSbiHotPriority">188 Konsumen</div>
+              <div class="kpi-sub">Wajib di-follow-up wiraniaga bulan ini</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid for SBI -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Jadwal Jatuh Tempo Servis Berkala (SBI)</h4>
+                  <p>Distribusi jumlah kendaraan per bulan follow-up</p>
+                </div>
+              </div>
+              <div id="chartSbiMonthly"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Distribusi Prioritas Judgement SBI</h4>
+                  <p>Klasifikasi urgensi reminder konsumen (HOT, HIGH, MEDIUM, LOW)</p>
+                </div>
+              </div>
+              <div id="chartSbiJudgements"></div>
+            </div>
+          </div>
+
+          <!-- Integrasi Aftersales (AFS) & Service Advisor Retensi Tim Ryan -->
+          <div class="table-card" style="margin-bottom:24px; padding:20px; border-left:4px solid #0284c7;">
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+              <div>
+                <h4 style="margin:0; font-size:15px; font-weight:700; color:var(--slate-800);">
+                  <i class="fa-solid fa-screwdriver-wrench" style="color:#0284c7; margin-right:8px;"></i>
+                  Integrasi Aftersales (AFS) Bengkel &amp; Pendampingan Retensi Unit Tim Ryan
+                </h4>
+                <p style="margin:4px 0 0 0; font-size:12px; color:var(--slate-500);">
+                  Sumber Data: Dashboard AFS Kiaracondong (Start 2024 &ndash; 2026) &bull; <strong>15.199 Unit Entry
+                    Bengkel</strong> &bull; <strong>Rp 21,96 Miliar Service Revenue</strong> &bull; <strong>50.1% T-Care
+                    Share</strong>
+                </p>
+              </div>
+              <span class="badge-status badge-kredit"
+                style="font-size:12px; padding:6px 14px; background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd;">
+                <i class="fa-solid fa-handshake"></i> Sinergi Sales Tim Ryan &times; 3 Service Advisor
+              </span>
+            </div>
+
+            <!-- 3 Service Advisor Cards -->
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:14px;">
+              <!-- SA DIDIN -->
+              <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <div
+                      style="width:36px; height:36px; border-radius:50%; background:#0284c7; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">
+                      DD</div>
+                    <div>
+                      <h5 style="margin:0; font-size:13.5px; font-weight:700; color:var(--slate-800);">SA DIDIN</h5>
+                      <span style="font-size:11px; color:var(--slate-500);">Service Advisor Senior</span>
+                    </div>
+                  </div>
+                  <span class="badge-status badge-kredit" style="font-size:10.5px;">Rank #1 Revenue</span>
+                </div>
+                <div
+                  style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px; background:#fff; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
+                  <div><span style="color:var(--slate-500);">Unit Entry:</span> <strong
+                      style="color:var(--slate-800);">5.084 UE</strong></div>
+                  <div><span style="color:var(--slate-500);">Revenue:</span> <strong style="color:#0284c7;">Rp 7,84
+                      M</strong></div>
+                  <div><span style="color:var(--slate-500);">T-Care:</span> <strong>2.463 (48.4%)</strong></div>
+                  <div><span style="color:var(--slate-500);">Share Rev:</span> <strong>35.7%</strong></div>
+                </div>
+              </div>
+
+              <!-- SA FICKY -->
+              <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <div
+                      style="width:36px; height:36px; border-radius:50%; background:#16a34a; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">
+                      FK</div>
+                    <div>
+                      <h5 style="margin:0; font-size:13.5px; font-weight:700; color:var(--slate-800);">SA FICKY</h5>
+                      <span style="font-size:11px; color:var(--slate-500);">Service Advisor</span>
+                    </div>
+                  </div>
+                  <span class="badge-status badge-kredit"
+                    style="font-size:10.5px; background:#dcfce7; color:#16a34a;">Konsisten</span>
+                </div>
+                <div
+                  style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px; background:#fff; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
+                  <div><span style="color:var(--slate-500);">Unit Entry:</span> <strong
+                      style="color:var(--slate-800);">5.059 UE</strong></div>
+                  <div><span style="color:var(--slate-500);">Revenue:</span> <strong style="color:#16a34a;">Rp 7,15
+                      M</strong></div>
+                  <div><span style="color:var(--slate-500);">T-Care:</span> <strong>2.493 (49.3%)</strong></div>
+                  <div><span style="color:var(--slate-500);">Share Rev:</span> <strong>32.6%</strong></div>
+                </div>
+              </div>
+
+              <!-- SA ACEP -->
+              <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <div
+                      style="width:36px; height:36px; border-radius:50%; background:#7c3aed; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">
+                      AC</div>
+                    <div>
+                      <h5 style="margin:0; font-size:13.5px; font-weight:700; color:var(--slate-800);">SA ACEP</h5>
+                      <span style="font-size:11px; color:var(--slate-500);">Service Advisor</span>
+                    </div>
+                  </div>
+                  <span class="badge-status badge-kredit"
+                    style="font-size:10.5px; background:#f5f3ff; color:#7c3aed;">Top T-Care (52.6%)</span>
+                </div>
+                <div
+                  style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px; background:#fff; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
+                  <div><span style="color:var(--slate-500);">Unit Entry:</span> <strong
+                      style="color:var(--slate-800);">5.056 UE</strong></div>
+                  <div><span style="color:var(--slate-500);">Revenue:</span> <strong style="color:#7c3aed;">Rp 6,97
+                      M</strong></div>
+                  <div><span style="color:var(--slate-500);">T-Care:</span> <strong>2.658 (52.6%)</strong></div>
+                  <div><span style="color:var(--slate-500);">Share Rev:</span> <strong>31.7%</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters for SBI Table -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <input type="text" class="filter-input" id="filterSbiSearch"
+                placeholder="Cari nama konsumen, nopol, VIN, wiraniaga...">
+
+              <select class="filter-select" id="filterSbiCai">
+                <option value="all">Semua Status CAI</option>
+                <option value="CAI">CAI (Terverifikasi)</option>
+                <option value="NOT CAI">NOT CAI</option>
+              </select>
+
+              <select class="filter-select" id="filterSbiJudgement">
+                <option value="all">Semua Judgement</option>
+                <option value="HOT">HOT Priority</option>
+                <option value="HIGH">HIGH Priority</option>
+                <option value="MEDIUM">MEDIUM Priority</option>
+                <option value="LOW">LOW Priority</option>
+              </select>
+
+              <select class="filter-select" id="filterSbiKedatangan">
+                <option value="all">Semua Kedatangan</option>
+                <option value="SUDAH DATANG">Sudah Datang</option>
+                <option value="WAJIB FOLLOW UP LAGI">Wajib Follow-Up Lagi</option>
+                <option value="LOST">Lost</option>
+              </select>
+            </div>
+
+            <span style="font-size:12px; font-weight:700; color:#b80515;" id="sbiShowingBadge">
+              Menampilkan 704 Database SBI Tim Ryan
+            </span>
+          </div>
+
+          <!-- SBI Table Card -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="sbiTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px;">No</th>
+                    <th>Bulan FU</th>
+                    <th>Nama Konsumen &amp; Telepon</th>
+                    <th>Model &amp; No Polisi</th>
+                    <th>Wiraniaga</th>
+                    <th>Status CAI</th>
+                    <th>Prioritas Judgement</th>
+                    <th>Status Kedatangan</th>
+                    <th>Catatan Service</th>
+                  </tr>
+                </thead>
+                <tbody id="sbiTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 12: PROFIL & STRUKTUR TIM RYAN         -->
+        <!-- ========================================== -->
+        <section class="tab-pane" id="pane-tim">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Profil &amp; Struktur Tim 1 Supervisi Pak Ryan (Feryanto)</h3>
+              <p>Struktur komando penjualan, teritori cluster binaan, target operasional cabang, dan daftar anggota
+                wiraniaga Tim 1.</p>
+            </div>
+          </div>
+
+          <!-- SPV Profile Extended Card -->
+          <div
+            style="background:#fff; border:1px solid var(--slate-200); border-radius:12px; padding:24px; margin-bottom:20px; box-shadow:var(--shadow-sm); display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
+            <div
+              style="width:100px; height:100px; border-radius:50%; overflow:hidden; border:3px solid var(--primary-red); flex-shrink:0;">
+              <img src="assets/img/team/feryanto.png" alt="Feryanto (Pak Ryan)"
+                style="width:100%; height:100%; object-fit:cover;"
+                onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:#b80515;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:32px;\'>FR</div>';">
+            </div>
+            <div style="flex:1; min-width:260px;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+                <h3 style="margin:0; font-size:20px; font-weight:800; color:var(--slate-800);">Feryanto (Pak Ryan)</h3>
+                <span class="badge-status badge-kredit" style="font-size:12px;">Sales Supervisor Tim 1</span>
+              </div>
+              <p style="margin:0 0 10px 0; color:var(--slate-600); font-size:13px; line-height:1.5;">
+                Supervisor Sales resmi Tunas Toyota Cabang Kiara Condong, Bandung. Memimpin Tim 1 dengan spesialisasi
+                penetrasi segmen menengah-atas dan komersial pada cluster Batununggal &amp; Podomoro, serta bertanggung
+                jawab penuh atas pencapaian 35 Unit DO/Bulan.
+              </p>
+              <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--slate-700);">
+                <span><i class="fa-solid fa-location-dot" style="color:var(--primary-red); margin-right:4px;"></i>
+                  <strong>Cluster:</strong> Batununggal &amp; Podomoro</span>
+                <span><i class="fa-solid fa-users" style="color:#0284c7; margin-right:4px;"></i>
+                  <strong>Anggota:</strong> 19 Wiraniaga Aktif</span>
+                <span><i class="fa-solid fa-bullseye" style="color:#16a34a; margin-right:4px;"></i> <strong>Target
+                    DO:</strong> 35 Unit / Bulan</span>
+                <span><i class="fa-solid fa-trophy" style="color:#f59e0b; margin-right:4px;"></i> <strong>Rank:</strong>
+                  #1 Supervisor Cabang</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hierarchy Org Chart -->
+          <div class="table-card" style="padding:20px;">
+            <h4 style="margin:0 0 16px 0; font-size:14px; font-weight:700; color:var(--slate-800);">
+              <i class="fa-solid fa-sitemap" style="color:var(--primary-red); margin-right:6px;"></i> Struktur
+              Organisasi Cabang Kiara Condong
+            </h4>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+              <div
+                style="background:#0f172a; color:#fff; padding:10px 20px; border-radius:8px; font-weight:700; font-size:13px; text-align:center;">
+                Kepala Cabang Tunas Toyota Kiara Condong
+              </div>
+              <i class="fa-solid fa-arrow-down" style="color:var(--slate-400);"></i>
+              <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
+                <div
+                  style="background:#b80515; color:#fff; padding:12px 24px; border-radius:8px; font-weight:700; font-size:13px; text-align:center; box-shadow:var(--shadow-md);">
+                  <div>Feryanto (Pak Ryan)</div>
+                  <small style="opacity:0.9; font-weight:500;">Supervisor Sales Tim 1 (Aktif)</small>
+                </div>
+                <div
+                  style="background:#e2e8f0; color:#475569; padding:12px 24px; border-radius:8px; font-weight:600; font-size:13px; text-align:center; opacity:0.6;">
+                  <div>Supervisor Tim 2</div>
+                  <small>Tim Alvin</small>
+                </div>
+                <div
+                  style="background:#e2e8f0; color:#475569; padding:12px 24px; border-radius:8px; font-weight:600; font-size:13px; text-align:center; opacity:0.6;">
+                  <div>Supervisor Tim 3</div>
+                  <small>Tim Riva</small>
+                </div>
+              </div>
+              <i class="fa-solid fa-arrow-down" style="color:var(--slate-400);"></i>
+              <div
+                style="background:#f1f5f9; border:1px dashed #cbd5e1; border-radius:8px; padding:14px 20px; text-align:center; max-width:600px;">
+                <strong style="color:var(--slate-800); font-size:13px;">19 Wiraniaga di Bawah Supervisi Pak
+                  Ryan:</strong>
+                <p style="margin:6px 0 0 0; font-size:12px; color:var(--slate-600); line-height:1.6;">
+                  Heri Setiawan, Gilang Ramadhan, Yudi Heryadi, Dedi Suryadi, Asep Saepuloh, Hendra Wijaya, Rahmat
+                  Hidayat, Ridwan Kamil, Agus Permana, Bambang S., Dani Ramdani, Eka Prasetya, Fajar Sidik, Ginanjar,
+                  Hari Kusuma, Irfan Hakim, Joko Widodo, Kurniawan, Lukman Hakim.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL: INPUT / SMART PASTE HOT PROSPEK    -->
+    <!-- ========================================== -->
+    <div class="modal-backdrop" id="modalAddProspect" style="display:none;">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-header-title">
+            <i class="fa-solid fa-paste" style="color:var(--primary-red); font-size:18px;"></i>
+            <h3>Tambah Hot Prospek &mdash; Tim 1 Pak Ryan</h3>
+          </div>
+          <button type="button" class="btn-modal-close" id="btnCloseProspectModal" aria-label="Tutup Modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Modal Mode Switcher Tabs -->
+        <div class="modal-nav"
+          style="display:flex; border-bottom:1px solid var(--slate-200); padding:0 20px; background:#f8fafc;">
+          <button type="button" class="btn-modal-tab active" id="btnTabSmartPaste"
+            style="padding:12px 18px; border:none; background:none; font-weight:700; font-size:13px; color:var(--primary-red); border-bottom:2px solid var(--primary-red); cursor:pointer;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Smart Paste Otomatis
+          </button>
+          <button type="button" class="btn-modal-tab" id="btnTabManualForm"
+            style="padding:12px 18px; border:none; background:none; font-weight:600; font-size:13px; color:var(--slate-600); cursor:pointer;">
+            <i class="fa-solid fa-pen-to-square"></i> Form Input Manual
+          </button>
+        </div>
+
+        <div class="modal-body" style="padding:20px; max-height:calc(85vh - 160px); overflow-y:auto;">
+
+          <!-- PANE A: SMART PASTE OTOMATIS -->
+          <div id="modalModeSmartPaste">
+            <div
+              style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12px; color:#1e40af;">
+              <strong style="display:block; margin-bottom:4px;"><i class="fa-solid fa-circle-info"></i> Petunjuk Smart
+                Paste:</strong>
+              Cukup paste teks dari chat <strong>WhatsApp</strong>, salinan baris tabel <strong>Excel / Google
+                Sheets</strong>, atau format baris catatan. Sistem akan mengekstrak nama konsumen, telepon WhatsApp,
+              wiraniaga, unit, cara bayar, dan leasing secara otomatis!
+            </div>
+
+            <!-- Quick Template Buttons -->
+            <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center; flex-wrap:wrap;">
+              <span style="font-size:11.5px; font-weight:700; color:var(--slate-600);">Coba Template Contoh:</span>
+              <button type="button" class="btn-secondary" id="btnFillWaExample"
+                style="font-size:11px; padding:4px 10px;">
+                <i class="fa-brands fa-whatsapp" style="color:#16a34a;"></i> Contoh WhatsApp
+              </button>
+              <button type="button" class="btn-secondary" id="btnFillExcelExample"
+                style="font-size:11px; padding:4px 10px;">
+                <i class="fa-solid fa-table" style="color:#0284c7;"></i> Contoh Excel / TSV
+              </button>
+              <button type="button" class="btn-secondary" id="btnFillListExample"
+                style="font-size:11px; padding:4px 10px;">
+                <i class="fa-solid fa-list-ul" style="color:#7c3aed;"></i> Contoh List Teks
+              </button>
+            </div>
+
+            <textarea class="smart-paste-area" id="smartPasteInput" rows="7" placeholder="Paste teks WhatsApp, salinan tabel Excel, atau catatan prospek di sini...
+Contoh format WhatsApp:
+Nama: Bpk. Rudi Hermawan
+Hp: 081223344556
+Sales: Gilang Ramadhan
+Unit: Innova Zenix Hybrid V Modelista
+Bayar: Kredit MTF DP 20%
+Status: Hot Prospek test drive weekend ini"></textarea>
+
+            <div style="display:flex; gap:10px; margin-top:10px; justify-content:space-between; align-items:center;">
+              <div style="display:flex; gap:8px;">
+                <button type="button" class="btn-primary" id="btnParsePasteText">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Ekstrak &amp; Pratinjau
+                </button>
+                <button type="button" class="btn-secondary" id="btnClearPasteInput">
+                  Bersihkan
+                </button>
+              </div>
+              <span id="parseStatusText" style="font-size:12px; color:var(--slate-500);"></span>
+            </div>
+
+            <!-- Parsed Results Preview Card -->
+            <div id="parsedPreviewContainer"
+              style="display:none; margin-top:16px; border-top:1px solid var(--slate-200); padding-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <strong style="font-size:13px; color:var(--slate-800);">
+                  <i class="fa-solid fa-eye" style="color:var(--primary-red);"></i> Pratinjau Data Siap Disimpan:
+                </strong>
+                <span class="badge-status badge-kredit" id="parsedCountBadge">1 Data Ditemukan</span>
+              </div>
+              <div id="parsedCardList" style="display:flex; flex-direction:column; gap:10px;">
+                <!-- Dynamic parsed cards preview -->
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE B: MANUAL FORM INPUT -->
+          <div id="modalModeManual" style="display:none;">
+            <div class="form-grid"
+              style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Nama Calon Konsumen *</label>
+                <input type="text" class="form-input" id="manCustName" placeholder="Contoh: Bpk. Hendra Gunawan"
+                  required>
+              </div>
+
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">No. Telepon / WhatsApp</label>
+                <input type="text" class="form-input" id="manCustPhone" placeholder="Contoh: 081234567890">
+              </div>
+
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Wiraniaga PIC (Tim Ryan)
+                  *</label>
+                <select class="form-select" id="manSalesman" required>
+                  <!-- Populated via JS -->
+                </select>
+              </div>
+
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Model Unit Incaran *</label>
+                <input type="text" class="form-input" id="manUnit" placeholder="Contoh: Avanza 1.5 G CVT" required>
+              </div>
+
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Cara Bayar</label>
+                <select class="form-select" id="manPayment">
+                  <option value="Kredit">Kredit</option>
+                  <option value="Tunai">Tunai</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Mitra Leasing</label>
+                <select class="form-select" id="manLeasing">
+                  <option value="MTF">MTF (Mandiri Tunas Finance)</option>
+                  <option value="TAFS">TAFS (Toyota Astra Financial Services)</option>
+                  <option value="ACC">ACC (Astra Credit Companies)</option>
+                  <option value="KKB BCA">KKB BCA</option>
+                  <option value="MUF">MUF</option>
+                  <option value="Adira / Lainnya">Adira / Lainnya</option>
+                  <option value="-">- (Tunai)</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Tahapan Funnel</label>
+                <select class="form-select" id="manStage">
+                  <option value="SPK">SPK</option>
+                  <option value="Appraisal Trade-In">Appraisal Trade-In</option>
+                  <option value="Test Drive">Test Drive</option>
+                  <option value="Follow-up" selected>Follow-up</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Rating Prospek</label>
+                <select class="form-select" id="manRating">
+                  <option value="Hot" selected>Hot Rating (Sangat Potensial)</option>
+                  <option value="Warm">Warm Rating</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="display:flex; flex-direction:column; gap:4px; margin-top:14px;">
+              <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Catatan Tindak Lanjut
+                Supervisi</label>
+              <textarea class="form-input" id="manNotes" rows="2"
+                placeholder="Contoh: Konsumen minta simulasi angsuran DP 25%, jadwal test drive hari Sabtu."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer"
+          style="padding:14px 20px; border-top:1px solid var(--slate-200); display:flex; justify-content:flex-end; gap:10px; background:#f8fafc;">
+          <button type="button" class="btn-secondary" id="btnCancelProspectModal">Batal</button>
+          <button type="button" class="btn-primary" id="btnCommitAddProspect">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Hot Prospek ke Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast-notice" id="toastNotice">
+      <i class="fa-solid fa-circle-check" style="color:#10b981; font-size:16px;"></i>
+      <span id="toastText">Operasi berhasil</span>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT LIBRARIES & APP LOGIC -->
+  <script src="assets/js/ryan_data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+
+</html>

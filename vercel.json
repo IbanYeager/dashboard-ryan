@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/dashboard_spv_ryan/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/dashboard_spv_ryan",
+      "destination": "/index.html"
+    }
+  ]
+}
