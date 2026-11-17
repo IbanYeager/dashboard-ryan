@@ -79,9 +79,12 @@
     oneaccount: {
       scope: 'ryan',
       search: '',
-      status: 'all',
+      month: 'all',
       consent: 'all',
-      salesman: 'all'
+      inquiry: 'all',
+      salesman: 'all',
+      page: 1,
+      pageSize: 25
     },
     afi: {
       page: 1,
@@ -2881,9 +2884,11 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     showToast('File CSV Service Berkala (SBI) berhasil diunduh.');
   }
 
-  // =========================================================================
+// =========================================================================
   // TAB: ONE ACCOUNT ID CONTROLLER (DIGITAL DELIVERY & CONSENT)
+  // Source: Google Sheets (Januari s.d. Oktober 2026 - 250 Unit Tim Ryan)
   // =========================================================================
+
   function initOneAccount() {
     populateOneAccountFilterOptions();
     bindOneAccountEvents();
@@ -2894,10 +2899,8 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
 
   function getOneAccountBaseList() {
     const all = data.oneAccount || [];
-    if (state.oneaccount.scope === 'ryan') {
-      return all.filter(o => o.isRyan === true);
-    }
-    return all;
+    // Filter exclusively for Tim Ryan (Pak Ryan / Feryanto)
+    return all.filter(o => o.isRyan === true);
   }
 
   function populateOneAccountFilterOptions() {
@@ -2909,155 +2912,258 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     const currentVal = state.oneaccount.salesman;
     let html = '<option value="all">Semua Wiraniaga</option>';
     salesmen.forEach(s => {
-      html += `<option value="${s}" ${currentVal === s ? 'selected' : ''}>${s}</option>`;
+      const count = baseList.filter(o => (o.salesman || o.sales) === s).length;
+      html += `<option value="${s}" ${currentVal === s ? 'selected' : ''}>${s} (${count} Unit)</option>`;
     });
     salesSelect.innerHTML = html;
   }
 
   function updateOneAccountKpis() {
-    const list = getOneAccountBaseList();
+    const baseList = getOneAccountBaseList();
+    const selectedMonth = state.oneaccount.month;
+
+    // Filter by selected month if not 'all'
+    const list = selectedMonth === 'all'
+      ? baseList
+      : baseList.filter(o => (o.monthName || '').toLowerCase() === selectedMonth.toLowerCase());
+
     const total = list.length;
-    const hasId = list.filter(o => o.hasOneAccount || (o.oneAccountId && o.oneAccountId !== '-')).length;
+    const hasId = list.filter(o => o.hasOneAccount || (o.oneAccountId && o.oneAccountId.length > 5 && o.oneAccountId !== '-')).length;
     const pctId = total > 0 ? ((hasId / total) * 100).toFixed(1) : '0';
 
-    const consentDone = list.filter(o => (o.consent || '').toUpperCase() === 'DONE').length;
+    const consentDone = list.filter(o => o.isConsentDone || (o.consent || '').toUpperCase() === 'DONE').length;
     const pctConsent = total > 0 ? ((consentDone / total) * 100).toFixed(1) : '0';
+    const pendingConsent = total - consentDone;
 
-    const dxmiCount = list.filter(o => (o.dxmi || '').toUpperCase().includes('TERDAFTAR')).length;
-    const inquiryCount = list.filter(o => (o.inquiry || '').toUpperCase().includes('TERDAFTAR')).length;
+    const inquiryCount = list.filter(o => o.isInquiryRegistered || (o.inquiry || '').toUpperCase().includes('TERDAFTAR')).length;
 
     const elTotal = document.getElementById('kpiOneAccountTotalUnits');
+    const elSubTotal = document.getElementById('kpiOneAccountSubTotal');
     const elId = document.getElementById('kpiOneAccountGenerated');
     const elConsent = document.getElementById('kpiOneAccountConsent');
+    const elSubConsent = document.getElementById('kpiOneAccountSubConsent');
     const elDxmi = document.getElementById('kpiOneAccountDxmi');
 
     if (elTotal) elTotal.textContent = `${fmtNumber(total)} Unit`;
+    if (elSubTotal) {
+      elSubTotal.textContent = selectedMonth === 'all'
+        ? 'Realisasi delivery Tim Ryan Jan – Okt 2026'
+        : `Realisasi delivery bulan ${selectedMonth} 2026`;
+    }
+
     if (elId) elId.textContent = `${fmtNumber(hasId)} Unit (${pctId}%)`;
     if (elConsent) elConsent.textContent = `${fmtNumber(consentDone)} Unit (${pctConsent}%)`;
+    if (elSubConsent) {
+      elSubConsent.textContent = `${pendingConsent} unit belum persetujuan`;
+    }
+
     if (elDxmi) {
-      elDxmi.textContent = `${dxmiCount} Unit DXMI`;
-      const sub = elDxmi.nextElementSibling;
-      if (sub) sub.textContent = `${inquiryCount} Unit Inquiry Terdaftar`;
+      elDxmi.textContent = `${inquiryCount} Unit Terdaftar`;
     }
 
     const navBadge = document.getElementById('navBadgeOneAccount');
     if (navBadge) {
-      const ryanCount = (data.oneAccount || []).filter(o => o.isRyan).length;
-      navBadge.textContent = String(ryanCount || 16);
+      navBadge.textContent = String(baseList.length || 250);
     }
   }
 
   function bindOneAccountEvents() {
-    const btnRyanOnly = document.getElementById('btnOneAccountRyanOnly');
-    const btnAllBranch = document.getElementById('btnOneAccountAllBranch');
-    const notice = document.getElementById('oneAccountFilterNotice');
+    // 1. Month Pills Switcher
+    const pillsContainer = document.getElementById('oneAccountMonthPills');
+    if (pillsContainer && !pillsContainer.dataset.bound) {
+      pillsContainer.dataset.bound = 'true';
+      pillsContainer.querySelectorAll('.oa-month-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          const month = pill.getAttribute('data-month');
+          state.oneaccount.month = month;
+          state.oneaccount.page = 1;
 
-    if (btnRyanOnly && !btnRyanOnly.dataset.bound) {
-      btnRyanOnly.dataset.bound = 'true';
-      btnRyanOnly.addEventListener('click', () => {
-        state.oneaccount.scope = 'ryan';
-        btnRyanOnly.classList.add('active');
-        btnRyanOnly.style.fontWeight = '700';
-        if (btnAllBranch) {
-          btnAllBranch.classList.remove('active');
-          btnAllBranch.style.fontWeight = '400';
-        }
-        if (notice) notice.textContent = 'Menampilkan 16 data delivery & One Account ID Tim 1 SPV Ryan';
-        populateOneAccountFilterOptions();
-        updateOneAccountKpis();
-        renderOneAccountTable();
-        renderOneAccountCharts();
+          // Update active pill
+          pillsContainer.querySelectorAll('.oa-month-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+
+          // Sync dropdown
+          const monthSelect = document.getElementById('filterOneAccountMonth');
+          if (monthSelect) monthSelect.value = month;
+
+          updateOneAccountKpis();
+          renderOneAccountTable();
+        });
       });
     }
 
-    if (btnAllBranch && !btnAllBranch.dataset.bound) {
-      btnAllBranch.dataset.bound = 'true';
-      btnAllBranch.addEventListener('click', () => {
-        state.oneaccount.scope = 'all';
-        btnAllBranch.classList.add('active');
-        btnAllBranch.style.fontWeight = '700';
-        if (btnRyanOnly) {
-          btnRyanOnly.classList.remove('active');
-          btnRyanOnly.style.fontWeight = '400';
+    // 2. Month Dropdown in Filter Bar
+    const monthSelect = document.getElementById('filterOneAccountMonth');
+    if (monthSelect && !monthSelect.dataset.bound) {
+      monthSelect.dataset.bound = 'true';
+      monthSelect.addEventListener('change', (e) => {
+        const month = e.target.value;
+        state.oneaccount.month = month;
+        state.oneaccount.page = 1;
+
+        // Sync pills
+        if (pillsContainer) {
+          pillsContainer.querySelectorAll('.oa-month-pill').forEach(p => {
+            if (p.getAttribute('data-month') === month) p.classList.add('active');
+            else p.classList.remove('active');
+          });
         }
-        if (notice) notice.textContent = 'Menampilkan 37 data delivery seluruh cabang TKC';
-        populateOneAccountFilterOptions();
+
         updateOneAccountKpis();
         renderOneAccountTable();
-        renderOneAccountCharts();
       });
     }
 
+    // 3. Search Filter
     const searchInput = document.getElementById('filterOneAccountSearch');
-    const statusSelect = document.getElementById('filterOneAccountStatus');
-    const consentSelect = document.getElementById('filterOneAccountConsent');
-    const salesSelect = document.getElementById('filterOneAccountSales');
-
     if (searchInput && !searchInput.dataset.bound) {
       searchInput.dataset.bound = 'true';
       searchInput.addEventListener('input', (e) => {
         state.oneaccount.search = e.target.value.toLowerCase().trim();
+        state.oneaccount.page = 1;
         renderOneAccountTable();
       });
     }
 
-    if (statusSelect && !statusSelect.dataset.bound) {
-      statusSelect.dataset.bound = 'true';
-      statusSelect.addEventListener('change', (e) => {
-        state.oneaccount.status = e.target.value;
-        renderOneAccountTable();
-      });
-    }
-
+    // 4. Consent Filter
+    const consentSelect = document.getElementById('filterOneAccountConsent');
     if (consentSelect && !consentSelect.dataset.bound) {
       consentSelect.dataset.bound = 'true';
       consentSelect.addEventListener('change', (e) => {
         state.oneaccount.consent = e.target.value;
+        state.oneaccount.page = 1;
         renderOneAccountTable();
       });
     }
 
+    // 5. Inquiry Filter
+    const inquirySelect = document.getElementById('filterOneAccountInquiry');
+    if (inquirySelect && !inquirySelect.dataset.bound) {
+      inquirySelect.dataset.bound = 'true';
+      inquirySelect.addEventListener('change', (e) => {
+        state.oneaccount.inquiry = e.target.value;
+        state.oneaccount.page = 1;
+        renderOneAccountTable();
+      });
+    }
+
+    // 6. Sales Filter
+    const salesSelect = document.getElementById('filterOneAccountSales');
     if (salesSelect && !salesSelect.dataset.bound) {
       salesSelect.dataset.bound = 'true';
       salesSelect.addEventListener('change', (e) => {
         state.oneaccount.salesman = e.target.value;
+        state.oneaccount.page = 1;
         renderOneAccountTable();
+      });
+    }
+
+    // 7. Page Size Selector
+    const pageSizeSelect = document.getElementById('oneAccountPageSize');
+    if (pageSizeSelect && !pageSizeSelect.dataset.bound) {
+      pageSizeSelect.dataset.bound = 'true';
+      pageSizeSelect.addEventListener('change', (e) => {
+        state.oneaccount.pageSize = parseInt(e.target.value, 10) || 25;
+        state.oneaccount.page = 1;
+        renderOneAccountTable();
+      });
+    }
+
+    // 8. Reset Filter Button
+    const resetBtn = document.getElementById('btnResetOneAccountFilter');
+    if (resetBtn && !resetBtn.dataset.bound) {
+      resetBtn.dataset.bound = 'true';
+      resetBtn.addEventListener('click', () => {
+        state.oneaccount.search = '';
+        state.oneaccount.month = 'all';
+        state.oneaccount.consent = 'all';
+        state.oneaccount.inquiry = 'all';
+        state.oneaccount.salesman = 'all';
+        state.oneaccount.page = 1;
+
+        if (searchInput) searchInput.value = '';
+        if (monthSelect) monthSelect.value = 'all';
+        if (consentSelect) consentSelect.value = 'all';
+        if (inquirySelect) inquirySelect.value = 'all';
+        if (salesSelect) salesSelect.value = 'all';
+
+        if (pillsContainer) {
+          pillsContainer.querySelectorAll('.oa-month-pill').forEach(p => {
+            if (p.getAttribute('data-month') === 'all') p.classList.add('active');
+            else p.classList.remove('active');
+          });
+        }
+
+        updateOneAccountKpis();
+        renderOneAccountTable();
+        showToast('Filter One Account ID berhasil direset.', 'info');
+      });
+    }
+
+    // 9. Export CSV Button
+    const exportBtn = document.getElementById('btnExportOneAccountCsv');
+    if (exportBtn && !exportBtn.dataset.bound) {
+      exportBtn.dataset.bound = 'true';
+      exportBtn.addEventListener('click', exportOneAccountCsv);
+    }
+
+    // 10. Refresh Button
+    const refreshBtn = document.getElementById('btnRefreshOneAccount');
+    if (refreshBtn && !refreshBtn.dataset.bound) {
+      refreshBtn.dataset.bound = 'true';
+      refreshBtn.addEventListener('click', () => {
+        populateOneAccountFilterOptions();
+        updateOneAccountKpis();
+        renderOneAccountCharts();
+        renderOneAccountTable();
+        showToast('Data One Account ID Tim Ryan berhasil disegarkan!', 'success');
       });
     }
   }
 
   function getFilteredOneAccount() {
-    const list = getOneAccountBaseList();
-    return list.filter(o => {
-      if (state.oneaccount.search) {
-        const q = state.oneaccount.search;
-        const cust = (o.customerName || o.namaKonsumen || '').toLowerCase();
-        const sales = (o.salesman || o.sales || '').toLowerCase();
-        const nvdo = (o.nvdo || '').toLowerCase();
-        const noka = (o.noka || o.vin || '').toLowerCase();
-        const nvso = (o.nvso || o.spkNo || '').toLowerCase();
-        const id = (o.oneAccountId || '').toLowerCase();
-        const phone = (o.phone || o.noTelp || '').toLowerCase();
-        if (!cust.includes(q) && !sales.includes(q) && !nvdo.includes(q) && !noka.includes(q) && !nvso.includes(q) && !id.includes(q) && !phone.includes(q)) {
-          return false;
-        }
-      }
-      if (state.oneaccount.status !== 'all') {
-        const hasId = o.hasOneAccount || (o.oneAccountId && o.oneAccountId !== '-');
-        if (state.oneaccount.status === 'has_id' && !hasId) return false;
-        if (state.oneaccount.status === 'no_id' && hasId) return false;
-      }
-      if (state.oneaccount.consent !== 'all') {
-        const isDone = (o.consent || '').toUpperCase() === 'DONE';
-        if (state.oneaccount.consent === 'DONE' && !isDone) return false;
-        if (state.oneaccount.consent === 'BELUM' && isDone) return false;
-      }
-      if (state.oneaccount.salesman !== 'all') {
-        const s = o.salesman || o.sales || '';
-        if (s !== state.oneaccount.salesman) return false;
-      }
-      return true;
-    });
+    let list = getOneAccountBaseList();
+
+    // Month filter
+    if (state.oneaccount.month && state.oneaccount.month !== 'all') {
+      list = list.filter(o => (o.monthName || '').toLowerCase() === state.oneaccount.month.toLowerCase());
+    }
+
+    // Consent filter
+    if (state.oneaccount.consent === 'DONE') {
+      list = list.filter(o => o.isConsentDone || (o.consent || '').toUpperCase() === 'DONE');
+    } else if (state.oneaccount.consent === 'BELUM') {
+      list = list.filter(o => !o.isConsentDone && (o.consent || '').toUpperCase() !== 'DONE');
+    }
+
+    // Inquiry filter
+    if (state.oneaccount.inquiry === 'TERDAFTAR') {
+      list = list.filter(o => o.isInquiryRegistered || (o.inquiry || '').toUpperCase().includes('TERDAFTAR'));
+    } else if (state.oneaccount.inquiry === 'BELUM') {
+      list = list.filter(o => !o.isInquiryRegistered && !(o.inquiry || '').toUpperCase().includes('TERDAFTAR'));
+    }
+
+    // Salesman filter
+    if (state.oneaccount.salesman && state.oneaccount.salesman !== 'all') {
+      list = list.filter(o => (o.salesman || o.sales) === state.oneaccount.salesman);
+    }
+
+    // Search query
+    if (state.oneaccount.search) {
+      const q = state.oneaccount.search;
+      list = list.filter(o =>
+        (o.customerName && o.customerName.toLowerCase().includes(q)) ||
+        (o.namaKonsumen && o.namaKonsumen.toLowerCase().includes(q)) ||
+        (o.salesman && o.salesman.toLowerCase().includes(q)) ||
+        (o.sales && o.sales.toLowerCase().includes(q)) ||
+        (o.nvdo && o.nvdo.toLowerCase().includes(q)) ||
+        (o.nvso && o.nvso.toLowerCase().includes(q)) ||
+        (o.noka && o.noka.toLowerCase().includes(q)) ||
+        (o.oneAccountId && o.oneAccountId.toLowerCase().includes(q))
+      );
+    }
+
+    return list;
   }
 
   function renderOneAccountTable() {
@@ -3065,114 +3171,147 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     const badge = document.getElementById('oneAccountShowingBadge');
     if (!tbody) return;
 
-    const list = getFilteredOneAccount();
+    const filtered = getFilteredOneAccount();
+    const total = filtered.length;
+
     if (badge) {
-      const scopeText = state.oneaccount.scope === 'ryan' ? 'Tim 1 Pak Ryan' : 'Semua Tim Cabang';
-      badge.textContent = `Menampilkan ${list.length} Data One Account ID (${scopeText})`;
+      const monthLabel = state.oneaccount.month === 'all' ? 'Januari - Oktober 2026' : `Bulan ${state.oneaccount.month} 2026`;
+      badge.textContent = `Menampilkan ${fmtNumber(total)} Data One Account ID Tim Ryan (${monthLabel})`;
     }
 
-    if (list.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; padding:32px; color:var(--slate-500);">Tidak ada data One Account ID yang sesuai dengan filter.</td></tr>';
+    // Pagination calculations
+    const pageSize = state.oneaccount.pageSize;
+    const totalPages = Math.ceil(total / pageSize) || 1;
+    if (state.oneaccount.page > totalPages) state.oneaccount.page = totalPages;
+    const page = state.oneaccount.page;
+    const startIndex = (page - 1) * pageSize;
+    const paginated = filtered.slice(startIndex, startIndex + pageSize);
+
+    if (paginated.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:36px; color:var(--slate-500);"><i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>Tidak ada data One Account ID yang sesuai dengan filter.</td></tr>';
+      const paginationEl = document.getElementById('oneAccountPagination');
+      if (paginationEl) paginationEl.innerHTML = '';
       return;
     }
 
     let html = '';
-    list.forEach((o, idx) => {
-      const hasId = o.hasOneAccount || (o.oneAccountId && o.oneAccountId !== '-');
-      const isConsentDone = (o.consent || '').toUpperCase() === 'DONE';
-      const isInquiryReg = (o.inquiry || '').toUpperCase().includes('TERDAFTAR');
-      const isDxmiReg = (o.dxmi || '').toUpperCase().includes('TERDAFTAR');
+    paginated.forEach((o, idx) => {
+      const rowNo = startIndex + idx + 1;
+      const isConsentDone = o.isConsentDone || (o.consent || '').toUpperCase() === 'DONE';
+      const isInquiryReg = o.isInquiryRegistered || (o.inquiry || '').toUpperCase().includes('TERDAFTAR');
 
-      const oneAccountBadge = hasId
-        ? `<div style="font-family:monospace; font-size:11px; background:#f0fdf4; color:#166534; padding:3px 7px; border-radius:4px; border:1px solid #bbf7d0; word-break:break-all; max-width:230px; font-weight:600;" title="${o.oneAccountId}">${o.oneAccountId}</div>`
+      const oneAccountBadge = o.oneAccountId && o.oneAccountId !== '-'
+        ? `<div style="font-family:monospace; font-size:11px; background:#f0fdf4; color:#166534; padding:4px 8px; border-radius:4px; border:1px solid #bbf7d0; word-break:break-all; max-width:240px; font-weight:600;" title="${o.oneAccountId}">${o.oneAccountId}</div>`
         : `<span class="badge-status badge-kredit" style="font-size:11px;">Belum Terbit</span>`;
 
       const consentBadge = isConsentDone
-        ? `<span class="badge-status badge-cash" style="font-size:11px;"><i class="fa-solid fa-check"></i> DONE</span>`
-        : `<span class="badge-status badge-kredit" style="font-size:11px;">BELUM</span>`;
+        ? `<span class="badge-status badge-cash" style="font-size:11px;"><i class="fa-solid fa-circle-check"></i> DONE</span>`
+        : `<span class="badge-status badge-high" style="font-size:11px;"><i class="fa-solid fa-clock"></i> BELUM</span>`;
 
       const inquiryBadge = isInquiryReg
-        ? `<span class="badge-status badge-cai" style="font-size:11px;">TERDAFTAR</span>`
-        : `<span class="badge-status badge-kredit" style="font-size:11px;">BELUM DAFTAR</span>`;
+        ? `<span class="badge-status badge-cai" style="font-size:11px;"><i class="fa-solid fa-check"></i> TERDAFTAR</span>`
+        : `<span class="badge-status badge-kredit" style="font-size:11px;">BELUM</span>`;
 
-      const dxmiBadge = isDxmiReg
-        ? `<span class="badge-status badge-hot" style="font-size:11px;">TERDAFTAR</span>`
-        : `<span style="color:var(--slate-400); font-size:12px;">-</span>`;
-
-      const phoneDisplay = (o.phone && o.phone !== '-') ? o.phone : ((o.noTelp && o.noTelp !== '-') ? o.noTelp : '-');
       const customerDisplay = o.customerName || o.namaKonsumen || '-';
       const salesDisplay = o.salesman || o.sales || '-';
-      const ryanTag = o.isRyan
-        ? `<div style="font-size:10.5px; color:#059669; font-weight:600; margin-top:2px;"><i class="fa-solid fa-user-check"></i> Tim Ryan</div>`
-        : `<div style="font-size:10.5px; color:var(--slate-400); margin-top:2px;">Cabang TKC</div>`;
+      const monthTag = o.monthShort || (o.monthName ? o.monthName.slice(0, 3) : '2026');
 
       html += `
         <tr>
-          <td style="text-align:center; font-weight:600;">${idx + 1}</td>
+          <td style="text-align:center; font-weight:600; color:var(--slate-500);">${rowNo}</td>
+          <td><span style="font-size:11px; background:#f1f5f9; padding:3px 7px; border-radius:4px; font-weight:700; color:var(--slate-700);">${monthTag} 26</span></td>
           <td><strong>${o.nvdo || '-'}</strong></td>
           <td style="font-size:12px; color:var(--slate-600); white-space:nowrap;">${o.deliveryDate || o.tglDelivery || '-'}</td>
           <td>
-            <strong style="color:var(--slate-900); font-size:13px;">${customerDisplay}</strong>
-            ${phoneDisplay !== '-' ? `<div style="font-size:11.5px; color:var(--slate-500); margin-top:2px;"><i class="fa-solid fa-phone" style="font-size:10px;"></i> ${phoneDisplay}</div>` : ''}
+            <strong style="color:var(--slate-900);">${customerDisplay}</strong>
           </td>
           <td>
-            <strong>${salesDisplay}</strong>
-            ${ryanTag}
+            <div style="font-weight:650; color:var(--slate-800);">${salesDisplay}</div>
+            <small style="color:#059669; font-size:10px;"><i class="fa-solid fa-shield-halved"></i> Tim Ryan</small>
           </td>
-          <td style="font-size:12px; font-family:monospace; color:var(--slate-700);">${o.nvso || o.spkNo || '-'}</td>
-          <td><code style="font-size:11.5px; background:var(--slate-100); padding:2px 6px; border-radius:4px; font-weight:600;">${o.noka || o.vin || '-'}</code></td>
+          <td style="font-size:12px; font-family:monospace; color:var(--slate-600);">${o.nvso || o.spkNo || '-'}</td>
+          <td style="font-size:12px; font-family:monospace; color:var(--slate-700);">${o.noka || o.vin || '-'}</td>
           <td>${oneAccountBadge}</td>
           <td style="text-align:center;">${consentBadge}</td>
           <td style="text-align:center;">${inquiryBadge}</td>
-          <td style="text-align:center;">${dxmiBadge}</td>
-          <td style="font-size:12px; color:var(--slate-600);">${o.pic && o.pic !== '-' ? o.pic : '-'}</td>
         </tr>
       `;
     });
 
     tbody.innerHTML = html;
+
+    // Render Pagination
+    const paginationEl = document.getElementById('oneAccountPagination');
+    if (paginationEl) {
+      renderPagination(paginationEl, page, totalPages, (newPage) => {
+        state.oneaccount.page = newPage;
+        renderOneAccountTable();
+      });
+    }
   }
 
   function renderOneAccountCharts() {
-    const list = getOneAccountBaseList();
+    const baseList = getOneAccountBaseList();
 
-    // 1. Ratio Donut Chart
+    // 1. Chart Monthly Trend (Bar Chart: Consent DONE vs Belum Consent per bulan Jan - Okt)
     const ratioEl = document.getElementById('chartOneAccountRatio');
     if (ratioEl) {
-      const hasId = list.filter(o => o.hasOneAccount || (o.oneAccountId && o.oneAccountId !== '-')).length;
-      const noId = list.length - hasId;
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt'];
+      const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober'];
+
+      const consentDoneSeries = [];
+      const consentPendingSeries = [];
+
+      monthNames.forEach(m => {
+        const inM = baseList.filter(o => (o.monthName || '').toLowerCase() === m.toLowerCase());
+        const done = inM.filter(o => o.isConsentDone || (o.consent || '').toUpperCase() === 'DONE').length;
+        const pending = inM.length - done;
+        consentDoneSeries.push(done);
+        consentPendingSeries.push(pending);
+      });
 
       if (state.charts.oneAccountRatio) {
-        state.charts.oneAccountRatio.updateSeries([hasId, noId]);
+        state.charts.oneAccountRatio.updateSeries([
+          { name: 'Consent DONE', data: consentDoneSeries },
+          { name: 'Belum Consent', data: consentPendingSeries }
+        ]);
       } else {
         const options = {
           chart: {
-            type: 'donut',
-            height: 280,
+            type: 'bar',
+            height: 320,
+            stacked: true,
+            toolbar: { show: false },
             fontFamily: 'Inter, sans-serif'
           },
-          labels: ['One Account ID Terbit', 'Belum Terbit'],
-          series: [hasId, noId],
-          colors: ['#059669', '#cbd5e1'],
-          legend: { position: 'bottom' },
+          colors: ['#10b981', '#f59e0b'],
+          series: [
+            { name: 'Consent DONE', data: consentDoneSeries },
+            { name: 'Belum Consent', data: consentPendingSeries }
+          ],
+          xaxis: {
+            categories: months,
+            labels: { style: { colors: 'var(--slate-500)', fontSize: '12px' } }
+          },
+          yaxis: {
+            title: { text: 'Jumlah Unit Delivery', style: { color: 'var(--slate-500)' } }
+          },
+          legend: { position: 'top', horizontalAlign: 'right' },
           dataLabels: {
             enabled: true,
-            formatter: (val) => `${val.toFixed(1)}%`
+            formatter: (val) => val > 0 ? `${val}` : '',
+            style: { fontSize: '11px', fontWeight: 600 }
           },
           plotOptions: {
-            pie: {
-              donut: {
-                size: '65%',
-                labels: {
-                  show: true,
-                  total: {
-                    show: true,
-                    label: 'Total Delivery',
-                    formatter: () => `${list.length} Unit`
-                  }
-                }
-              }
+            bar: {
+              borderRadius: 4,
+              columnWidth: '55%'
             }
+          },
+          tooltip: {
+            shared: true,
+            intersect: false,
+            y: { formatter: (val) => `${val} Unit` }
           }
         };
         state.charts.oneAccountRatio = new ApexCharts(ratioEl, options);
@@ -3180,43 +3319,63 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
       }
     }
 
-    // 2. Services Bar Chart
+    // 2. Chart Leaderboard One Account per Wiraniaga Tim Ryan
     const servicesEl = document.getElementById('chartOneAccountServices');
     if (servicesEl) {
-      const consentDone = list.filter(o => (o.consent || '').toUpperCase() === 'DONE').length;
-      const inquiryReg = list.filter(o => (o.inquiry || '').toUpperCase().includes('TERDAFTAR')).length;
-      const dxmiReg = list.filter(o => (o.dxmi || '').toUpperCase().includes('TERDAFTAR')).length;
+      const salesMap = {};
+      baseList.forEach(o => {
+        const s = o.salesman || o.sales || 'LAINNYA';
+        if (!salesMap[s]) salesMap[s] = { total: 0, consent: 0 };
+        salesMap[s].total++;
+        if (o.isConsentDone || (o.consent || '').toUpperCase() === 'DONE') salesMap[s].consent++;
+      });
+
+      const sortedSales = Object.entries(salesMap)
+        .sort((a,b) => b[1].total - a[1].total)
+        .slice(0, 12);
+
+      const categories = sortedSales.map(x => x[0]);
+      const seriesTotal = sortedSales.map(x => x[1].total);
+      const seriesConsent = sortedSales.map(x => x[1].consent);
 
       if (state.charts.oneAccountServices) {
+        state.charts.oneAccountServices.updateOptions({ xaxis: { categories } });
         state.charts.oneAccountServices.updateSeries([
-          { name: 'Unit Terdaftar', data: [consentDone, inquiryReg, dxmiReg] }
+          { name: 'Total Unit ID', data: seriesTotal },
+          { name: 'Consent DONE', data: seriesConsent }
         ]);
       } else {
         const options = {
           chart: {
             type: 'bar',
-            height: 280,
+            height: 320,
             toolbar: { show: false },
             fontFamily: 'Inter, sans-serif'
           },
-          colors: ['#059669', '#0284c7', '#dc2626'],
-          series: [
-            { name: 'Unit Terdaftar', data: [consentDone, inquiryReg, dxmiReg] }
-          ],
-          xaxis: {
-            categories: ['Consent DONE', 'Inquiry Terdaftar', 'DXMI Terdaftar']
-          },
+          colors: ['#0284c7', '#10b981'],
           plotOptions: {
             bar: {
-              borderRadius: 6,
-              columnWidth: '45%',
-              distributed: true
+              horizontal: true,
+              borderRadius: 4,
+              barHeight: '65%'
             }
           },
-          legend: { show: false },
+          series: [
+            { name: 'Total Unit ID', data: seriesTotal },
+            { name: 'Consent DONE', data: seriesConsent }
+          ],
+          xaxis: {
+            categories: categories,
+            labels: { style: { colors: 'var(--slate-500)', fontSize: '11px' } }
+          },
+          legend: { position: 'top', horizontalAlign: 'right' },
           dataLabels: {
             enabled: true,
-            formatter: (val) => `${val} Unit`
+            formatter: (val) => val > 0 ? `${val}` : '',
+            style: { fontSize: '10px', fontWeight: 600 }
+          },
+          tooltip: {
+            y: { formatter: (val) => `${val} Unit` }
           }
         };
         state.charts.oneAccountServices = new ApexCharts(servicesEl, options);
@@ -3225,6 +3384,61 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     }
   }
 
+  function exportOneAccountCsv() {
+    const list = getFilteredOneAccount();
+    if (!list || list.length === 0) {
+      showToast('Tidak ada data One Account yang dapat diekspor.', 'warning');
+      return;
+    }
+
+    const headers = [
+      'No',
+      'Bulan',
+      'No Delivery (NVDO)',
+      'Tgl Delivery',
+      'Nama Konsumen',
+      'Wiraniaga',
+      'Supervisor',
+      'No SPK (NVSO)',
+      'Nomor Rangka (NOKA)',
+      'One Account ID',
+      'Status Consent',
+      'Status Inquiry',
+      'Status DXMI'
+    ];
+
+    const escapeCell = (val) => {
+      if (val === null || val === undefined) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    };
+
+    let csvContent = headers.join(',') + '\\n';
+
+    list.forEach((o, idx) => {
+      const row = [
+        idx + 1,
+        o.monthName || o.month || '-',
+        o.nvdo || '-',
+        o.deliveryDate || o.tglDelivery || '-',
+        o.customerName || o.namaKonsumen || '-',
+        o.salesman || o.sales || '-',
+        'FERYANTO (Pak Ryan)',
+        o.nvso || o.spkNo || '-',
+        o.noka || o.vin || '-',
+        o.oneAccountId || '-',
+        o.isConsentDone ? 'DONE' : 'BELUM',
+        o.isInquiryRegistered ? 'TERDAFTAR' : 'BELUM',
+        o.isDxmiRegistered ? 'TERDAFTAR' : '-'
+      ];
+      csvContent += row.map(escapeCell).join(',') + '\\n';
+    });
+
+    const monthTag = state.oneaccount.month === 'all' ? 'YTD' : state.oneaccount.month;
+    const filename = `One_Account_ID_Tim_Ryan_${monthTag}_${new Date().toISOString().slice(0, 10)}.csv`;
+    downloadCsv(filename, csvContent);
+    showToast(`Berhasil mengekspor ${list.length} data One Account ID Tim Ryan ke CSV!`, 'success');
+  }
 
   // =========================================================================
   // MODULE: DASHBOARD AFI 2026 (AREA FINANCING & DELIVERY) TIM RYAN

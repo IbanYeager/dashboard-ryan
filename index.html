@@ -1488,33 +1488,71 @@
         <section class="tab-pane" id="pane-oneaccount">
           <div class="section-header">
             <div class="section-header-title">
-              <h3>Monitoring One Account ID &amp; Digital Delivery &mdash; Khusus Tim Pak Ryan</h3>
-              <p>Monitoring aktivasi One Account ID (T-ID), status Customer Consent, pendaftaran Inquiry, dan integrasi DXMI per delivery unit konsumen.</p>
+              <h3>Monitoring One Account ID &amp; Digital Delivery &mdash; Khusus Tim Ryan</h3>
+              <p>Monitoring 250 unit delivery YTD (Januari s.d. Oktober 2026), status aktivasi One Account ID (T-ID), verifikasi Customer Consent, dan registrasi Inquiry digital.</p>
+            </div>
+            <div class="section-header-actions" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <span class="badge-status badge-cash" style="font-size:12px; padding:6px 12px; font-weight:700;">
+                <i class="fa-solid fa-id-card"></i> 250 Unit One Account ID Terbit (100%)
+              </span>
+              <button type="button" class="btn-refresh" id="btnRefreshOneAccount" title="Refresh Data One Account">
+                <i class="fa-solid fa-rotate"></i> Refresh
+              </button>
             </div>
           </div>
 
-          <!-- Filter Switch: Khusus SPV Ryan vs Semua Cabang -->
-          <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
-            <button type="button" class="btn-secondary active oneaccount-toggle-btn" id="btnOneAccountRyanOnly" style="font-weight:700;">
-              <i class="fa-solid fa-user-shield" style="color:var(--primary-red);"></i> Khusus Tim Ryan (16 Delivery)
-            </button>
-            <button type="button" class="btn-secondary oneaccount-toggle-btn" id="btnOneAccountAllBranch">
-              <i class="fa-solid fa-users"></i> Semua Tim Cabang (37 Delivery)
-            </button>
-            <span style="font-size:12px; color:var(--slate-500); margin-left:auto;" id="oneAccountFilterNotice">
-              Menampilkan 16 data delivery &amp; One Account ID Tim Ryan
-            </span>
+          <!-- Monthly Quick Selector Pill Buttons -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:12px; font-weight:700; color:var(--slate-600); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-calendar-days" style="color:var(--primary-red);"></i>
+              Pilih Bulan Pengiriman (Delivery):
+            </div>
+            <div class="subnav-container" id="oneAccountMonthPills" style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn-secondary active subnav-btn oa-month-pill" data-month="all" style="font-weight:700;">
+                <i class="fa-solid fa-layer-group"></i> Semua Bulan (250 Unit)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Januari">
+                Januari (2)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Februari">
+                Februari (22)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Maret">
+                Maret (25)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="April">
+                April (26)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Mei">
+                Mei (21)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Juni">
+                Juni (34)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Juli">
+                Juli (20)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Agustus">
+                Agustus (31)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="September">
+                September (46)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn oa-month-pill" data-month="Oktober">
+                Oktober (23)
+              </button>
+            </div>
           </div>
 
           <!-- 4 KPI Cards for One Account ID -->
           <div class="kpi-grid">
             <div class="kpi-card card-blue">
               <div class="kpi-card-head">
-                <span>Total Unit Delivery (NVDO)</span>
+                <span id="kpiOneAccountLabelTotal">Total Delivery (NVDO)</span>
                 <div class="kpi-icon"><i class="fa-solid fa-car-side"></i></div>
               </div>
-              <div class="kpi-val" id="kpiOneAccountTotalUnits">16 Unit</div>
-              <div class="kpi-sub">Unit mobil baru telah serah terima</div>
+              <div class="kpi-val" id="kpiOneAccountTotalUnits">250 Unit</div>
+              <div class="kpi-sub" id="kpiOneAccountSubTotal">Delivery Tim Ryan Jan &ndash; Okt 2026</div>
             </div>
 
             <div class="kpi-card card-green">
@@ -1522,8 +1560,8 @@
                 <span>One Account ID Terbit</span>
                 <div class="kpi-icon"><i class="fa-solid fa-id-card"></i></div>
               </div>
-              <div class="kpi-val" id="kpiOneAccountGenerated">3 Unit (18.8%)</div>
-              <div class="kpi-sub">T-ID aktif terhubung ke konsumen</div>
+              <div class="kpi-val" id="kpiOneAccountGenerated">250 Unit (100.0%)</div>
+              <div class="kpi-sub">T-ID aktif terhubung ke nomor rangka</div>
             </div>
 
             <div class="kpi-card card-amber">
@@ -1531,17 +1569,17 @@
                 <span>Customer Consent (DONE)</span>
                 <div class="kpi-icon"><i class="fa-solid fa-file-circle-check"></i></div>
               </div>
-              <div class="kpi-val" id="kpiOneAccountConsent">12 Unit (75.0%)</div>
-              <div class="kpi-sub">Persetujuan data digital konsumen</div>
+              <div class="kpi-val" id="kpiOneAccountConsent">49 Unit (19.6%)</div>
+              <div class="kpi-sub" id="kpiOneAccountSubConsent">Persetujuan data digital konsumen</div>
             </div>
 
             <div class="kpi-card card-red">
               <div class="kpi-card-head">
-                <span>Aktivasi DXMI &amp; Inquiry</span>
+                <span>Status Registrasi Inquiry</span>
                 <div class="kpi-icon"><i class="fa-solid fa-network-wired"></i></div>
               </div>
-              <div class="kpi-val" id="kpiOneAccountDxmi">5 Unit DXMI</div>
-              <div class="kpi-sub">3 Unit Inquiry Terdaftar</div>
+              <div class="kpi-val" id="kpiOneAccountDxmi">49 Unit Terdaftar</div>
+              <div class="kpi-sub">Layanan digital &amp; verifikasi data</div>
             </div>
           </div>
 
@@ -1550,8 +1588,8 @@
             <div class="chart-card">
               <div class="chart-card-head">
                 <div class="chart-title">
-                  <h4>Status Kelengkapan One Account ID</h4>
-                  <p>Rasio unit yang telah memiliki One Account ID vs belum terbit</p>
+                  <h4>Tren Bulanan Penerbitan One Account ID &amp; Status Consent</h4>
+                  <p>Perbandingan unit delivery bulanan dengan status persetujuan Customer Consent (Jan &ndash; Okt 2026)</p>
                 </div>
               </div>
               <div id="chartOneAccountRatio"></div>
@@ -1560,8 +1598,8 @@
             <div class="chart-card">
               <div class="chart-card-head">
                 <div class="chart-title">
-                  <h4>Progres Registrasi Layanan Digital</h4>
-                  <p>Jumlah unit delivery berdasarkan status Consent, Inquiry &amp; DXMI</p>
+                  <h4>Pencapaian per Wiraniaga Tim Ryan</h4>
+                  <p>Distribusi jumlah penerbitan One Account ID &amp; progres verifikasi Consent per wiraniaga</p>
                 </div>
               </div>
               <div id="chartOneAccountServices"></div>
@@ -1569,14 +1607,22 @@
           </div>
 
           <!-- Filters for One Account Table -->
-          <div class="filter-bar">
-            <div class="filter-group">
-              <input type="text" class="filter-input" id="filterOneAccountSearch" placeholder="Cari nama konsumen, sales, NVDO, NOKA, ID...">
+          <div class="filter-bar" style="margin-top:20px;">
+            <div class="filter-group" style="flex-wrap:wrap; gap:8px;">
+              <input type="text" class="filter-input" id="filterOneAccountSearch" style="min-width:240px;" placeholder="Cari nama konsumen, sales, NVDO, NOKA, ID...">
 
-              <select class="filter-select" id="filterOneAccountStatus">
-                <option value="all">Semua Status One Account</option>
-                <option value="has_id">Sudah Punya One Account ID</option>
-                <option value="no_id">Belum Ada One Account ID</option>
+              <select class="filter-select" id="filterOneAccountMonth">
+                <option value="all">Semua Bulan (Jan - Okt)</option>
+                <option value="Januari">Januari 2026</option>
+                <option value="Februari">Februari 2026</option>
+                <option value="Maret">Maret 2026</option>
+                <option value="April">April 2026</option>
+                <option value="Mei">Mei 2026</option>
+                <option value="Juni">Juni 2026</option>
+                <option value="Juli">Juli 2026</option>
+                <option value="Agustus">Agustus 2026</option>
+                <option value="September">September 2026</option>
+                <option value="Oktober">Oktober 2026</option>
               </select>
 
               <select class="filter-select" id="filterOneAccountConsent">
@@ -1585,14 +1631,40 @@
                 <option value="BELUM">Belum Consent</option>
               </select>
 
+              <select class="filter-select" id="filterOneAccountInquiry">
+                <option value="all">Semua Status Inquiry</option>
+                <option value="TERDAFTAR">Inquiry Terdaftar</option>
+                <option value="BELUM">Belum Terdaftar</option>
+              </select>
+
               <select class="filter-select" id="filterOneAccountSales">
                 <option value="all">Semua Wiraniaga</option>
               </select>
+
+              <button type="button" class="btn-secondary" id="btnResetOneAccountFilter" style="font-size:12px; padding:6px 12px;">
+                <i class="fa-solid fa-filter-circle-xmark"></i> Reset
+              </button>
+
+              <button type="button" class="btn-primary" id="btnExportOneAccountCsv" style="font-size:12px; padding:6px 14px; margin-left:auto;">
+                <i class="fa-solid fa-file-csv"></i> Ekspor CSV One Account
+              </button>
             </div>
 
-            <span style="font-size:12px; font-weight:700; color:#059669;" id="oneAccountShowingBadge">
-              Menampilkan 16 Data One Account ID (Tim Ryan)
-            </span>
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:8px;">
+              <span style="font-size:12px; font-weight:700; color:#059669;" id="oneAccountShowingBadge">
+                Menampilkan 250 Data One Account ID Tim Ryan
+              </span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <label for="oneAccountPageSize" style="font-size:12px; color:var(--slate-600);">Baris per halaman:</label>
+                <select id="oneAccountPageSize" class="filter-select" style="padding:3px 8px; font-size:12px;">
+                  <option value="15">15</option>
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="250">Semua (250)</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <!-- One Account Table -->
@@ -1602,17 +1674,16 @@
                 <thead>
                   <tr>
                     <th style="width:40px; text-align:center;">No</th>
+                    <th style="width:75px;">Bulan</th>
                     <th>No. Delivery (NVDO)</th>
-                    <th>Tgl Delivery</th>
-                    <th>Konsumen &amp; Kontak</th>
-                    <th>Wiraniaga</th>
+                    <th style="width:95px;">Tgl Delivery</th>
+                    <th>Nama Konsumen</th>
+                    <th>Wiraniaga (Tim Ryan)</th>
                     <th>No. SPK (NVSO)</th>
                     <th>Nomor Rangka (NOKA)</th>
                     <th>One Account ID</th>
                     <th style="text-align:center;">Consent</th>
                     <th style="text-align:center;">Inquiry</th>
-                    <th style="text-align:center;">DXMI</th>
-                    <th>PIC / Ket</th>
                   </tr>
                 </thead>
                 <tbody id="oneAccountTableBody">
@@ -1620,12 +1691,11 @@
                 </tbody>
               </table>
             </div>
+
+            <div id="oneAccountPagination" style="margin-top:12px;"></div>
           </div>
         </section>
 
-        <!-- ========================================== -->
-        <!-- TAB 9: MARKETING FUNNEL                    -->
-        <!-- ========================================== -->
         <section class="tab-pane" id="pane-funnel">
           <div class="section-header">
             <div class="section-header-title">
