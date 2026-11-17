@@ -113,6 +113,13 @@
           </div>
         </a>
 
+        <a href="#afi" class="nav-link" data-tab="afi">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span>Dashboard AFI Tim Ryan</span>
+          </div>
+        </a>
+
         <a href="#oneaccount" class="nav-link" data-tab="oneaccount">
           <div class="nav-link-content">
             <i class="fa-solid fa-id-card-clip"></i>
@@ -1248,6 +1255,236 @@
         <!-- ========================================== -->
         <!-- TAB: ONE ACCOUNT ID & DIGITAL DELIVERY     -->
         <!-- ========================================== -->
+        <!-- ================================================================= -->
+        <!-- PANE: DASHBOARD AFI TIM RYAN -->
+        <!-- ================================================================= -->
+        <section class="tab-pane" id="pane-afi">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Dashboard AFI 2026 (Area Financing &amp; Delivery) &mdash; Khusus Tim Ryan</h3>
+              <p>Monitoring Mandiri Pembiayaan Leasing, Penjualan Unit YTD s.d. Oktober 2026, Komposisi Kredit vs Tunai, Penetrasi Wilayah PMA &amp; Peringkat Wiraniaga Tim Ryan.</p>
+            </div>
+            <div class="section-header-actions" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <span class="badge-status badge-kredit" style="font-size:12px; padding:6px 12px; font-weight:600;">
+                <i class="fa-solid fa-car-side"></i> 244 Unit DO YTD
+              </span>
+              <span class="badge-status badge-pma" style="font-size:12px; padding:6px 12px; font-weight:600;">
+                <i class="fa-solid fa-map-location-dot"></i> 93.0% PMA (227 Unit)
+              </span>
+              <button type="button" class="btn-refresh" id="btnRefreshAfi" title="Refresh Data AFI">
+                <i class="fa-solid fa-rotate"></i> Refresh
+              </button>
+            </div>
+          </div>
+
+          <!-- 5 KPI Cards for AFI Tim Ryan -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span>Total Delivery AFI Tim Ryan</span>
+                <div class="kpi-icon"><i class="fa-solid fa-car-side"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiAfiTotalDo">244 Unit</div>
+              <div class="kpi-sub">Total Delivery Jan &ndash; Okt 2026</div>
+            </div>
+
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span>Pembiayaan Kredit (Leasing)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-landmark"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiAfiCredit">165 Unit (67.6%)</div>
+              <div class="kpi-sub">Dominasi MTF 62 &amp; TAFS 52 Unit</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span>Pembelian Tunai (Cash)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiAfiCash">79 Unit (32.4%)</div>
+              <div class="kpi-sub">Pembelian lunas tanpa fasilitas leasing</div>
+            </div>
+
+            <div class="kpi-card card-amber">
+              <div class="kpi-card-head">
+                <span>Penetrasi Wilayah PMA</span>
+                <div class="kpi-icon"><i class="fa-solid fa-location-dot"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiAfiPma">227 Unit (93.0%)</div>
+              <div class="kpi-sub">Primary Market Area Tunas Kiara Condong</div>
+            </div>
+
+            <div class="kpi-card card-purple">
+              <div class="kpi-card-head">
+                <span>Top Wiraniaga AFI</span>
+                <div class="kpi-icon"><i class="fa-solid fa-trophy"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiAfiTopSales">Regyawan K. (54 Unit)</div>
+              <div class="kpi-sub">22.1% Kontribusi Total Tim Ryan</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid for AFI -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Tren Delivery Bulanan &amp; Komposisi Pembayaran</h4>
+                  <p>Jumlah unit Delivery Order per bulan (Kredit vs Cash) Periode Jan &ndash; Okt 2026</p>
+                </div>
+              </div>
+              <div id="chartAfiMonthly"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Pangsa Pasar Pembiayaan / Mitra Leasing</h4>
+                  <p>Komposisi mitra pembiayaan kredit &amp; porsi transaksi tunai</p>
+                </div>
+              </div>
+              <div id="chartAfiLeasing"></div>
+            </div>
+          </div>
+
+          <div class="charts-grid" style="margin-top:16px;">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Top 10 Model Kendaraan Terlaris</h4>
+                  <p>Distribusi unit delivery berdasarkan model Toyota Tim Ryan</p>
+                </div>
+              </div>
+              <div id="chartAfiModel"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div class="chart-title">
+                  <h4>Segmentasi Sumber Prospek &amp; Profil Pembelian</h4>
+                  <p>Saluran akuisisi konsumen &amp; klasifikasi profil pembeli</p>
+                </div>
+              </div>
+              <div id="chartAfiSegment"></div>
+            </div>
+          </div>
+
+          <div class="chart-card" style="margin-top:16px;">
+            <div class="chart-card-head">
+              <div class="chart-title">
+                <h4>Leaderboard Delivery Wiraniaga AFI Tim Ryan (YTD 2026)</h4>
+                <p>Peringkat pencapaian delivery unit seluruh 17 wiraniaga Tim Ryan (Breakdown Kredit vs Cash)</p>
+              </div>
+            </div>
+            <div id="chartAfiSales"></div>
+          </div>
+
+          <!-- Filter Bar for AFI Table -->
+          <div class="filter-bar" style="margin-top:20px;">
+            <div class="filter-group" style="flex-wrap:wrap; gap:8px;">
+              <input type="text" class="filter-input" id="filterAfiSearch" style="min-width:240px;"
+                placeholder="Cari customer, sales, model, chasis, leasing, kota...">
+
+              <select class="filter-select" id="filterAfiMonth">
+                <option value="all">Semua Bulan</option>
+                <option value="Jan">Januari</option>
+                <option value="Feb">Februari</option>
+                <option value="Mar">Maret</option>
+                <option value="Apr">April</option>
+                <option value="May">Mei</option>
+                <option value="Jun">Juni</option>
+                <option value="Jul">Juli</option>
+                <option value="Aug">Agustus</option>
+                <option value="Sep">September</option>
+                <option value="Oct">Oktober</option>
+              </select>
+
+              <select class="filter-select" id="filterAfiPayment">
+                <option value="all">Semua Cara Bayar</option>
+                <option value="KREDIT">Kredit</option>
+                <option value="CASH">Cash</option>
+              </select>
+
+              <select class="filter-select" id="filterAfiLeasing">
+                <option value="all">Semua Leasing</option>
+                <option value="MTF">MTF</option>
+                <option value="TAFS">TAFS</option>
+                <option value="ACC">ACC</option>
+                <option value="CASH">Cash</option>
+                <option value="OTHERS">Others</option>
+                <option value="ADIRA">Adira</option>
+                <option value="BCAF">BCAF</option>
+                <option value="MUF">MUF</option>
+                <option value="KKB BCA">KKB BCA</option>
+              </select>
+
+              <select class="filter-select" id="filterAfiPma">
+                <option value="all">Semua Wilayah (PMA)</option>
+                <option value="PMA">PMA (Area Fokus)</option>
+                <option value="NON PMA">Non-PMA</option>
+              </select>
+
+              <select class="filter-select" id="filterAfiSales">
+                <option value="all">Semua Wiraniaga</option>
+              </select>
+
+              <button type="button" class="btn-secondary" id="btnResetAfiFilter" style="font-size:12px; padding:6px 12px;">
+                <i class="fa-solid fa-filter-circle-xmark"></i> Reset
+              </button>
+
+              <button type="button" class="btn-primary" id="btnExportAfiCsv" style="font-size:12px; padding:6px 14px; margin-left:auto;">
+                <i class="fa-solid fa-file-csv"></i> Ekspor CSV AFI
+              </button>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:8px;">
+              <span style="font-size:12px; font-weight:700; color:var(--primary-red);" id="afiShowingBadge">
+                Menampilkan 244 Data AFI Tim Ryan
+              </span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <label for="afiPageSize" style="font-size:12px; color:var(--slate-600);">Baris per halaman:</label>
+                <select id="afiPageSize" class="filter-select" style="padding:3px 8px; font-size:12px;">
+                  <option value="15">15</option>
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="244">Semua (244)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- AFI Data Table -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="afiTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px; text-align:center;">No</th>
+                    <th style="width:65px;">Bulan</th>
+                    <th>Nama Customer</th>
+                    <th>Wiraniaga</th>
+                    <th>Model &amp; Varian</th>
+                    <th style="text-align:center;">Cara Bayar</th>
+                    <th>Leasing</th>
+                    <th>Kota / Wilayah</th>
+                    <th style="text-align:center;">PMA</th>
+                    <th>Sumber Prospek</th>
+                    <th>Profil Pembelian</th>
+                    <th>No. SPK / Inv</th>
+                  </tr>
+                </thead>
+                <tbody id="afiTableBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <div id="afiPagination" style="margin-top:12px;"></div>
+          </div>
+        </section>
+
         <section class="tab-pane" id="pane-oneaccount">
           <div class="section-header">
             <div class="section-header-title">
@@ -1878,7 +2115,7 @@
                 <div
                   style="background:#b80515; color:#fff; padding:12px 24px; border-radius:8px; font-weight:700; font-size:13px; text-align:center; box-shadow:var(--shadow-md);">
                   <div>Feryanto (Pak Ryan)</div>
-                  <small style="opacity:0.9; font-weight:500;">Supervisor Sales Tim Ryan (Aktif)</small>
+                  <small style="opacity:0.9; font-weight:500;">Supervisor Sales Tim Ryan</small>
                 </div>
                 <div
                   style="background:#e2e8f0; color:#475569; padding:12px 24px; border-radius:8px; font-weight:600; font-size:13px; text-align:center; opacity:0.6;">

@@ -1304,3 +1304,8 @@ body {
 .ao-image-box img:hover {
   transform: scale(1.01);
 }
+
+/* AFI Dashboard Badges */
+.badge-status.badge-pma { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.badge-status.badge-nonpma { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.badge-status.badge-leasing { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }

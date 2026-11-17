@@ -1,0 +1,8 @@
+# Scratch scripts and temporary files
+scratch/
+*.xlsx
+*.zip
+.env*
+node_modules/
+.DS_Store
+Thumbs.db

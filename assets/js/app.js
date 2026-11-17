@@ -83,6 +83,16 @@
       consent: 'all',
       salesman: 'all'
     },
+    afi: {
+      page: 1,
+      pageSize: 25,
+      search: '',
+      month: 'all',
+      payment: 'all',
+      leasing: 'all',
+      pma: 'all',
+      sales: 'all'
+    },
     charts: {}
   };
 
@@ -204,6 +214,9 @@
         renderOlxTable();
       } else if (tabId === 'aoreport') {
         renderAoCharts();
+      } else if (tabId === 'afi') {
+        renderAfiCharts();
+        renderAfiTable();
       } else if (tabId === 'funnel') {
         renderFunnelChart();
       } else if (tabId === 'sbi') {
@@ -3209,6 +3222,631 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     }
   }
 
+
+  // =========================================================================
+  // MODULE: DASHBOARD AFI 2026 (AREA FINANCING & DELIVERY) TIM RYAN
+  // Source: Dashboard AFI 2026 KC sd Okt-.xlsx (244 Unit DO YTD Tim Ryan)
+  // =========================================================================
+
+  function initAfi() {
+    const afiData = (data && data.dashboardAfi) ? data.dashboardAfi : (window.RYAN_DATA ? window.RYAN_DATA.dashboardAfi : null);
+    if (!afiData) {
+      console.warn("Dataset dashboardAfi belum dimuat!");
+      return;
+    }
+
+    // Populate Sales Dropdown
+    const salesSelect = document.getElementById('filterAfiSales');
+    if (salesSelect && afiData.salesStats) {
+      salesSelect.innerHTML = '<option value="all">Semua Wiraniaga</option>';
+      afiData.salesStats.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.salesPerson;
+        opt.textContent = `${s.salesPerson} (${s.total} Unit)`;
+        salesSelect.appendChild(opt);
+      });
+    }
+
+    // Bind Search Input
+    const searchInput = document.getElementById('filterAfiSearch');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        state.afi.search = e.target.value.toLowerCase().trim();
+        state.afi.page = 1;
+        renderAfiTable();
+      });
+    }
+
+    // Bind Select Filters
+    const monthSelect = document.getElementById('filterAfiMonth');
+    if (monthSelect) {
+      monthSelect.addEventListener('change', (e) => {
+        state.afi.month = e.target.value;
+        state.afi.page = 1;
+        renderAfiTable();
+      });
+    }
+
+    const paymentSelect = document.getElementById('filterAfiPayment');
+    if (paymentSelect) {
+      paymentSelect.addEventListener('change', (e) => {
+        state.afi.payment = e.target.value;
+        state.afi.page = 1;
+        renderAfiTable();
+      });
+    }
+
+    const leasingSelect = document.getElementById('filterAfiLeasing');
+    if (leasingSelect) {
+      leasingSelect.addEventListener('change', (e) => {
+        state.afi.leasing = e.target.value;
+        state.afi.page = 1;
+        renderAfiTable();
+      });
+    }
+
+    const pmaSelect = document.getElementById('filterAfiPma');
+    if (pmaSelect) {
+      pmaSelect.addEventListener('change', (e) => {
+        state.afi.pma = e.target.value;
+        state.afi.page = 1;
+        renderAfiTable();
+      });
+    }
+
+    if (salesSelect) {
+      salesSelect.addEventListener('change', (e) => {
+        state.afi.sales = e.target.value;
+        state.afi.page = 1;
+        renderAfiTable();
+      });
+    }
+
+    // Page Size Select
+    const pageSizeSelect = document.getElementById('afiPageSize');
+    if (pageSizeSelect) {
+      pageSizeSelect.addEventListener('change', (e) => {
+        state.afi.pageSize = parseInt(e.target.value, 10) || 25;
+        state.afi.page = 1;
+        renderAfiTable();
+      });
+    }
+
+    // Reset Filter Button
+    const resetBtn = document.getElementById('btnResetAfiFilter');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        state.afi.search = '';
+        state.afi.month = 'all';
+        state.afi.payment = 'all';
+        state.afi.leasing = 'all';
+        state.afi.pma = 'all';
+        state.afi.sales = 'all';
+        state.afi.page = 1;
+
+        if (searchInput) searchInput.value = '';
+        if (monthSelect) monthSelect.value = 'all';
+        if (paymentSelect) paymentSelect.value = 'all';
+        if (leasingSelect) leasingSelect.value = 'all';
+        if (pmaSelect) pmaSelect.value = 'all';
+        if (salesSelect) salesSelect.value = 'all';
+
+        renderAfiTable();
+        showToast('Filter Dashboard AFI telah direset.', 'info');
+      });
+    }
+
+    // Export CSV Button
+    const exportBtn = document.getElementById('btnExportAfiCsv');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', exportAfiCsv);
+    }
+
+    // Refresh Button
+    const refreshBtn = document.getElementById('btnRefreshAfi');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        renderAfiKpi();
+        renderAfiCharts();
+        renderAfiTable();
+        showToast('Data Dashboard AFI Tim Ryan berhasil disegarkan!', 'success');
+      });
+    }
+
+    renderAfiKpi();
+  }
+
+  function renderAfiKpi() {
+    const afiData = (data && data.dashboardAfi) ? data.dashboardAfi : (window.RYAN_DATA ? window.RYAN_DATA.dashboardAfi : null);
+    if (!afiData || !afiData.summary) return;
+
+    const s = afiData.summary;
+    const elTotal = document.getElementById('kpiAfiTotalDo');
+    if (elTotal) elTotal.textContent = `${s.totalDo} Unit`;
+
+    const elCredit = document.getElementById('kpiAfiCredit');
+    if (elCredit) elCredit.textContent = `${s.totalCredit} Unit (${s.shareCredit})`;
+
+    const elCash = document.getElementById('kpiAfiCash');
+    if (elCash) elCash.textContent = `${s.totalCash} Unit (${s.shareCash})`;
+
+    const elPma = document.getElementById('kpiAfiPma');
+    if (elPma) elPma.textContent = `${s.totalPma} Unit (${s.sharePma})`;
+
+    const elTopSales = document.getElementById('kpiAfiTopSales');
+    if (elTopSales) elTopSales.textContent = `${s.topSalesName} (${s.topSalesUnits} Unit)`;
+  }
+
+  function renderAfiCharts() {
+    const afiData = (data && data.dashboardAfi) ? data.dashboardAfi : (window.RYAN_DATA ? window.RYAN_DATA.dashboardAfi : null);
+    if (!afiData) return;
+
+    // 1. Chart Monthly Trend (Stacked Bar Kredit vs Cash)
+    const monthlyEl = document.getElementById('chartAfiMonthly');
+    if (monthlyEl) {
+      const months = afiData.monthlyStats.map(m => m.month);
+      const creditData = afiData.monthlyStats.map(m => m.credit);
+      const cashData = afiData.monthlyStats.map(m => m.cash);
+
+      if (state.charts.afiMonthly) {
+        state.charts.afiMonthly.updateSeries([
+          { name: 'Kredit (Leasing)', data: creditData },
+          { name: 'Tunai (Cash)', data: cashData }
+        ]);
+      } else {
+        const options = {
+          chart: {
+            type: 'bar',
+            height: 320,
+            stacked: true,
+            toolbar: { show: false },
+            fontFamily: 'Inter, sans-serif'
+          },
+          colors: ['#0284c7', '#10b981'],
+          series: [
+            { name: 'Kredit (Leasing)', data: creditData },
+            { name: 'Tunai (Cash)', data: cashData }
+          ],
+          xaxis: {
+            categories: months,
+            labels: { style: { colors: 'var(--slate-500)', fontSize: '12px' } }
+          },
+          yaxis: {
+            title: { text: 'Unit Delivery Order', style: { color: 'var(--slate-500)' } }
+          },
+          legend: { position: 'top', horizontalAlign: 'right' },
+          dataLabels: {
+            enabled: true,
+            style: { fontSize: '11px', fontWeight: 600 }
+          },
+          plotOptions: {
+            bar: {
+              borderRadius: 4,
+              columnWidth: '55%'
+            }
+          },
+          tooltip: {
+            shared: true,
+            intersect: false,
+            y: { formatter: (val) => `${val} Unit` }
+          }
+        };
+        state.charts.afiMonthly = new ApexCharts(monthlyEl, options);
+        state.charts.afiMonthly.render();
+      }
+    }
+
+    // 2. Chart Leasing Composition (Donut)
+    const leasingEl = document.getElementById('chartAfiLeasing');
+    if (leasingEl) {
+      const leasingSeries = afiData.leasingStats.map(l => l.count);
+      const leasingLabels = afiData.leasingStats.map(l => `${l.leasing} (${l.count} Unit)`);
+
+      if (state.charts.afiLeasing) {
+        state.charts.afiLeasing.updateOptions({ labels: leasingLabels });
+        state.charts.afiLeasing.updateSeries(leasingSeries);
+      } else {
+        const options = {
+          chart: {
+            type: 'donut',
+            height: 320,
+            fontFamily: 'Inter, sans-serif'
+          },
+          colors: ['#dc2626', '#0284c7', '#10b981', '#f59e0b', '#6b7280', '#8b5cf6', '#ec4899', '#06b6d4', '#14b8a6'],
+          series: leasingSeries,
+          labels: leasingLabels,
+          legend: { position: 'bottom', fontSize: '12px' },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: '65%',
+                labels: {
+                  show: true,
+                  total: {
+                    show: true,
+                    label: 'Total DO',
+                    formatter: () => `${afiData.summary.totalDo} Unit`
+                  }
+                }
+              }
+            }
+          },
+          dataLabels: { enabled: true, formatter: (val) => `${val.toFixed(1)}%` },
+          tooltip: {
+            y: { formatter: (val) => `${val} Unit` }
+          }
+        };
+        state.charts.afiLeasing = new ApexCharts(leasingEl, options);
+        state.charts.afiLeasing.render();
+      }
+    }
+
+    // 3. Chart Model Distribution (Top 10 Horizontal Bar)
+    const modelEl = document.getElementById('chartAfiModel');
+    if (modelEl) {
+      const top10 = afiData.modelStats.slice(0, 10);
+      const categories = top10.map(m => m.model);
+      const seriesData = top10.map(m => m.count);
+
+      if (state.charts.afiModel) {
+        state.charts.afiModel.updateSeries([{ name: 'Unit Delivery', data: seriesData }]);
+        state.charts.afiModel.updateOptions({ xaxis: { categories } });
+      } else {
+        const options = {
+          chart: {
+            type: 'bar',
+            height: 320,
+            toolbar: { show: false },
+            fontFamily: 'Inter, sans-serif'
+          },
+          colors: ['#dc2626'],
+          plotOptions: {
+            bar: {
+              horizontal: true,
+              borderRadius: 4,
+              barHeight: '65%'
+            }
+          },
+          series: [{ name: 'Unit Delivery', data: seriesData }],
+          xaxis: {
+            categories: categories,
+            labels: { style: { colors: 'var(--slate-500)', fontSize: '11px' } }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: (val) => `${val} Unit`,
+            style: { fontSize: '11px', fontWeight: 600 }
+          },
+          tooltip: {
+            y: { formatter: (val) => `${val} Unit` }
+          }
+        };
+        state.charts.afiModel = new ApexCharts(modelEl, options);
+        state.charts.afiModel.render();
+      }
+    }
+
+    // 4. Chart Customer Segmentation & Acquisition (Distributed Bar)
+    const segmentEl = document.getElementById('chartAfiSegment');
+    if (segmentEl) {
+      const combinedLabels = [
+        'Profil: First Buyer',
+        'Profil: Additional',
+        'Profil: Replacement',
+        'Sumber: Referensi',
+        'Sumber: Live Medsos',
+        'Sumber: Repeat Order (RO)',
+        'Sumber: Pameran / Event'
+      ];
+      const combinedValues = [143, 91, 10, 121, 71, 38, 9];
+
+      if (state.charts.afiSegment) {
+        state.charts.afiSegment.updateSeries([{ name: 'Jumlah Konsumen', data: combinedValues }]);
+      } else {
+        const options = {
+          chart: {
+            type: 'bar',
+            height: 320,
+            toolbar: { show: false },
+            fontFamily: 'Inter, sans-serif'
+          },
+          colors: ['#0284c7', '#38bdf8', '#93c5fd', '#10b981', '#059669', '#34d399', '#f59e0b'],
+          plotOptions: {
+            bar: {
+              distributed: true,
+              borderRadius: 4,
+              columnWidth: '55%'
+            }
+          },
+          series: [{ name: 'Jumlah Konsumen', data: combinedValues }],
+          xaxis: {
+            categories: combinedLabels,
+            labels: {
+              rotate: -20,
+              style: { colors: 'var(--slate-600)', fontSize: '10.5px' }
+            }
+          },
+          legend: { show: false },
+          dataLabels: {
+            enabled: true,
+            formatter: (val) => `${val}`,
+            style: { fontSize: '11px', fontWeight: 600 }
+          },
+          tooltip: {
+            y: { formatter: (val) => `${val} Konsumen` }
+          }
+        };
+        state.charts.afiSegment = new ApexCharts(segmentEl, options);
+        state.charts.afiSegment.render();
+      }
+    }
+
+    // 5. Chart Sales Leaderboard (Horizontal Stacked Bar Kredit & Cash)
+    const salesEl = document.getElementById('chartAfiSales');
+    if (salesEl) {
+      const salesCategories = afiData.salesStats.map(s => s.salesPerson);
+      const salesCredit = afiData.salesStats.map(s => s.credit);
+      const salesCash = afiData.salesStats.map(s => s.cash);
+
+      if (state.charts.afiSales) {
+        state.charts.afiSales.updateSeries([
+          { name: 'Kredit (Leasing)', data: salesCredit },
+          { name: 'Tunai (Cash)', data: salesCash }
+        ]);
+        state.charts.afiSales.updateOptions({ yaxis: { categories: salesCategories } });
+      } else {
+        const options = {
+          chart: {
+            type: 'bar',
+            height: 520,
+            stacked: true,
+            toolbar: { show: false },
+            fontFamily: 'Inter, sans-serif'
+          },
+          colors: ['#0284c7', '#10b981'],
+          plotOptions: {
+            bar: {
+              horizontal: true,
+              borderRadius: 3,
+              barHeight: '70%'
+            }
+          },
+          series: [
+            { name: 'Kredit (Leasing)', data: salesCredit },
+            { name: 'Tunai (Cash)', data: salesCash }
+          ],
+          xaxis: {
+            title: { text: 'Total Delivery Unit YTD 2026', style: { color: 'var(--slate-500)' } },
+            labels: { style: { colors: 'var(--slate-500)', fontSize: '11px' } }
+          },
+          yaxis: {
+            categories: salesCategories,
+            labels: { style: { colors: 'var(--slate-700)', fontSize: '11.5px', fontWeight: 600 } }
+          },
+          legend: { position: 'top', horizontalAlign: 'right' },
+          dataLabels: {
+            enabled: true,
+            formatter: (val) => val > 0 ? `${val}` : '',
+            style: { fontSize: '10px', fontWeight: 600 }
+          },
+          tooltip: {
+            shared: true,
+            intersect: false,
+            y: { formatter: (val) => `${val} Unit` }
+          }
+        };
+        state.charts.afiSales = new ApexCharts(salesEl, options);
+        state.charts.afiSales.render();
+      }
+    }
+  }
+
+  function getFilteredAfiRecords() {
+    const afiData = (data && data.dashboardAfi) ? data.dashboardAfi : (window.RYAN_DATA ? window.RYAN_DATA.dashboardAfi : null);
+    if (!afiData || !afiData.records) return [];
+
+    let list = afiData.records;
+
+    // Filter Search
+    if (state.afi.search) {
+      const q = state.afi.search;
+      list = list.filter(r =>
+        (r.customerName && r.customerName.toLowerCase().includes(q)) ||
+        (r.salesPerson && r.salesPerson.toLowerCase().includes(q)) ||
+        (r.model && r.model.toLowerCase().includes(q)) ||
+        (r.variant && r.variant.toLowerCase().includes(q)) ||
+        (r.leasing && r.leasing.toLowerCase().includes(q)) ||
+        (r.city && r.city.toLowerCase().includes(q)) ||
+        (r.chassis && r.chassis.toLowerCase().includes(q)) ||
+        (r.spkNo && r.spkNo.toLowerCase().includes(q)) ||
+        (r.invoiceNo && r.invoiceNo.toLowerCase().includes(q))
+      );
+    }
+
+    // Filter Month
+    if (state.afi.month && state.afi.month !== 'all') {
+      list = list.filter(r => r.month.toLowerCase() === state.afi.month.toLowerCase());
+    }
+
+    // Filter Cara Bayar
+    if (state.afi.payment && state.afi.payment !== 'all') {
+      list = list.filter(r => r.paymentMethod === state.afi.payment);
+    }
+
+    // Filter Leasing
+    if (state.afi.leasing && state.afi.leasing !== 'all') {
+      list = list.filter(r => r.leasing === state.afi.leasing);
+    }
+
+    // Filter PMA
+    if (state.afi.pma && state.afi.pma !== 'all') {
+      list = list.filter(r => r.pma === state.afi.pma);
+    }
+
+    // Filter Sales
+    if (state.afi.sales && state.afi.sales !== 'all') {
+      list = list.filter(r => r.salesPerson === state.afi.sales);
+    }
+
+    return list;
+  }
+
+  function renderAfiTable() {
+    const tableBody = document.getElementById('afiTableBody');
+    if (!tableBody) return;
+
+    const filtered = getFilteredAfiRecords();
+    const total = filtered.length;
+
+    // Update Showing Badge
+    const badge = document.getElementById('afiShowingBadge');
+    if (badge) {
+      badge.textContent = `Menampilkan ${fmtNumber(total)} dari 244 Data AFI Tim Ryan`;
+    }
+
+    // Pagination calculations
+    const pageSize = state.afi.pageSize;
+    const totalPages = Math.ceil(total / pageSize) || 1;
+    if (state.afi.page > totalPages) state.afi.page = totalPages;
+    const page = state.afi.page;
+    const startIndex = (page - 1) * pageSize;
+    const paginated = filtered.slice(startIndex, startIndex + pageSize);
+
+    if (paginated.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="12" style="text-align:center; padding:32px; color:var(--slate-400);">
+            <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px;"></i>
+            <p>Tidak ada data delivery AFI yang cocok dengan kriteria filter.</p>
+          </td>
+        </tr>
+      `;
+      const paginationEl = document.getElementById('afiPagination');
+      if (paginationEl) paginationEl.innerHTML = '';
+      return;
+    }
+
+    let rowsHtml = '';
+    paginated.forEach((r, idx) => {
+      const rowNo = startIndex + idx + 1;
+      const paymentBadge = r.paymentMethod === 'KREDIT'
+        ? '<span class="badge-status badge-kredit"><i class="fa-solid fa-credit-card"></i> Kredit</span>'
+        : '<span class="badge-status badge-cash"><i class="fa-solid fa-money-bill"></i> Cash</span>';
+
+      const leasingBadge = r.leasing === 'CASH'
+        ? '<span style="color:var(--slate-500); font-size:12px;">-</span>'
+        : `<span class="badge-status badge-leasing">${r.leasing}</span>`;
+
+      const pmaBadge = r.pma === 'PMA'
+        ? '<span class="badge-status badge-pma"><i class="fa-solid fa-circle-check"></i> PMA</span>'
+        : '<span class="badge-status badge-nonpma">Non-PMA</span>';
+
+      const refNo = r.spkNo || r.invoiceNo || '-';
+
+      rowsHtml += `
+        <tr>
+          <td style="text-align:center; font-weight:600; color:var(--slate-500);">${rowNo}</td>
+          <td><strong style="color:var(--slate-800);">${r.month} 2026</strong></td>
+          <td>
+            <div style="font-weight:700; color:var(--slate-900);">${r.customerName}</div>
+            <small style="color:var(--slate-500); font-size:11px;">${r.pekerjaan || '-'}</small>
+          </td>
+          <td>
+            <div style="font-weight:650; color:var(--slate-800);">${r.salesPerson}</div>
+            <small style="color:var(--slate-400); font-size:10px;">SPV: FERYANTO</small>
+          </td>
+          <td>
+            <div style="font-weight:700; color:var(--primary-red);">${r.model}</div>
+            <small style="color:var(--slate-600); font-size:11px;">${r.variant}</small>
+          </td>
+          <td style="text-align:center;">${paymentBadge}</td>
+          <td>${leasingBadge}</td>
+          <td style="font-size:12px; color:var(--slate-700);">${r.city}</td>
+          <td style="text-align:center;">${pmaBadge}</td>
+          <td style="font-size:12px; color:var(--slate-700);">${r.sumberProspek}</td>
+          <td><span style="font-size:11px; background:var(--slate-100); padding:3px 6px; border-radius:4px; font-weight:600; color:var(--slate-700);">${r.profilPembelian}</span></td>
+          <td style="font-size:11px; font-family:monospace; color:var(--slate-600);">${refNo}</td>
+        </tr>
+      `;
+    });
+
+    tableBody.innerHTML = rowsHtml;
+
+    // Render Pagination
+    const paginationEl = document.getElementById('afiPagination');
+    if (paginationEl) {
+      renderPagination(paginationEl, page, totalPages, (newPage) => {
+        state.afi.page = newPage;
+        renderAfiTable();
+      });
+    }
+  }
+
+  function exportAfiCsv() {
+    const list = getFilteredAfiRecords();
+    if (!list || list.length === 0) {
+      showToast('Tidak ada data AFI yang dapat diekspor.', 'warning');
+      return;
+    }
+
+    const headers = [
+      'No',
+      'Bulan',
+      'Tahun',
+      'Nama Customer',
+      'Pekerjaan',
+      'Wiraniaga',
+      'Supervisor',
+      'Model',
+      'Varian',
+      'Cara Bayar',
+      'Mitra Leasing',
+      'Kota',
+      'PMA',
+      'Sumber Prospek',
+      'Profil Pembelian',
+      'Chassis',
+      'No SPK',
+      'No Invoice'
+    ];
+
+    const escapeCell = (val) => {
+      if (val === null || val === undefined) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    };
+
+    let csvContent = headers.join(',') + '\\n';
+
+    list.forEach((r, idx) => {
+      const row = [
+        idx + 1,
+        r.month,
+        r.year || 2026,
+        r.customerName,
+        r.pekerjaan || '-',
+        r.salesPerson,
+        'FERYANTO',
+        r.model,
+        r.variant,
+        r.paymentMethod,
+        r.leasing,
+        r.city,
+        r.pma,
+        r.sumberProspek,
+        r.profilPembelian,
+        r.chassis || '-',
+        r.spkNo || '-',
+        r.invoiceNo || '-'
+      ];
+      csvContent += row.map(escapeCell).join(',') + '\\n';
+    });
+
+    const filename = `Dashboard_AFI_2026_Tim_Ryan_${new Date().toISOString().slice(0, 10)}.csv`;
+    downloadCsv(filename, csvContent);
+    showToast(`Berhasil mengekspor ${list.length} data AFI Tim Ryan ke CSV!`, 'success');
+  }
+
   // =========================================================================
   // SHARED PAGINATION COMPONENT
   // =========================================================================
@@ -3280,6 +3918,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     initWiraniaga();
     initSbi();
     initOneAccount();
+    initAfi();
 
     // Check initial hash in URL
     const hash = window.location.hash.replace('#', '');
