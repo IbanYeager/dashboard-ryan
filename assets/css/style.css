@@ -1544,3 +1544,35 @@ body {
 .badge-status.badge-pma { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
 .badge-status.badge-nonpma { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
 .badge-status.badge-leasing { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+
+
+/* Interactive Month Filter Pills */
+.month-pill {
+  background: var(--slate-100);
+  border: 1px solid var(--slate-200);
+  color: var(--slate-700);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.month-pill:hover {
+  background: var(--slate-200);
+  color: var(--slate-900);
+  border-color: var(--slate-300);
+}
+
+.month-pill.active {
+  background: var(--primary-red);
+  color: #ffffff !important;
+  border-color: var(--primary-red);
+  box-shadow: 0 2px 6px rgba(235, 10, 30, 0.28);
+  font-weight: 700;
+}

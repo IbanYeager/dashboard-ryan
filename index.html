@@ -22,7 +22,7 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=2.3">
 </head>
 
 <body>
@@ -669,8 +669,35 @@
           <div class="section-header">
             <div class="section-header-title">
               <h3>SPK, Delivery (DO) &amp; Monitoring Transaksi Penjualan Tim Ryan</h3>
-              <p>Kelola 336 delivery unit YTD 2026, 39 DO September, 32 SPK September, dan 30 SPK Borrow &amp;
-                Outstanding.</p>
+              <p>Kelola 336 delivery unit YTD 2026 (Januari s.d. Oktober), pantau performa bulanan, OTR, cara bayar kredit/tunai, serta SPK open &amp; borrow.</p>
+            </div>
+          </div>
+
+          <!-- Monthly Quick Selector Pills (Januari s.d. Oktober 2026) -->
+          <div class="month-filter-bar" style="margin-bottom: 20px; background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 18px; box-shadow: var(--shadow-sm);">
+            <div style="font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-calendar-days" style="color: var(--primary-red); font-size: 15px;"></i>
+                <span>Pilih Bulan Transaksi Penjualan (Januari &ndash; Oktober 2026):</span>
+              </div>
+              <span class="badge" style="background: #f0fdf4; color: #16a34a; font-weight: 700; padding: 4px 10px; border-radius: 9999px; font-size: 11.5px; border: 1px solid #bbf7d0;">
+                <i class="fa-solid fa-bolt" style="margin-right: 4px;"></i> Data Terbaru: Oktober 2026 (40 Unit &bull; Rp 14,07 M)
+              </span>
+            </div>
+            <div class="month-pills" id="penjualanMonthPills" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button type="button" class="month-pill active" data-month="all">Semua Bulan (336 Unit)</button>
+              <button type="button" class="month-pill" data-month="Jan">Januari (27)</button>
+              <button type="button" class="month-pill" data-month="Feb">Februari (38)</button>
+              <button type="button" class="month-pill" data-month="Mar">Maret (23)</button>
+              <button type="button" class="month-pill" data-month="Apr">April (26)</button>
+              <button type="button" class="month-pill" data-month="May">Mei (26)</button>
+              <button type="button" class="month-pill" data-month="Jun">Juni (39)</button>
+              <button type="button" class="month-pill" data-month="Jul">Juli (30)</button>
+              <button type="button" class="month-pill" data-month="Aug">Agustus (48)</button>
+              <button type="button" class="month-pill" data-month="Sep">September (39)</button>
+              <button type="button" class="month-pill" data-month="Oct" style="font-weight: 700; border: 1.5px solid var(--primary-red);">
+                <i class="fa-solid fa-star" style="color: #f59e0b; margin-right: 3px;"></i> Oktober (40 &bull; Terbaru)
+              </button>
             </div>
           </div>
 
@@ -679,6 +706,10 @@
             <button type="button" class="btn-secondary active subnav-btn" data-sub="do-ytd" id="subnav-do-ytd"
               style="font-weight:700;">
               <i class="fa-solid fa-car-side"></i> Delivery DO YTD 2026 (336 Unit)
+            </button>
+            <button type="button" class="btn-secondary subnav-btn" data-sub="do-oct" id="subnav-do-oct"
+              style="font-weight:700;">
+              <i class="fa-solid fa-star" style="color: #f59e0b;"></i> DO Oktober 2026 [Terbaru] (40 Unit)
             </button>
             <button type="button" class="btn-secondary subnav-btn" data-sub="do-sep" id="subnav-do-sep">
               <i class="fa-solid fa-calendar-check"></i> DO September 2026 (39 Unit)
@@ -708,7 +739,7 @@
           <div class="kpi-grid" style="margin-bottom:20px;">
             <div class="kpi-card card-red">
               <div class="kpi-card-head">
-                <span id="kpiPenjualanTitle1">Total Delivery Unit (DO) YTD</span>
+                <span id="kpiPenjualanTitle1">Total Delivery Unit (DO)</span>
                 <div class="kpi-icon"><i class="fa-solid fa-car"></i></div>
               </div>
               <div class="kpi-val" id="kpiPenjualanTotalDo">336 Unit</div>
@@ -799,17 +830,17 @@
                 placeholder="Cari konsumen, SPK, invoice, VIN, sales...">
 
               <select class="filter-select" id="filterPenjualanMonth">
-                <option value="all">Semua Bulan</option>
-                <option value="January">Januari</option>
-                <option value="February">Februari</option>
-                <option value="March">Maret</option>
-                <option value="April">April</option>
-                <option value="May">Mei</option>
-                <option value="June">Juni</option>
-                <option value="July">Juli</option>
-                <option value="August">Agustus</option>
-                <option value="September">September</option>
-                <option value="October">Oktober</option>
+                <option value="all">Semua Bulan (Jan &ndash; Okt 2026)</option>
+                <option value="Jan">Januari 2026 (27 Unit)</option>
+                <option value="Feb">Februari 2026 (38 Unit)</option>
+                <option value="Mar">Maret 2026 (23 Unit)</option>
+                <option value="Apr">April 2026 (26 Unit)</option>
+                <option value="May">Mei 2026 (26 Unit)</option>
+                <option value="Jun">Juni 2026 (39 Unit)</option>
+                <option value="Jul">Juli 2026 (30 Unit)</option>
+                <option value="Aug">Agustus 2026 (48 Unit)</option>
+                <option value="Sep">September 2026 (39 Unit)</option>
+                <option value="Oct">Oktober 2026 [Terbaru] (40 Unit)</option>
               </select>
 
               <select class="filter-select" id="filterPenjualanModel">
@@ -825,10 +856,14 @@
                 <option value="Kredit">Kredit</option>
                 <option value="Tunai">Tunai</option>
               </select>
+
+              <button type="button" class="btn-secondary" id="btnExportPenjualanCsv" style="display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:6px 12px; cursor:pointer;">
+                <i class="fa-solid fa-file-csv" style="color:#10b981;"></i> Export CSV
+              </button>
             </div>
 
             <span style="font-size:12px; font-weight:700; color:var(--primary-red);" id="penjualanShowingBadge">
-              Menampilkan 336 Transaksi Delivery Unit (DO)
+              Menampilkan 336 Transaksi Delivery Unit (DO) YTD 2026
             </span>
           </div>
 
@@ -857,9 +892,6 @@
           </div>
         </section>
 
-        <!-- ========================================== -->
-        <!-- TAB 5: ANALISIS LEASING & MULTI-TAHUN (NEW)-->
-        <!-- ========================================== -->
         <section class="tab-pane" id="pane-leasing">
           <div class="section-header">
             <div class="section-header-title">
@@ -2928,8 +2960,8 @@ Status: Hot Prospek test drive weekend ini"></textarea>
   </div>
 
   <!-- SCRIPT LIBRARIES & APP LOGIC -->
-  <script src="assets/js/ryan_data.js?v=2.2"></script>
-  <script src="assets/js/app.js?v=2.2"></script>
+  <script src="assets/js/ryan_data.js?v=2.3"></script>
+  <script src="assets/js/app.js?v=2.3"></script>
 </body>
 
 </html>

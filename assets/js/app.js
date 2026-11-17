@@ -1484,8 +1484,23 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     renderPenjualanKpis();
 
     const sub = state.penjualan ? state.penjualan.currentSub : 'do-ytd';
+    const selMonth = state.penjualan ? state.penjualan.month : 'all';
     const trendData = data.monthlyTrend || [];
-    const trans = data.transactions || [];
+    const filteredRows = getFilteredPenjualan();
+
+    const monthNames = {
+      Jan: 'Januari',
+      Feb: 'Februari',
+      Mar: 'Maret',
+      Apr: 'April',
+      May: 'Mei',
+      Jun: 'Juni',
+      Jul: 'Juli',
+      Aug: 'Agustus',
+      Sep: 'September',
+      Oct: 'Oktober'
+    };
+    const activeMonthName = selMonth !== 'all' ? (monthNames[selMonth] || selMonth) : 'Semua Bulan';
 
     // Titles
     const chartTitle1 = document.getElementById('penjualanChartTitle1');
@@ -1499,7 +1514,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     const elMonthly = document.getElementById('penjualanMonthlyChart');
     if (elMonthly) {
       if (state.charts.penjualanMonthly) {
-        try { state.charts.penjualanMonthly.destroy(); } catch(e) {}
+        try { state.charts.penjualanMonthly.destroy(); } catch (e) { }
         state.charts.penjualanMonthly = null;
       }
 
@@ -1507,21 +1522,27 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
       let creditSeries = [];
       let cashSeries = [];
 
-      if (sub === 'do-ytd') {
-        if (chartTitle1) chartTitle1.textContent = 'Tren Bulanan Delivery DO Tim Ryan (Kredit vs Tunai)';
-        if (chartSub1) chartSub1.textContent = 'Realisasi unit delivery bulanan periode Januari – Oktober 2026';
-        categories = trendData.map(d => d.code || d.month.slice(0, 3));
-        creditSeries = trendData.map(d => d.kredit);
-        cashSeries = trendData.map(d => d.tunai);
-      } else {
-        if (chartTitle1) chartTitle1.textContent = 'Rasio Pembayaran ' + (sub === 'do-sep' ? 'DO September' : (sub === 'spk-sep' ? 'SPK September' : 'SPK Borrow'));
+      if (sub === 'spk-borrow' || sub === 'spk-sep') {
+        if (chartTitle1) chartTitle1.textContent = 'Rasio Pembayaran ' + (sub === 'spk-sep' ? 'SPK September' : 'SPK Borrow');
         if (chartSub1) chartSub1.textContent = 'Perbandingan transaksi Kredit vs Tunai';
-        const curList = sub === 'do-sep' ? data.doSeptember : (sub === 'spk-sep' ? data.spkSeptember : data.spkBorrow);
+        const curList = sub === 'spk-sep' ? data.spkSeptember : data.spkBorrow;
         const kr = (curList || []).filter(x => (x.payment || '').toLowerCase().includes('kredit')).length;
         const tu = (curList || []).length - kr;
         categories = ['Kredit', 'Tunai'];
         creditSeries = [kr, 0];
         cashSeries = [0, tu];
+      } else {
+        if (chartTitle1) {
+          chartTitle1.textContent = selMonth !== 'all' 
+            ? 'Tren Penjualan Bulanan (Posisi Bulan ' + activeMonthName + ' 2026)'
+            : 'Tren Bulanan Delivery DO Tim Ryan (Kredit vs Tunai)';
+        }
+        if (chartSub1) {
+          chartSub1.textContent = 'Realisasi unit delivery bulanan Januari – Oktober 2026 (Total: 336 Unit)';
+        }
+        categories = trendData.map(d => d.code || (d.month ? d.month.slice(0, 3) : ''));
+        creditSeries = trendData.map(d => d.kredit);
+        cashSeries = trendData.map(d => d.tunai);
       }
 
       const optionsMonthly = {
@@ -1554,109 +1575,93 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
             style: { colors: '#64748b', fontSize: '11px' }
           }
         },
+        legend: { position: 'top', horizontalAlign: 'right', fontSize: '12px', fontWeight: 600 },
+        dataLabels: { enabled: true, style: { fontSize: '11px', fontWeight: 700 } },
+        grid: { borderColor: '#f1f5f9' },
         tooltip: {
+          shared: true,
+          intersect: false,
           y: {
             formatter: val => val + ' Unit'
           }
-        },
-        legend: {
-          position: 'top',
-          horizontalAlign: 'right',
-          fontSize: '11px',
-          fontWeight: 600
-        },
-        grid: { borderColor: '#f1f5f9' }
+        }
       };
 
       state.charts.penjualanMonthly = new ApexCharts(elMonthly, optionsMonthly);
       state.charts.penjualanMonthly.render();
     }
 
-    // 2. Model Breakdown Donut Chart
+    // 2. Model Composition Donut Chart (Dynamic based on selected month or filter)
     const elModel = document.getElementById('penjualanModelChart');
     if (elModel) {
       if (state.charts.penjualanModel) {
-        try { state.charts.penjualanModel.destroy(); } catch(e) {}
+        try { state.charts.penjualanModel.destroy(); } catch (e) { }
         state.charts.penjualanModel = null;
       }
 
-      let labels = [];
-      let series = [];
+      // Count models from filteredRows
+      const modelCounts = {};
+      filteredRows.forEach(item => {
+        const m = (item.model || 'LAINNYA').trim().toUpperCase();
+        modelCounts[m] = (modelCounts[m] || 0) + 1;
+      });
 
-      if (sub === 'do-ytd') {
-        if (chartTitle2) chartTitle2.textContent = 'Pangsa Model Toyota (Top 7)';
-        if (chartSub2) chartSub2.textContent = 'Distribusi tipe unit kendaraan yang telah diserahterimakan (DO)';
-        const mDist = data.modelDist || [];
-        const top7 = mDist.slice(0, 7);
-        const otherUnits = mDist.slice(7).reduce((sum, x) => sum + x.units, 0);
+      const sortedModels = Object.entries(modelCounts).sort((a, b) => b[1] - a[1]);
+      const top7 = sortedModels.slice(0, 7);
+      const remainingCount = sortedModels.slice(7).reduce((acc, curr) => acc + curr[1], 0);
 
-        labels = top7.map(x => x.model).concat(['Lainnya']);
-        series = top7.map(x => x.units).concat([otherUnits]);
-      } else {
-        if (chartTitle2) chartTitle2.textContent = 'Distribusi Model Unit ' + (sub === 'do-sep' ? 'DO September' : (sub === 'spk-sep' ? 'SPK September' : 'SPK Borrow'));
-        if (chartSub2) chartSub2.textContent = 'Model kendaraan terpesan / terkirim';
-        const curList = sub === 'do-sep' ? data.doSeptember : (sub === 'spk-sep' ? data.spkSeptember : data.spkBorrow);
-        const mMap = {};
-        (curList || []).forEach(x => {
-          const m = x.model || (x.product ? x.product.split(' ')[0] : 'OTHER');
-          mMap[m] = (mMap[m] || 0) + 1;
-        });
-        const sorted = Object.entries(mMap).sort((a,b) => b[1] - a[1]);
-        labels = sorted.slice(0, 6).map(x => x[0]);
-        series = sorted.slice(0, 6).map(x => x[1]);
+      const labels = top7.map(m => m[0]);
+      const series = top7.map(m => m[1]);
+
+      if (remainingCount > 0) {
+        labels.push('LAINNYA');
+        series.push(remainingCount);
+      }
+
+      if (chartTitle2) {
+        chartTitle2.textContent = selMonth !== 'all'
+          ? 'Komposisi Model Toyota &mdash; ' + activeMonthName + ' 2026'
+          : 'Komposisi Model Toyota (Top 7 YTD)';
+      }
+      if (chartSub2) {
+        chartSub2.textContent = 'Distribusi unit DO berdasarkan tipe model (' + (filteredRows.length) + ' unit terdata)';
       }
 
       const optionsModel = {
         chart: {
           type: 'donut',
           height: 320,
-          toolbar: { show: false },
           fontFamily: 'Plus Jakarta Sans, sans-serif'
         },
-        series: series,
-        labels: labels,
-        colors: ['#b80515', '#0284c7', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#ec4899', '#64748b'],
-        dataLabels: {
-          enabled: true,
-          formatter: val => val.toFixed(1) + '%'
-        },
-        legend: {
-          position: 'bottom',
-          fontSize: '11px',
-          fontWeight: 600
-        },
-        tooltip: {
-          y: {
-            formatter: val => val + ' Unit'
-          }
-        },
+        colors: ['#eb0a1e', '#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#64748b', '#cbd5e1'],
+        series: series.length > 0 ? series : [1],
+        labels: labels.length > 0 ? labels : ['Belum Ada Unit'],
+        legend: { position: 'bottom', fontSize: '11px', fontWeight: 600 },
         plotOptions: {
           pie: {
             donut: {
-              size: '65%',
+              size: '62%',
               labels: {
                 show: true,
-                name: { show: true, fontSize: '13px', fontWeight: 600, color: '#64748b' },
-                value: {
-                  show: true,
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  formatter: val => val + ' Unit'
-                },
                 total: {
                   show: true,
                   label: 'Total DO',
                   fontSize: '12px',
                   fontWeight: 600,
                   color: '#64748b',
-                  formatter: w => {
-                    const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                    return total + ' Unit';
-                  }
+                  formatter: () => filteredRows.length + ' Unit'
                 }
               }
             }
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: (val) => val.toFixed(1) + '%'
+        },
+        tooltip: {
+          y: {
+            formatter: (val) => val + ' Unit'
           }
         }
       };
@@ -1665,40 +1670,31 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
       state.charts.penjualanModel.render();
     }
 
-    // 3. Sales Leaderboard DO Chart
+    // 3. Sales Leaderboard Horizontal Bar Chart (Dynamic based on selected month or filter)
     const elSales = document.getElementById('penjualanSalesChart');
     if (elSales) {
       if (state.charts.penjualanSales) {
-        try { state.charts.penjualanSales.destroy(); } catch(e) {}
+        try { state.charts.penjualanSales.destroy(); } catch (e) { }
         state.charts.penjualanSales = null;
       }
 
-      let salesNames = [];
-      let salesUnits = [];
+      const salesCounts = {};
+      filteredRows.forEach(item => {
+        const s = (item.salesman || item.salesPerson || 'LAINNYA').trim();
+        salesCounts[s] = (salesCounts[s] || 0) + 1;
+      });
 
-      if (sub === 'do-ytd') {
-        if (chartTitle3) chartTitle3.textContent = 'Leaderboard Perolehan Delivery DO per Wiraniaga Tim Ryan (YTD 2026)';
-        if (chartSub3) chartSub3.textContent = 'Total unit delivery yang telah dicapai masing-masing wiraniaga (Januari – Oktober 2026)';
-        const sMap = {};
-        trans.forEach(t => {
-          const s = t.salesman || 'Unknown';
-          sMap[s] = (sMap[s] || 0) + 1;
-        });
-        const sorted = Object.entries(sMap).sort((a,b) => b[1] - a[1]).slice(0, 10);
-        salesNames = sorted.map(x => x[0]);
-        salesUnits = sorted.map(x => x[1]);
-      } else {
-        if (chartTitle3) chartTitle3.textContent = 'Kontribusi Wiraniaga ' + (sub === 'do-sep' ? 'DO September' : (sub === 'spk-sep' ? 'SPK September' : 'SPK Borrow'));
-        if (chartSub3) chartSub3.textContent = 'Peringkat wiraniaga pada modul ini';
-        const curList = sub === 'do-sep' ? data.doSeptember : (sub === 'spk-sep' ? data.spkSeptember : data.spkBorrow);
-        const sMap = {};
-        (curList || []).forEach(x => {
-          const s = x.salesman || 'Unknown';
-          sMap[s] = (sMap[s] || 0) + 1;
-        });
-        const sorted = Object.entries(sMap).sort((a,b) => b[1] - a[1]).slice(0, 10);
-        salesNames = sorted.map(x => x[0]);
-        salesUnits = sorted.map(x => x[1]);
+      const sortedSales = Object.entries(salesCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+      const salesNames = sortedSales.map(s => s[0]);
+      const salesValues = sortedSales.map(s => s[1]);
+
+      if (chartTitle3) {
+        chartTitle3.textContent = selMonth !== 'all'
+          ? 'Leaderboard Perolehan DO Sales &mdash; Bulan ' + activeMonthName + ' 2026'
+          : 'Leaderboard Perolehan Delivery DO per Wiraniaga Tim Ryan (YTD 2026)';
+      }
+      if (chartSub3) {
+        chartSub3.textContent = 'Peringkat pencapaian delivery unit wiraniaga Tim Feryanto';
       }
 
       const optionsSales = {
@@ -1712,26 +1708,28 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
           bar: {
             horizontal: true,
             borderRadius: 4,
-            barHeight: '65%'
+            barHeight: '60%',
+            distributed: false
           }
         },
-        colors: ['#b80515'],
-        series: [{ name: 'Jumlah Unit Delivery (DO)', data: salesUnits }],
+        colors: ['#eb0a1e'],
+        series: [
+          { name: 'Unit Delivery', data: salesValues }
+        ],
         xaxis: {
           categories: salesNames,
           labels: {
-            formatter: val => Math.round(val) + ' Unit',
+            formatter: val => Math.round(val),
             style: { colors: '#64748b', fontSize: '11px', fontWeight: 600 }
           }
         },
         yaxis: {
           labels: {
-            style: { colors: '#0f172a', fontSize: '12px', fontWeight: 600 }
+            style: { colors: '#334155', fontSize: '12px', fontWeight: 600 }
           }
         },
         dataLabels: {
           enabled: true,
-          formatter: val => val + ' Unit',
           textAnchor: 'start',
           offsetX: 6,
           style: { fontSize: '11px', fontWeight: 700, colors: ['#0f172a'] }
@@ -1749,6 +1747,131 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     }
   }
 
+  function renderPenjualanKpis() {
+    const sub = state.penjualan ? state.penjualan.currentSub : 'do-ytd';
+    const selMonth = state.penjualan ? state.penjualan.month : 'all';
+    const filteredRows = getFilteredPenjualan();
+
+    const elTitle1 = document.getElementById('kpiPenjualanTitle1');
+    const elVal1 = document.getElementById('kpiPenjualanTotalDo');
+    const elSub1 = document.getElementById('kpiPenjualanTotalDoSub');
+
+    const elTitle2 = document.getElementById('kpiPenjualanTitle2');
+    const elVal2 = document.getElementById('kpiPenjualanRevenue');
+    const elSub2 = document.getElementById('kpiPenjualanRevenueSub');
+
+    const elTitle3 = document.getElementById('kpiPenjualanTitle3');
+    const elVal3 = document.getElementById('kpiPenjualanPaymentRatio');
+    const elSub3 = document.getElementById('kpiPenjualanPaymentSub');
+
+    const elTitle4 = document.getElementById('kpiPenjualanTitle4');
+    const elVal4 = document.getElementById('kpiPenjualanTopModel');
+    const elSub4 = document.getElementById('kpiPenjualanTopModelSub');
+
+    const monthNames = {
+      Jan: 'Januari',
+      Feb: 'Februari',
+      Mar: 'Maret',
+      Apr: 'April',
+      May: 'Mei',
+      Jun: 'Juni',
+      Jul: 'Juli',
+      Aug: 'Agustus',
+      Sep: 'September',
+      Oct: 'Oktober'
+    };
+    const activeMonthName = selMonth !== 'all' ? (monthNames[selMonth] || selMonth) : 'Semua Bulan';
+
+    if (sub === 'spk-borrow') {
+      const borrowList = data.spkBorrow || [];
+      const over2Month = borrowList.filter(x => (x.remarks || '').includes('> 2 bulan')).length;
+      if (elTitle1) elTitle1.textContent = 'Total SPK Borrow & Outstanding';
+      if (elVal1) elVal1.textContent = borrowList.length + ' Unit';
+      if (elSub1) elSub1.textContent = 'Outstanding Belum Delivery (DO)';
+
+      if (elTitle2) elTitle2.textContent = 'Estimasi Nilai SPK';
+      if (elVal2) elVal2.textContent = 'Rp 11,2 M';
+      if (elSub2) elSub2.innerHTML = 'Potensi Pipeline Omset Tim Ryan';
+
+      if (elTitle3) elTitle3.textContent = 'SPK Overdue (> 2 Bulan)';
+      if (elVal3) elVal3.textContent = over2Month + ' Unit (' + Math.round((over2Month / borrowList.length) * 100) + '%)';
+      if (elSub3) elSub3.textContent = 'Wajib percepatan matching / refund';
+
+      if (elTitle4) elTitle4.textContent = 'Status Validasi SPK';
+      if (elVal4) elVal4.textContent = '26 Approved';
+      if (elSub4) elSub4.textContent = '4 Open & Review KC';
+    } else if (sub === 'spk-sep') {
+      const spkList = data.spkSeptember || [];
+      const kreditCount = spkList.filter(x => (x.paymentType || x.payment || '').toLowerCase().includes('kredit')).length;
+      const tunaiCount = spkList.length - kreditCount;
+      if (elTitle1) elTitle1.textContent = 'Total SPK September 2026';
+      if (elVal1) elVal1.textContent = spkList.length + ' Unit';
+      if (elSub1) elSub1.textContent = 'Pemesanan Kendaraan Baru';
+
+      if (elTitle2) elTitle2.textContent = 'Total Estimasi Nilai SPK';
+      if (elVal2) elVal2.textContent = 'Rp 12,05 M';
+      if (elSub2) elSub2.innerHTML = 'Rata-rata: <strong>Rp 376 Jt / Unit</strong>';
+
+      if (elTitle3) elTitle3.textContent = 'Metode Pembayaran SPK';
+      if (elVal3) elVal3.textContent = Math.round((kreditCount / spkList.length) * 100) + '% Kredit';
+      if (elSub3) elSub3.textContent = kreditCount + ' Kredit • ' + tunaiCount + ' Tunai';
+
+      if (elTitle4) elTitle4.textContent = 'Model SPK Terfavorit';
+      if (elVal4) elVal4.textContent = 'AVANZA (10 Unit)';
+      if (elSub4) elSub4.textContent = '31.3% dari total SPK September';
+    } else {
+      // YTD DO or Specific Month DO
+      const count = filteredRows.length;
+      const kreditCount = filteredRows.filter(x => (x.paymentType || x.payment || '').toLowerCase().includes('kredit')).length;
+      const tunaiCount = count - kreditCount;
+      const kreditPct = count > 0 ? ((kreditCount / count) * 100).toFixed(1) : '0';
+      const totalOtr = filteredRows.reduce((sum, x) => sum + (x.otr || 0), 0);
+      const avgOtr = count > 0 ? Math.round(totalOtr / count / 1e6) : 0;
+
+      const modelCounts = {};
+      filteredRows.forEach(x => {
+        const m = (x.model || 'LAINNYA').trim().toUpperCase();
+        modelCounts[m] = (modelCounts[m] || 0) + 1;
+      });
+      const topModelArr = Object.entries(modelCounts).sort((a, b) => b[1] - a[1])[0] || ['-', 0];
+      const topModelPct = count > 0 ? ((topModelArr[1] / count) * 100).toFixed(1) : '0';
+
+      if (selMonth === 'all') {
+        if (elTitle1) elTitle1.textContent = 'Total Delivery Unit (DO) YTD';
+        if (elVal1) elVal1.textContent = count + ' Unit';
+        if (elSub1) elSub1.textContent = 'Januari – Oktober 2026 (Avg: 33,6 Unit/Bln)';
+
+        if (elTitle2) elTitle2.textContent = 'Total Nilai Penjualan (OTR)';
+        if (elVal2) elVal2.textContent = 'Rp 124,63 M';
+        if (elSub2) elSub2.innerHTML = 'Rata-rata OTR: <strong>Rp 370,9 Jt / Unit</strong>';
+
+        if (elTitle3) elTitle3.textContent = 'Metode Pembayaran';
+        if (elVal3) elVal3.textContent = kreditPct.replace('.', ',') + '% Kredit';
+        if (elSub3) elSub3.textContent = kreditCount + ' Kredit • ' + tunaiCount + ' Tunai (' + (100 - parseFloat(kreditPct)).toFixed(1).replace('.', ',') + '%)';
+
+        if (elTitle4) elTitle4.textContent = 'Model Terlaris Tim';
+        if (elVal4) elVal4.textContent = topModelArr[0] + ' (' + topModelArr[1] + ' Unit)';
+        if (elSub4) elSub4.textContent = topModelPct.replace('.', ',') + '% Pangsa Delivery Tim Ryan';
+      } else {
+        const isOct = selMonth === 'Oct';
+        if (elTitle1) elTitle1.textContent = 'Total Delivery Unit DO Bulan ' + activeMonthName;
+        if (elVal1) elVal1.textContent = count + ' Unit';
+        if (elSub1) elSub1.textContent = 'Bulan ' + activeMonthName + ' 2026 ' + (isOct ? '(Data Terbaru)' : '');
+
+        if (elTitle2) elTitle2.textContent = 'Total Nilai Penjualan (OTR)';
+        if (elVal2) elVal2.textContent = 'Rp ' + (totalOtr / 1e9).toFixed(2).replace('.', ',') + ' M';
+        if (elSub2) elSub2.innerHTML = 'Rata-rata OTR: <strong>Rp ' + avgOtr + ' Jt / Unit</strong>';
+
+        if (elTitle3) elTitle3.textContent = 'Metode Pembayaran ' + activeMonthName;
+        if (elVal3) elVal3.textContent = kreditPct.replace('.', ',') + '% Kredit';
+        if (elSub3) elSub3.textContent = kreditCount + ' Kredit • ' + tunaiCount + ' Tunai';
+
+        if (elTitle4) elTitle4.textContent = 'Top Model Bulan ' + activeMonthName;
+        if (elVal4) elVal4.textContent = topModelArr[0] + ' (' + topModelArr[1] + ' Unit)';
+        if (elSub4) elSub4.textContent = topModelPct.replace('.', ',') + '% Pangsa DO ' + activeMonthName;
+      }
+    }
+  }
 
   function initPenjualan() {
     populatePenjualanFilterOptions();
@@ -1781,14 +1904,79 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     }
   }
 
+  function syncPenjualanMonthPills(selectedMonth) {
+    const pills = document.querySelectorAll('#penjualanMonthPills .month-pill');
+    pills.forEach(pill => {
+      const m = pill.getAttribute('data-month');
+      if (m === selectedMonth) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    });
+
+    const monthSelect = document.getElementById('filterPenjualanMonth');
+    if (monthSelect && monthSelect.value !== selectedMonth) {
+      monthSelect.value = selectedMonth;
+    }
+  }
+
   function bindPenjualanEvents() {
-    // Subnav button switching
+    // 1. Month Pills Switching
+    const pills = document.querySelectorAll('#penjualanMonthPills .month-pill');
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const targetMonth = pill.getAttribute('data-month');
+        state.penjualan.month = targetMonth;
+        state.penjualan.page = 1;
+
+        syncPenjualanMonthPills(targetMonth);
+
+        // Sync Subnav buttons if appropriate
+        document.querySelectorAll('.subnav-btn').forEach(b => b.classList.remove('active'));
+        if (targetMonth === 'all') {
+          const btn = document.getElementById('subnav-do-ytd');
+          if (btn) btn.classList.add('active');
+          state.penjualan.currentSub = 'do-ytd';
+        } else if (targetMonth === 'Oct') {
+          const btn = document.getElementById('subnav-do-oct');
+          if (btn) btn.classList.add('active');
+          state.penjualan.currentSub = 'do-oct';
+        } else if (targetMonth === 'Sep') {
+          const btn = document.getElementById('subnav-do-sep');
+          if (btn) btn.classList.add('active');
+          state.penjualan.currentSub = 'do-sep';
+        } else {
+          state.penjualan.currentSub = 'do-ytd';
+        }
+
+        const alertEl = document.getElementById('spkBorrowAlert');
+        if (alertEl) alertEl.style.display = 'none';
+
+        renderPenjualanTable();
+        renderPenjualanCharts();
+      });
+    });
+
+    // 2. Subnav button switching
     document.querySelectorAll('.subnav-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         document.querySelectorAll('.subnav-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         state.penjualan.currentSub = btn.getAttribute('data-sub');
         state.penjualan.page = 1;
+
+        // If subnav is do-oct or do-sep, sync month
+        if (state.penjualan.currentSub === 'do-oct') {
+          state.penjualan.month = 'Oct';
+          syncPenjualanMonthPills('Oct');
+        } else if (state.penjualan.currentSub === 'do-sep') {
+          state.penjualan.month = 'Sep';
+          syncPenjualanMonthPills('Sep');
+        } else if (state.penjualan.currentSub === 'do-ytd') {
+          state.penjualan.month = 'all';
+          syncPenjualanMonthPills('all');
+        }
 
         // Show/hide alert for SPK Borrow
         const alertEl = document.getElementById('spkBorrowAlert');
@@ -1801,7 +1989,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
       });
     });
 
-    // Filters
+    // 3. Filters
     const searchInput = document.getElementById('filterPenjualanSearch');
     const monthSelect = document.getElementById('filterPenjualanMonth');
     const modelSelect = document.getElementById('filterPenjualanModel');
@@ -1821,7 +2009,28 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
       monthSelect.addEventListener('change', (e) => {
         state.penjualan.month = e.target.value;
         state.penjualan.page = 1;
+
+        syncPenjualanMonthPills(e.target.value);
+
+        if (e.target.value === 'Oct') {
+          state.penjualan.currentSub = 'do-oct';
+          document.querySelectorAll('.subnav-btn').forEach(b => b.classList.remove('active'));
+          const btn = document.getElementById('subnav-do-oct');
+          if (btn) btn.classList.add('active');
+        } else if (e.target.value === 'Sep') {
+          state.penjualan.currentSub = 'do-sep';
+          document.querySelectorAll('.subnav-btn').forEach(b => b.classList.remove('active'));
+          const btn = document.getElementById('subnav-do-sep');
+          if (btn) btn.classList.add('active');
+        } else if (e.target.value === 'all') {
+          state.penjualan.currentSub = 'do-ytd';
+          document.querySelectorAll('.subnav-btn').forEach(b => b.classList.remove('active'));
+          const btn = document.getElementById('subnav-do-ytd');
+          if (btn) btn.classList.add('active');
+        }
+
         renderPenjualanTable();
+        renderPenjualanCharts();
       });
     }
 
@@ -1830,6 +2039,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
         state.penjualan.model = e.target.value;
         state.penjualan.page = 1;
         renderPenjualanTable();
+        renderPenjualanCharts();
       });
     }
 
@@ -1838,6 +2048,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
         state.penjualan.salesman = e.target.value;
         state.penjualan.page = 1;
         renderPenjualanTable();
+        renderPenjualanCharts();
       });
     }
 
@@ -1846,6 +2057,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
         state.penjualan.payment = e.target.value;
         state.penjualan.page = 1;
         renderPenjualanTable();
+        renderPenjualanCharts();
       });
     }
 
@@ -1856,12 +2068,12 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
 
   function getActivePenjualanList() {
     switch (state.penjualan.currentSub) {
-      case 'do-sep':
-        return data.doSeptember || [];
-      case 'spk-sep':
-        return data.spkSeptember || [];
       case 'spk-borrow':
         return data.spkBorrow || [];
+      case 'spk-sep':
+        return data.spkSeptember || [];
+      case 'do-oct':
+      case 'do-sep':
       case 'do-ytd':
       default:
         return data.transactions || [];
@@ -1871,30 +2083,43 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
   function getFilteredPenjualan() {
     const list = getActivePenjualanList();
     return list.filter(item => {
-      // Search
+      // 1. Search Query
       if (state.penjualan.search) {
         const q = state.penjualan.search;
         const target = `${item.customerName || item.customer || ''} ${item.spkNumber || item.spkNo || ''} ${item.invoiceNo || ''} ${item.vin || ''} ${item.salesman || ''} ${item.model || ''}`.toLowerCase();
         if (!target.includes(q)) return false;
       }
-      // Month (mainly for YTD transactions)
-      if (state.penjualan.month !== 'all' && item.month && item.month !== state.penjualan.month) {
-        return false;
+
+      // 2. Month Filter (for delivery transactions)
+      if (state.penjualan.month !== 'all' && item.month) {
+        const m = (item.month || '').trim().toLowerCase();
+        const targetM = state.penjualan.month.trim().toLowerCase();
+        if (m !== targetM && !m.startsWith(targetM.substring(0, 3))) {
+          return false;
+        }
       }
-      // Model
-      if (state.penjualan.model !== 'all' && item.model && !item.model.includes(state.penjualan.model)) {
-        return false;
+
+      // 3. Model Filter
+      if (state.penjualan.model !== 'all' && item.model) {
+        if (!item.model.toUpperCase().includes(state.penjualan.model.toUpperCase())) {
+          return false;
+        }
       }
-      // Salesman
-      if (state.penjualan.salesman !== 'all' && item.salesman && item.salesman !== state.penjualan.salesman) {
-        return false;
+
+      // 4. Salesman Filter
+      if (state.penjualan.salesman !== 'all' && item.salesman) {
+        if (item.salesman.trim().toUpperCase() !== state.penjualan.salesman.trim().toUpperCase()) {
+          return false;
+        }
       }
-      // Payment
+
+      // 5. Payment Filter
       if (state.penjualan.payment !== 'all') {
         const pType = (item.paymentType || item.payment || '').toLowerCase();
         if (state.penjualan.payment === 'Kredit' && !pType.includes('kredit')) return false;
         if (state.penjualan.payment === 'Tunai' && !pType.includes('tunai') && !pType.includes('cash')) return false;
       }
+
       return true;
     });
   }
@@ -1907,16 +2132,35 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     if (!tbody) return;
 
     const sub = state.penjualan.currentSub;
+    const selMonth = state.penjualan.month;
     const filtered = getFilteredPenjualan();
     const total = filtered.length;
 
+    const monthNames = {
+      Jan: 'Januari',
+      Feb: 'Februari',
+      Mar: 'Maret',
+      Apr: 'April',
+      May: 'Mei',
+      Jun: 'Juni',
+      Jul: 'Juli',
+      Aug: 'Agustus',
+      Sep: 'September',
+      Oct: 'Oktober'
+    };
+
     // Update Badge text
     if (badge) {
-      let subTitle = 'Transaksi Delivery Unit (DO) YTD 2026';
-      if (sub === 'do-sep') subTitle = 'DO September 2026 (Tim Ryan)';
-      else if (sub === 'spk-sep') subTitle = 'SPK September 2026 (Tim Ryan)';
-      else if (sub === 'spk-borrow') subTitle = 'SPK Borrow & Outstanding (Tim Ryan)';
-      badge.textContent = `Menampilkan ${total} ${subTitle}`;
+      if (sub === 'spk-borrow') {
+        badge.textContent = `Menampilkan ${total} SPK Borrow & Outstanding (Tim Ryan)`;
+      } else if (sub === 'spk-sep') {
+        badge.textContent = `Menampilkan ${total} SPK September 2026 (Tim Ryan)`;
+      } else if (selMonth !== 'all') {
+        const mName = monthNames[selMonth] || selMonth;
+        badge.textContent = `Menampilkan ${total} Transaksi Delivery Unit (DO) Bulan ${mName} 2026 ${selMonth === 'Oct' ? '(Terbaru)' : ''}`;
+      } else {
+        badge.textContent = `Menampilkan ${total} Transaksi Delivery Unit (DO) YTD 2026 (Januari – Oktober)`;
+      }
     }
 
     // Dynamic headers based on sub-module
@@ -1973,7 +2217,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     const paginated = filtered.slice(startIndex, startIndex + pageSize);
 
     if (paginated.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:30px; color:var(--slate-500);">Tidak ada data yang cocok dengan kriteria pencarian.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:30px; color:var(--slate-500);"><i class="fa-solid fa-folder-open" style="font-size:24px; margin-bottom:8px; display:block; opacity:0.5;"></i>Tidak ada data transaksi yang cocok dengan kriteria filter.</td></tr>';
       if (pagination) pagination.innerHTML = '';
       return;
     }
@@ -2020,9 +2264,13 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
           </tr>
         `;
       } else {
-        // YTD DO or September DO
+        // YTD DO or Monthly DO
         const pType = item.paymentType || item.payment || 'Kredit';
-        const badgePayment = pType.toLowerCase().includes('kredit') ? 'badge-kredit' : 'badge-tunai';
+        const isKredit = pType.toLowerCase().includes('kredit');
+        const badgePayment = isKredit ? 'badge-kredit' : 'badge-tunai';
+        const displayDate = item.deliveryDate || item.doDate || item.invoiceDate || '-';
+        const leasingLabel = item.leasing && item.leasing !== 'CASH' ? item.leasing : '';
+
         rowsHtml += `
           <tr>
             <td style="text-align:center; font-weight:600;">${rowNo}</td>
@@ -2030,15 +2278,19 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
               <strong>${item.invoiceNo || item.spkNumber || '-'}</strong>
               ${item.vin ? `<div style="font-size:11px; color:var(--slate-400);">VIN: ${item.vin}</div>` : ''}
             </td>
-            <td>${item.doDate || item.date || '-'}</td>
-            <td>${item.customerName || item.customer || '-'}</td>
+            <td>${displayDate}</td>
+            <td>
+              <strong>${item.customerName || item.customer || '-'}</strong>
+              ${item.city ? `<div style="font-size:11px; color:var(--slate-400);">${item.city}</div>` : ''}
+            </td>
             <td>
               <strong>${item.model || '-'}</strong>
+              ${item.modelDetail ? `<div style="font-size:11px; color:var(--slate-500);">${item.modelDetail}</div>` : ''}
             </td>
             <td>${item.salesman || '-'}</td>
             <td>
               <span class="badge-status ${badgePayment}">${pType}</span>
-              ${item.leasing ? `<div style="font-size:11px; color:var(--slate-500); margin-top:2px;">${item.leasing}</div>` : ''}
+              ${leasingLabel ? `<div style="font-size:11px; color:var(--slate-500); margin-top:2px;">${leasingLabel}</div>` : ''}
             </td>
             <td style="text-align:right; font-weight:700; color:var(--slate-800);">
               ${item.otr ? fmtRupiah(item.otr) : '-'}
@@ -2060,6 +2312,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
   function exportPenjualanCsv() {
     const list = getFilteredPenjualan();
     const sub = state.penjualan.currentSub;
+    const selMonth = state.penjualan.month;
     let csv = '';
 
     if (sub === 'spk-borrow') {
@@ -2077,14 +2330,16 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
         ].join(',') + '\n';
       });
     } else {
-      csv = 'No,No Invoice/SPK,Tanggal DO,Nama Konsumen,Model Unit,Wiraniaga,Cara Bayar,Mitra Leasing,Nilai OTR\n';
+      csv = 'No,No Invoice,Tanggal DO,Bulan,Nama Konsumen,Model,Tipe Detail,Wiraniaga,Cara Bayar,Leasing,Nilai OTR\n';
       list.forEach((item, idx) => {
         csv += [
           idx + 1,
           `"${item.invoiceNo || item.spkNumber || ''}"`,
-          `"${item.doDate || item.date || ''}"`,
+          `"${item.deliveryDate || item.doDate || item.invoiceDate || ''}"`,
+          `"${item.month || ''}"`,
           `"${item.customerName || item.customer || ''}"`,
           `"${item.model || ''}"`,
+          `"${item.modelDetail || ''}"`,
           `"${item.salesman || ''}"`,
           `"${item.paymentType || item.payment || ''}"`,
           `"${item.leasing || ''}"`,
@@ -2093,8 +2348,9 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
       });
     }
 
-    downloadCsv(`Penjualan_${sub}_Tim1_Ryan_` + new Date().toISOString().slice(0, 10) + '.csv', csv);
-    showToast('File CSV Penjualan berhasil diunduh.');
+    const fileSuffix = selMonth !== 'all' ? selMonth : sub;
+    downloadCsv(`Penjualan_${fileSuffix}_Tim1_Ryan_` + new Date().toISOString().slice(0, 10) + '.csv', csv);
+    showToast('File CSV Transaksi Penjualan berhasil diunduh.');
   }
 
   // =========================================================================
