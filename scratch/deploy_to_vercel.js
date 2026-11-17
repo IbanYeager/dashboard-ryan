@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const token = process.env.VERCEL_TOKEN;
+const TOKEN = process.env.VERCEL_TOKEN;
 const TEAM_ID = 'team_GFreqrclupgOsZQVUzNMwcJe';
 const PROJECT_NAME = 'dashboard_spv_ryan';
 
