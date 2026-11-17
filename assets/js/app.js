@@ -992,24 +992,27 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
         let cardsHtml = '';
         parsedDrafts.forEach((item, i) => {
           cardsHtml += `
-            <div style="background:#fff; border:1px solid #cbd5e1; border-left:4px solid var(--primary-red); border-radius:8px; padding:12px 14px; font-size:12px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                <strong style="font-size:13.5px; color:var(--slate-800);">${i + 1}. ${item.name}</strong>
-                <span class="badge-status badge-kredit" style="font-size:11px;">${item.rating} &bull; ${item.stage}</span>
+            <div class="parsed-card-item">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:800; box-shadow:0 2px 4px rgba(220,38,38,0.25);">${i + 1}</span>
+                  <strong style="font-size:14px; color:#0f172a;">${item.name}</strong>
+                </div>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <span class="badge-status ${item.rating === 'Hot' ? 'badge-hot' : 'badge-high'}" style="font-size:11px; padding:3px 8px;"><i class="fa-solid fa-fire"></i> ${item.rating}</span>
+                  <span class="badge-status badge-kredit" style="font-size:11px; padding:3px 8px;">${item.stage}</span>
+                </div>
               </div>
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:6px; color:var(--slate-600); margin-top:6px;">
-                <div><i class="fa-solid fa-phone" style="color:#16a34a; width:16px;"></i> ${item.phone}</div>
-                <div><i class="fa-solid fa-user-tie" style="color:#0284c7; width:16px;"></i> ${item.salesman}</div>
-                <div><i class="fa-solid fa-car" style="color:var(--primary-red); width:16px;"></i> ${item.model}</div>
-                <div><i class="fa-solid fa-money-bill" style="color:#d97706; width:16px;"></i> ${item.payment} (${item.leasing})</div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:8px; color:#475569; background:#f8fafc; border-radius:8px; padding:10px 12px; margin-top:6px; border:1px solid #f1f5f9;">
+                <div><i class="fa-solid fa-phone" style="color:#16a34a; width:16px;"></i> <span style="font-weight:600; color:#0f172a;">${item.phone || '-'}</span></div>
+                <div><i class="fa-solid fa-user-tie" style="color:#0284c7; width:16px;"></i> ${item.salesman || '-'}</div>
+                <div><i class="fa-solid fa-car" style="color:var(--primary-red); width:16px;"></i> <strong style="color:var(--primary-red);">${item.model || '-'}</strong></div>
+                <div><i class="fa-solid fa-wallet" style="color:#d97706; width:16px;"></i> ${item.payment || 'Kredit'} (${item.leasing || '-'})</div>
               </div>
-              <div style="margin-top:6px; font-style:italic; color:var(--slate-500); border-top:1px dashed #e2e8f0; padding-top:4px;">
-                ${item.notes}
-              </div>
+              ${item.notes ? `<div style="margin-top:8px; font-size:12px; color:#64748b; display:flex; align-items:flex-start; gap:6px; background:#ffffff; padding:6px 10px; border-radius:6px; border-left:2px solid #cbd5e1;"><i class="fa-solid fa-comment-dots" style="color:#94a3b8; margin-top:2px;"></i> <span>${item.notes}</span></div>` : ''}
             </div>
           `;
         });
-
         if (cardList) cardList.innerHTML = cardsHtml;
         if (previewContainer) previewContainer.style.display = 'block';
       });

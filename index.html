@@ -2150,90 +2150,105 @@
     <!-- MODAL: INPUT / SMART PASTE HOT PROSPEK    -->
     <!-- ========================================== -->
     <div class="modal-backdrop" id="modalAddProspect" style="display:none;">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-prospect-dialog">
+
+        <!-- Modal Header -->
         <div class="modal-header">
-          <div class="modal-header-title">
-            <i class="fa-solid fa-paste" style="color:var(--primary-red); font-size:18px;"></i>
+          <div class="modal-header-brand">
+            <div class="modal-header-icon">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+            </div>
+            <div class="modal-header-text">
+              <span class="modal-header-badge">TIM RYAN &bull; PIPELINE PROSPEK AKTIF</span>
+              <h3>Tambah Data Hot Prospek Tim Ryan</h3>
+              <p>Ekstrak otomatis dari WhatsApp / Excel atau gunakan formulir input terstruktur</p>
+            </div>
           </div>
-          <button type="button" class="btn-modal-close" id="btnCloseProspectModal" aria-label="Tutup Modal">
+          <button type="button" class="btn-modal-close" id="btnCloseProspectModal" aria-label="Tutup Modal" title="Tutup">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
         <!-- Modal Mode Switcher Tabs -->
-        <div class="modal-nav"
-          style="display:flex; border-bottom:1px solid var(--slate-200); padding:0 20px; background:#f8fafc;">
-          <button type="button" class="btn-modal-tab active" id="btnTabSmartPaste"
-            style="padding:12px 18px; border:none; background:none; font-weight:700; font-size:13px; color:var(--primary-red); border-bottom:2px solid var(--primary-red); cursor:pointer;">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Smart Paste Otomatis
+        <div class="modal-nav">
+          <button type="button" class="modal-nav-tab active" id="btnTabSmartPaste">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--primary-red);"></i>
+            <span>Smart Paste Otomatis (WhatsApp / Excel)</span>
           </button>
-          <button type="button" class="btn-modal-tab" id="btnTabManualForm"
-            style="padding:12px 18px; border:none; background:none; font-weight:600; font-size:13px; color:var(--slate-600); cursor:pointer;">
-            <i class="fa-solid fa-pen-to-square"></i> Form Input Manual
+          <button type="button" class="modal-nav-tab" id="btnTabManualForm">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Form Input Manual Terstruktur</span>
           </button>
         </div>
 
-        <div class="modal-body" style="padding:20px; max-height:calc(85vh - 160px); overflow-y:auto;">
+        <!-- Modal Body Content -->
+        <div class="modal-body">
 
           <!-- PANE A: SMART PASTE OTOMATIS -->
           <div id="modalModeSmartPaste">
-            <div
-              style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12px; color:#1e40af;">
-              <strong style="display:block; margin-bottom:4px;"><i class="fa-solid fa-circle-info"></i> Petunjuk Smart
-                Paste:</strong>
-              Cukup paste teks dari chat <strong>WhatsApp</strong>, salinan baris tabel <strong>Excel / Google
-                Sheets</strong>, atau format baris catatan. Sistem akan mengekstrak nama konsumen, telepon WhatsApp,
-              wiraniaga, unit, cara bayar, dan leasing secara otomatis!
+            <!-- Instruction Banner -->
+            <div class="smart-paste-banner">
+              <div class="banner-icon">
+                <i class="fa-solid fa-circle-info"></i>
+              </div>
+              <div class="banner-content">
+                <strong>Petunjuk Smart Paste Ekstraksi Cerdas:</strong>
+                Salin teks dari chat <strong>WhatsApp</strong>, salinan baris tabel <strong>Excel / Google Sheets</strong>, atau format baris catatan. Sistem akan mengekstrak nama konsumen, telepon WhatsApp, wiraniaga, tipe unit, cara bayar, dan leasing secara otomatis!
+              </div>
             </div>
 
-            <!-- Quick Template Buttons -->
-            <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center; flex-wrap:wrap;">
-              <span style="font-size:11.5px; font-weight:700; color:var(--slate-600);">Coba Template Contoh:</span>
-              <button type="button" class="btn-secondary" id="btnFillWaExample"
-                style="font-size:11px; padding:4px 10px;">
-                <i class="fa-brands fa-whatsapp" style="color:#16a34a;"></i> Contoh WhatsApp
+            <!-- Quick Template Chips Bar -->
+            <div class="template-chips-bar">
+              <span class="chips-label"><i class="fa-solid fa-bolt" style="color:#f59e0b;"></i> Contoh Format Cepat:</span>
+              <button type="button" class="btn-chip chip-wa" id="btnFillWaExample">
+                <i class="fa-brands fa-whatsapp" style="color:#16a34a;"></i> Format WhatsApp
               </button>
-              <button type="button" class="btn-secondary" id="btnFillExcelExample"
-                style="font-size:11px; padding:4px 10px;">
-                <i class="fa-solid fa-table" style="color:#0284c7;"></i> Contoh Excel / TSV
+              <button type="button" class="btn-chip chip-excel" id="btnFillExcelExample">
+                <i class="fa-solid fa-table" style="color:#0284c7;"></i> Salinan Tabel Excel
               </button>
-              <button type="button" class="btn-secondary" id="btnFillListExample"
-                style="font-size:11px; padding:4px 10px;">
-                <i class="fa-solid fa-list-ul" style="color:#7c3aed;"></i> Contoh List Teks
+              <button type="button" class="btn-chip chip-list" id="btnFillListExample">
+                <i class="fa-solid fa-list-ol" style="color:#7c3aed;"></i> Format List Nomor
               </button>
             </div>
 
-            <textarea class="smart-paste-area" id="smartPasteInput" rows="7" placeholder="Paste teks WhatsApp, salinan tabel Excel, atau catatan prospek di sini...
+            <!-- Full-width Textarea -->
+            <div class="paste-area-wrapper">
+              <textarea class="smart-paste-textarea" id="smartPasteInput" rows="7" placeholder="Tempelkan (Paste) teks chat WhatsApp, salinan tabel Excel, atau catatan prospek Anda di sini...
+
 Contoh format WhatsApp:
 Nama: Bpk. Rudi Hermawan
 Hp: 081223344556
-Sales: Gilang Ramadhan
-Unit: Innova Zenix Hybrid V Modelista
+Sales: Heri Setiawan
+Unit: Innova Zenix Hybrid V Modellista
 Bayar: Kredit MTF DP 20%
 Status: Hot Prospek test drive weekend ini"></textarea>
+            </div>
 
-            <div style="display:flex; gap:10px; margin-top:10px; justify-content:space-between; align-items:center;">
-              <div style="display:flex; gap:8px;">
-                <button type="button" class="btn-primary" id="btnParsePasteText">
+            <!-- Action Toolbar -->
+            <div class="paste-toolbar">
+              <div class="paste-toolbar-left">
+                <button type="button" class="btn-primary" id="btnParsePasteText" style="padding:8px 16px;">
                   <i class="fa-solid fa-wand-magic-sparkles"></i> Ekstrak &amp; Pratinjau
                 </button>
-                <button type="button" class="btn-secondary" id="btnClearPasteInput">
-                  Bersihkan
+                <button type="button" class="btn-secondary" id="btnClearPasteInput" style="padding:8px 14px;">
+                  <i class="fa-solid fa-eraser"></i> Bersihkan
                 </button>
               </div>
-              <span id="parseStatusText" style="font-size:12px; color:var(--slate-500);"></span>
+              <div class="paste-toolbar-right">
+                <span id="parseStatusText" class="parse-status-badge"></span>
+              </div>
             </div>
 
             <!-- Parsed Results Preview Card -->
-            <div id="parsedPreviewContainer"
-              style="display:none; margin-top:16px; border-top:1px solid var(--slate-200); padding-top:14px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <strong style="font-size:13px; color:var(--slate-800);">
-                  <i class="fa-solid fa-eye" style="color:var(--primary-red);"></i> Pratinjau Data Siap Disimpan:
-                </strong>
-                <span class="badge-status badge-kredit" id="parsedCountBadge">1 Data Ditemukan</span>
+            <div id="parsedPreviewContainer" class="parsed-preview-box" style="display:none;">
+              <div class="preview-box-header">
+                <div class="preview-box-title">
+                  <i class="fa-solid fa-circle-check" style="color:#10b981; font-size:16px;"></i>
+                  <strong>Data Siap Disimpan ke Dashboard:</strong>
+                </div>
+                <span class="badge-status badge-kredit" id="parsedCountBadge">0 Data Ditemukan</span>
               </div>
-              <div id="parsedCardList" style="display:flex; flex-direction:column; gap:10px;">
+              <div id="parsedCardList" class="parsed-cards-grid">
                 <!-- Dynamic parsed cards preview -->
               </div>
             </div>
@@ -2241,88 +2256,119 @@ Status: Hot Prospek test drive weekend ini"></textarea>
 
           <!-- PANE B: MANUAL FORM INPUT -->
           <div id="modalModeManual" style="display:none;">
-            <div class="form-grid"
-              style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Nama Calon Konsumen *</label>
-                <input type="text" class="form-input" id="manCustName" placeholder="Contoh: Bpk. Hendra Gunawan"
-                  required>
+            <div class="manual-form-grid">
+              <div class="form-field">
+                <label for="manCustName">Nama Calon Konsumen <span class="required-star">*</span></label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-user"></i>
+                  <input type="text" id="manCustName" placeholder="Contoh: Bpk. Hendra Gunawan" required>
+                </div>
               </div>
 
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">No. Telepon / WhatsApp</label>
-                <input type="text" class="form-input" id="manCustPhone" placeholder="Contoh: 081234567890">
+              <div class="form-field">
+                <label for="manCustPhone">No. Telepon / WhatsApp</label>
+                <div class="input-with-icon">
+                  <i class="fa-brands fa-whatsapp" style="color:#16a34a;"></i>
+                  <input type="text" id="manCustPhone" placeholder="Contoh: 081234567890">
+                </div>
               </div>
 
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Wiraniaga PIC (Tim Ryan)
-                  *</label>
-                <select class="form-select" id="manSalesman" required>
-                  <!-- Populated via JS -->
-                </select>
+              <div class="form-field">
+                <label for="manSalesman">Wiraniaga PIC (Tim Ryan) <span class="required-star">*</span></label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-user-tie"></i>
+                  <select id="manSalesman" required>
+                    <!-- Populated via JS -->
+                  </select>
+                </div>
               </div>
 
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Model Unit Incaran *</label>
-                <input type="text" class="form-input" id="manUnit" placeholder="Contoh: Avanza 1.5 G CVT" required>
+              <div class="form-field">
+                <label for="manUnit">Model Unit Incaran <span class="required-star">*</span></label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-car" style="color:var(--primary-red);"></i>
+                  <input type="text" id="manUnit" placeholder="Contoh: All New Avanza 1.5 G CVT" required>
+                </div>
               </div>
 
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Cara Bayar</label>
-                <select class="form-select" id="manPayment">
-                  <option value="Kredit">Kredit</option>
-                  <option value="Tunai">Tunai</option>
-                </select>
+              <div class="form-field">
+                <label for="manPayment">Metode Pembayaran</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-wallet"></i>
+                  <select id="manPayment">
+                    <option value="Kredit">Kredit</option>
+                    <option value="Tunai">Tunai</option>
+                  </select>
+                </div>
               </div>
 
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Mitra Leasing</label>
-                <select class="form-select" id="manLeasing">
-                  <option value="MTF">MTF (Mandiri Tunas Finance)</option>
-                  <option value="TAFS">TAFS (Toyota Astra Financial Services)</option>
-                  <option value="ACC">ACC (Astra Credit Companies)</option>
-                  <option value="KKB BCA">KKB BCA</option>
-                  <option value="MUF">MUF</option>
-                  <option value="Adira / Lainnya">Adira / Lainnya</option>
-                  <option value="-">- (Tunai)</option>
-                </select>
+              <div class="form-field">
+                <label for="manLeasing">Mitra Leasing</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-building-columns"></i>
+                  <select id="manLeasing">
+                    <option value="MTF">MTF (Mandiri Tunas Finance)</option>
+                    <option value="TAFS">TAFS (Toyota Astra Financial Services)</option>
+                    <option value="ACC">ACC (Astra Credit Companies)</option>
+                    <option value="KKB BCA">KKB BCA</option>
+                    <option value="MUF">MUF</option>
+                    <option value="Adira / Lainnya">Adira / Lainnya</option>
+                    <option value="-">- (Tunai / Tanpa Leasing)</option>
+                  </select>
+                </div>
               </div>
 
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Tahapan Funnel</label>
-                <select class="form-select" id="manStage">
-                  <option value="SPK">SPK</option>
-                  <option value="Appraisal Trade-In">Appraisal Trade-In</option>
-                  <option value="Test Drive">Test Drive</option>
-                  <option value="Follow-up" selected>Follow-up</option>
-                </select>
+              <div class="form-field">
+                <label for="manStage">Tahapan Pipeline Funnel</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-filter"></i>
+                  <select id="manStage">
+                    <option value="SPK">SPK</option>
+                    <option value="Appraisal Trade-In">Appraisal Trade-In</option>
+                    <option value="Test Drive">Test Drive</option>
+                    <option value="Follow-up" selected>Follow-up</option>
+                  </select>
+                </div>
               </div>
 
-              <div class="form-group" style="display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Rating Prospek</label>
-                <select class="form-select" id="manRating">
-                  <option value="Hot" selected>Hot Rating (Sangat Potensial)</option>
-                  <option value="Warm">Warm Rating</option>
-                </select>
+              <div class="form-field">
+                <label for="manRating">Rating Prospek</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-fire" style="color:var(--primary-red);"></i>
+                  <select id="manRating">
+                    <option value="Hot" selected>Hot Rating (Sangat Potensial)</option>
+                    <option value="Warm">Warm Rating</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field form-field-full">
+                <label for="manNotes">Catatan Tindak Lanjut Supervisi</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-note-sticky" style="top:14px;"></i>
+                  <textarea id="manNotes" rows="2" placeholder="Contoh: Konsumen minta simulasi angsuran DP 25%, rencana test drive hari Sabtu di Tunas Kiara Condong."></textarea>
+                </div>
               </div>
             </div>
+          </div>
 
-            <div class="form-group" style="display:flex; flex-direction:column; gap:4px; margin-top:14px;">
-              <label style="font-size:12px; font-weight:700; color:var(--slate-700);">Catatan Tindak Lanjut
-                Supervisi</label>
-              <textarea class="form-input" id="manNotes" rows="2"
-                placeholder="Contoh: Konsumen minta simulasi angsuran DP 25%, jadwal test drive hari Sabtu."></textarea>
-            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <div class="modal-footer-info">
+            <span style="font-size:12px; color:var(--slate-500); display:inline-flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-shield-halved" style="color:#10b981;"></i> Data tersimpan langsung di browser &amp; dashboard Tim Ryan
+            </span>
+          </div>
+          <div class="modal-footer-actions">
+            <button type="button" class="btn-secondary" id="btnCancelProspectModal" style="padding:8px 16px;">Batal</button>
+            <button type="button" class="btn-primary" id="btnCommitAddProspect" style="padding:8px 18px;">
+              <i class="fa-solid fa-floppy-disk"></i> Simpan Hot Prospek ke Dashboard
+            </button>
           </div>
         </div>
 
-        <div class="modal-footer"
-          style="padding:14px 20px; border-top:1px solid var(--slate-200); display:flex; justify-content:flex-end; gap:10px; background:#f8fafc;">
-          <button type="button" class="btn-secondary" id="btnCancelProspectModal">Batal</button>
-          <button type="button" class="btn-primary" id="btnCommitAddProspect">
-            <i class="fa-solid fa-floppy-disk"></i> Simpan Hot Prospek ke Dashboard
-          </button>
-        </div>
       </div>
     </div>
 
