@@ -704,6 +704,94 @@
             </p>
           </div>
 
+          <!-- 4 KPI Cards for DO Penjualan -->
+          <div class="kpi-grid" style="margin-bottom:20px;">
+            <div class="kpi-card card-red">
+              <div class="kpi-card-head">
+                <span id="kpiPenjualanTitle1">Total Delivery Unit (DO) YTD</span>
+                <div class="kpi-icon"><i class="fa-solid fa-car"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiPenjualanTotalDo">336 Unit</div>
+              <div class="kpi-sub" id="kpiPenjualanTotalDoSub">Januari &ndash; Oktober 2026 (Avg: 33,6 Unit/Bln)</div>
+            </div>
+
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span id="kpiPenjualanTitle2">Total Nilai Penjualan (OTR)</span>
+                <div class="kpi-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiPenjualanRevenue">Rp 124,63 M</div>
+              <div class="kpi-sub" id="kpiPenjualanRevenueSub">Rata-rata OTR: <strong>Rp 370,9 Jt / Unit</strong></div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span id="kpiPenjualanTitle3">Metode Pembayaran</span>
+                <div class="kpi-icon"><i class="fa-solid fa-credit-card"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiPenjualanPaymentRatio">74,1% Kredit</div>
+              <div class="kpi-sub" id="kpiPenjualanPaymentSub">249 Kredit &bull; 87 Tunai (25,9%)</div>
+            </div>
+
+            <div class="kpi-card card-purple">
+              <div class="kpi-card-head">
+                <span id="kpiPenjualanTitle4">Model Terlaris Tim</span>
+                <div class="kpi-icon"><i class="fa-solid fa-trophy"></i></div>
+              </div>
+              <div class="kpi-val" id="kpiPenjualanTopModel">AVANZA (72 Unit)</div>
+              <div class="kpi-sub" id="kpiPenjualanTopModelSub">21,4% Pangsa Delivery Tim Ryan</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid for Penjualan DO -->
+          <div class="charts-grid" style="margin-bottom:20px;">
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div>
+                  <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-900);">
+                    <i class="fa-solid fa-chart-column" style="color:var(--primary-red); margin-right:6px;"></i>
+                    <span id="penjualanChartTitle1">Tren Bulanan Delivery DO Tim Ryan (Kredit vs Tunai)</span>
+                  </h4>
+                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--slate-500);" id="penjualanChartSub1">
+                    Realisasi unit delivery bulanan periode Januari &ndash; Oktober 2026
+                  </p>
+                </div>
+              </div>
+              <div id="penjualanMonthlyChart" style="min-height: 320px;"></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-head">
+                <div>
+                  <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-900);">
+                    <i class="fa-solid fa-chart-pie" style="color:var(--primary-red); margin-right:6px;"></i>
+                    <span id="penjualanChartTitle2">Komposisi Model Toyota (Top 7)</span>
+                  </h4>
+                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--slate-500);" id="penjualanChartSub2">
+                    Distribusi tipe unit kendaraan yang telah diserahterimakan (DO)
+                  </p>
+                </div>
+              </div>
+              <div id="penjualanModelChart" style="min-height: 320px;"></div>
+            </div>
+          </div>
+
+          <!-- Leaderboard Sales DO Chart -->
+          <div class="chart-card" style="margin-bottom:24px;">
+            <div class="chart-card-head">
+              <div>
+                <h4 style="margin:0; font-size:14px; font-weight:700; color:var(--slate-900);">
+                  <i class="fa-solid fa-ranking-star" style="color:var(--primary-red); margin-right:6px;"></i>
+                  <span id="penjualanChartTitle3">Leaderboard Perolehan Delivery DO per Wiraniaga Tim Ryan</span>
+                </h4>
+                <p style="margin:4px 0 0 0; font-size:12px; color:var(--slate-500);" id="penjualanChartSub3">
+                  Peringkat pencapaian delivery unit masing-masing wiraniaga Tim Feryanto
+                </p>
+              </div>
+            </div>
+            <div id="penjualanSalesChart" style="min-height: 360px;"></div>
+          </div>
+
           <!-- Filter Bar -->
           <div class="filter-bar">
             <div class="filter-group">
@@ -2840,8 +2928,8 @@ Status: Hot Prospek test drive weekend ini"></textarea>
   </div>
 
   <!-- SCRIPT LIBRARIES & APP LOGIC -->
-  <script src="assets/js/ryan_data.js?v=2.1"></script>
-  <script src="assets/js/app.js?v=2.1"></script>
+  <script src="assets/js/ryan_data.js?v=2.2"></script>
+  <script src="assets/js/app.js?v=2.2"></script>
 </body>
 
 </html>

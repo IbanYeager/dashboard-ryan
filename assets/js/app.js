@@ -213,6 +213,9 @@
     setTimeout(() => {
       if (tabId === 'overview') {
         renderOverviewCharts();
+      } else if (tabId === 'penjualan') {
+        renderPenjualanCharts();
+        renderPenjualanTable();
       } else if (tabId === 'activity') {
         renderActivityCharts();
         renderActivityTable();
@@ -1377,10 +1380,384 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
   // =========================================================================
   // TAB 4: PENJUALAN (SPK & DO) CONTROLLER
   // =========================================================================
+  
+  /* ==========================================================================
+     PENJUALAN (DO & SPK) CHARTS & KPIS MODULE
+     ========================================================================== */
+
+  function renderPenjualanKpis() {
+    const sub = state.penjualan ? state.penjualan.currentSub : 'do-ytd';
+    const trans = data.transactions || [];
+
+    const elTitle1 = document.getElementById('kpiPenjualanTitle1');
+    const elVal1 = document.getElementById('kpiPenjualanTotalDo');
+    const elSub1 = document.getElementById('kpiPenjualanTotalDoSub');
+
+    const elTitle2 = document.getElementById('kpiPenjualanTitle2');
+    const elVal2 = document.getElementById('kpiPenjualanRevenue');
+    const elSub2 = document.getElementById('kpiPenjualanRevenueSub');
+
+    const elTitle3 = document.getElementById('kpiPenjualanTitle3');
+    const elVal3 = document.getElementById('kpiPenjualanPaymentRatio');
+    const elSub3 = document.getElementById('kpiPenjualanPaymentSub');
+
+    const elTitle4 = document.getElementById('kpiPenjualanTitle4');
+    const elVal4 = document.getElementById('kpiPenjualanTopModel');
+    const elSub4 = document.getElementById('kpiPenjualanTopModelSub');
+
+    if (sub === 'do-ytd') {
+      if (elTitle1) elTitle1.textContent = 'Total Delivery Unit (DO) YTD';
+      if (elVal1) elVal1.textContent = '336 Unit';
+      if (elSub1) elSub1.textContent = 'Januari – Oktober 2026 (Avg: 33,6 Unit/Bln)';
+
+      if (elTitle2) elTitle2.textContent = 'Total Nilai Penjualan (OTR)';
+      if (elVal2) elVal2.textContent = 'Rp 124,63 M';
+      if (elSub2) elSub2.innerHTML = 'Rata-rata OTR: <strong>Rp 370,9 Jt / Unit</strong>';
+
+      if (elTitle3) elTitle3.textContent = 'Metode Pembayaran';
+      if (elVal3) elVal3.textContent = '74,1% Kredit';
+      if (elSub3) elSub3.textContent = '249 Kredit • 87 Tunai (25,9%)';
+
+      if (elTitle4) elTitle4.textContent = 'Model Terlaris Tim';
+      if (elVal4) elVal4.textContent = 'AVANZA (72 Unit)';
+      if (elSub4) elSub4.textContent = '21,4% Pangsa Delivery Tim Ryan';
+    } else if (sub === 'do-sep') {
+      const sepList = data.doSeptember || [];
+      const kreditCount = sepList.filter(x => (x.payment || '').toLowerCase().includes('kredit')).length;
+      const tunaiCount = sepList.length - kreditCount;
+
+      if (elTitle1) elTitle1.textContent = 'Total DO September 2026';
+      if (elVal1) elVal1.textContent = sepList.length + ' Unit';
+      if (elSub1) elSub1.textContent = 'Pencapaian DO Bulan September 2026';
+
+      if (elTitle2) elTitle2.textContent = 'Target DO Supervisi';
+      if (elVal2) elVal2.textContent = '35 Unit';
+      if (elSub2) elSub2.innerHTML = 'Capaian Supervisi: <strong style="color:#16a34a;">111,4% (Surplus 4 Unit)</strong>';
+
+      if (elTitle3) elTitle3.textContent = 'Komposisi Pembayaran';
+      if (elVal3) elVal3.textContent = ((kreditCount/sepList.length)*100).toFixed(1) + '% Kredit';
+      if (elSub3) elSub3.textContent = `${kreditCount} Kredit • ${tunaiCount} Tunai`;
+
+      if (elTitle4) elTitle4.textContent = 'Top Model September';
+      if (elVal4) elVal4.textContent = 'AVANZA & VELOZ';
+      if (elSub4) elSub4.textContent = 'Dominasi Penjualan MPV Keluarga';
+    } else if (sub === 'spk-sep') {
+      const spkList = data.spkSeptember || [];
+      if (elTitle1) elTitle1.textContent = 'Total SPK Masuk September';
+      if (elVal1) elVal1.textContent = spkList.length + ' Unit';
+      if (elSub1) elSub1.textContent = 'Surat Pesanan Kendaraan Baru';
+
+      if (elTitle2) elTitle2.textContent = 'Target SPK Tim';
+      if (elVal2) elVal2.textContent = '59 SPK';
+      if (elSub2) elSub2.innerHTML = 'Akumulasi Target Wiraniaga Bulanan';
+
+      if (elTitle3) elTitle3.textContent = 'Status Booking Fee';
+      if (elVal3) elVal3.textContent = '100% Valid';
+      if (elSub3) elSub3.textContent = 'Tanda Jadi Resmi Cabang Terverifikasi';
+
+      if (elTitle4) elTitle4.textContent = 'Proyeksi Delivery';
+      if (elVal4) elVal4.textContent = 'Siap DO';
+      if (elSub4) elSub4.textContent = 'Pipeline Delivery Oktober/November';
+    } else if (sub === 'spk-borrow') {
+      const bList = data.spkBorrow || [];
+      if (elTitle1) elTitle1.textContent = 'Total SPK Borrow & Outstanding';
+      if (elVal1) elVal1.textContent = bList.length + ' Unit';
+      if (elSub1) elSub1.textContent = 'SPK Pending Belum DO';
+
+      if (elTitle2) elTitle2.textContent = 'Status Alokasi Unit';
+      if (elVal2) elVal2.textContent = 'Waiting Match';
+      if (elSub2) elSub2.innerHTML = 'Menunggu pasokan unit / approval leasing';
+
+      if (elTitle3) elTitle3.textContent = 'Evaluasi Kategori';
+      if (elVal3) elVal3.textContent = 'Prioritas Supervisi';
+      if (elSub3) elSub3.textContent = 'Follow-up harian progres berkas';
+
+      if (elTitle4) elTitle4.textContent = 'Tindakan Supervisi';
+      if (elVal4) elVal4.textContent = 'Review & Clear';
+      if (elSub4) elSub4.textContent = 'Percepatan matching atau refund';
+    }
+  }
+
+  function renderPenjualanCharts() {
+    if (typeof ApexCharts === 'undefined') return;
+
+    renderPenjualanKpis();
+
+    const sub = state.penjualan ? state.penjualan.currentSub : 'do-ytd';
+    const trendData = data.monthlyTrend || [];
+    const trans = data.transactions || [];
+
+    // Titles
+    const chartTitle1 = document.getElementById('penjualanChartTitle1');
+    const chartSub1 = document.getElementById('penjualanChartSub1');
+    const chartTitle2 = document.getElementById('penjualanChartTitle2');
+    const chartSub2 = document.getElementById('penjualanChartSub2');
+    const chartTitle3 = document.getElementById('penjualanChartTitle3');
+    const chartSub3 = document.getElementById('penjualanChartSub3');
+
+    // 1. Monthly Delivery Trend (Stacked Bar: Kredit vs Tunai)
+    const elMonthly = document.getElementById('penjualanMonthlyChart');
+    if (elMonthly) {
+      if (state.charts.penjualanMonthly) {
+        try { state.charts.penjualanMonthly.destroy(); } catch(e) {}
+        state.charts.penjualanMonthly = null;
+      }
+
+      let categories = [];
+      let creditSeries = [];
+      let cashSeries = [];
+
+      if (sub === 'do-ytd') {
+        if (chartTitle1) chartTitle1.textContent = 'Tren Bulanan Delivery DO Tim Ryan (Kredit vs Tunai)';
+        if (chartSub1) chartSub1.textContent = 'Realisasi unit delivery bulanan periode Januari – Oktober 2026';
+        categories = trendData.map(d => d.code || d.month.slice(0, 3));
+        creditSeries = trendData.map(d => d.kredit);
+        cashSeries = trendData.map(d => d.tunai);
+      } else {
+        if (chartTitle1) chartTitle1.textContent = 'Rasio Pembayaran ' + (sub === 'do-sep' ? 'DO September' : (sub === 'spk-sep' ? 'SPK September' : 'SPK Borrow'));
+        if (chartSub1) chartSub1.textContent = 'Perbandingan transaksi Kredit vs Tunai';
+        const curList = sub === 'do-sep' ? data.doSeptember : (sub === 'spk-sep' ? data.spkSeptember : data.spkBorrow);
+        const kr = (curList || []).filter(x => (x.payment || '').toLowerCase().includes('kredit')).length;
+        const tu = (curList || []).length - kr;
+        categories = ['Kredit', 'Tunai'];
+        creditSeries = [kr, 0];
+        cashSeries = [0, tu];
+      }
+
+      const optionsMonthly = {
+        chart: {
+          type: 'bar',
+          height: 320,
+          stacked: true,
+          toolbar: { show: false },
+          fontFamily: 'Plus Jakarta Sans, sans-serif'
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            borderRadius: 4,
+            columnWidth: '50%'
+          }
+        },
+        colors: ['#0284c7', '#10b981'],
+        series: [
+          { name: 'Kredit (Leasing)', data: creditSeries },
+          { name: 'Tunai (Cash)', data: cashSeries }
+        ],
+        xaxis: {
+          categories: categories,
+          labels: { style: { colors: '#64748b', fontSize: '11px', fontWeight: 600 } }
+        },
+        yaxis: {
+          labels: {
+            formatter: val => Math.round(val) + ' Unit',
+            style: { colors: '#64748b', fontSize: '11px' }
+          }
+        },
+        tooltip: {
+          y: {
+            formatter: val => val + ' Unit'
+          }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          fontSize: '11px',
+          fontWeight: 600
+        },
+        grid: { borderColor: '#f1f5f9' }
+      };
+
+      state.charts.penjualanMonthly = new ApexCharts(elMonthly, optionsMonthly);
+      state.charts.penjualanMonthly.render();
+    }
+
+    // 2. Model Breakdown Donut Chart
+    const elModel = document.getElementById('penjualanModelChart');
+    if (elModel) {
+      if (state.charts.penjualanModel) {
+        try { state.charts.penjualanModel.destroy(); } catch(e) {}
+        state.charts.penjualanModel = null;
+      }
+
+      let labels = [];
+      let series = [];
+
+      if (sub === 'do-ytd') {
+        if (chartTitle2) chartTitle2.textContent = 'Pangsa Model Toyota (Top 7)';
+        if (chartSub2) chartSub2.textContent = 'Distribusi tipe unit kendaraan yang telah diserahterimakan (DO)';
+        const mDist = data.modelDist || [];
+        const top7 = mDist.slice(0, 7);
+        const otherUnits = mDist.slice(7).reduce((sum, x) => sum + x.units, 0);
+
+        labels = top7.map(x => x.model).concat(['Lainnya']);
+        series = top7.map(x => x.units).concat([otherUnits]);
+      } else {
+        if (chartTitle2) chartTitle2.textContent = 'Distribusi Model Unit ' + (sub === 'do-sep' ? 'DO September' : (sub === 'spk-sep' ? 'SPK September' : 'SPK Borrow'));
+        if (chartSub2) chartSub2.textContent = 'Model kendaraan terpesan / terkirim';
+        const curList = sub === 'do-sep' ? data.doSeptember : (sub === 'spk-sep' ? data.spkSeptember : data.spkBorrow);
+        const mMap = {};
+        (curList || []).forEach(x => {
+          const m = x.model || (x.product ? x.product.split(' ')[0] : 'OTHER');
+          mMap[m] = (mMap[m] || 0) + 1;
+        });
+        const sorted = Object.entries(mMap).sort((a,b) => b[1] - a[1]);
+        labels = sorted.slice(0, 6).map(x => x[0]);
+        series = sorted.slice(0, 6).map(x => x[1]);
+      }
+
+      const optionsModel = {
+        chart: {
+          type: 'donut',
+          height: 320,
+          toolbar: { show: false },
+          fontFamily: 'Plus Jakarta Sans, sans-serif'
+        },
+        series: series,
+        labels: labels,
+        colors: ['#b80515', '#0284c7', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#ec4899', '#64748b'],
+        dataLabels: {
+          enabled: true,
+          formatter: val => val.toFixed(1) + '%'
+        },
+        legend: {
+          position: 'bottom',
+          fontSize: '11px',
+          fontWeight: 600
+        },
+        tooltip: {
+          y: {
+            formatter: val => val + ' Unit'
+          }
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: '65%',
+              labels: {
+                show: true,
+                name: { show: true, fontSize: '13px', fontWeight: 600, color: '#64748b' },
+                value: {
+                  show: true,
+                  fontSize: '18px',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  formatter: val => val + ' Unit'
+                },
+                total: {
+                  show: true,
+                  label: 'Total DO',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#64748b',
+                  formatter: w => {
+                    const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                    return total + ' Unit';
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      state.charts.penjualanModel = new ApexCharts(elModel, optionsModel);
+      state.charts.penjualanModel.render();
+    }
+
+    // 3. Sales Leaderboard DO Chart
+    const elSales = document.getElementById('penjualanSalesChart');
+    if (elSales) {
+      if (state.charts.penjualanSales) {
+        try { state.charts.penjualanSales.destroy(); } catch(e) {}
+        state.charts.penjualanSales = null;
+      }
+
+      let salesNames = [];
+      let salesUnits = [];
+
+      if (sub === 'do-ytd') {
+        if (chartTitle3) chartTitle3.textContent = 'Leaderboard Perolehan Delivery DO per Wiraniaga Tim Ryan (YTD 2026)';
+        if (chartSub3) chartSub3.textContent = 'Total unit delivery yang telah dicapai masing-masing wiraniaga (Januari – Oktober 2026)';
+        const sMap = {};
+        trans.forEach(t => {
+          const s = t.salesman || 'Unknown';
+          sMap[s] = (sMap[s] || 0) + 1;
+        });
+        const sorted = Object.entries(sMap).sort((a,b) => b[1] - a[1]).slice(0, 10);
+        salesNames = sorted.map(x => x[0]);
+        salesUnits = sorted.map(x => x[1]);
+      } else {
+        if (chartTitle3) chartTitle3.textContent = 'Kontribusi Wiraniaga ' + (sub === 'do-sep' ? 'DO September' : (sub === 'spk-sep' ? 'SPK September' : 'SPK Borrow'));
+        if (chartSub3) chartSub3.textContent = 'Peringkat wiraniaga pada modul ini';
+        const curList = sub === 'do-sep' ? data.doSeptember : (sub === 'spk-sep' ? data.spkSeptember : data.spkBorrow);
+        const sMap = {};
+        (curList || []).forEach(x => {
+          const s = x.salesman || 'Unknown';
+          sMap[s] = (sMap[s] || 0) + 1;
+        });
+        const sorted = Object.entries(sMap).sort((a,b) => b[1] - a[1]).slice(0, 10);
+        salesNames = sorted.map(x => x[0]);
+        salesUnits = sorted.map(x => x[1]);
+      }
+
+      const optionsSales = {
+        chart: {
+          type: 'bar',
+          height: 360,
+          toolbar: { show: false },
+          fontFamily: 'Plus Jakarta Sans, sans-serif'
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            borderRadius: 4,
+            barHeight: '65%'
+          }
+        },
+        colors: ['#b80515'],
+        series: [{ name: 'Jumlah Unit Delivery (DO)', data: salesUnits }],
+        xaxis: {
+          categories: salesNames,
+          labels: {
+            formatter: val => Math.round(val) + ' Unit',
+            style: { colors: '#64748b', fontSize: '11px', fontWeight: 600 }
+          }
+        },
+        yaxis: {
+          labels: {
+            style: { colors: '#0f172a', fontSize: '12px', fontWeight: 600 }
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: val => val + ' Unit',
+          textAnchor: 'start',
+          offsetX: 6,
+          style: { fontSize: '11px', fontWeight: 700, colors: ['#0f172a'] }
+        },
+        tooltip: {
+          y: {
+            formatter: val => val + ' Unit'
+          }
+        },
+        grid: { borderColor: '#f1f5f9' }
+      };
+
+      state.charts.penjualanSales = new ApexCharts(elSales, optionsSales);
+      state.charts.penjualanSales.render();
+    }
+  }
+
+
   function initPenjualan() {
     populatePenjualanFilterOptions();
     bindPenjualanEvents();
     renderPenjualanTable();
+    const pane = document.getElementById('pane-penjualan');
+    if (pane && pane.classList.contains('active')) {
+      renderPenjualanCharts();
+    }
   }
 
   function populatePenjualanFilterOptions() {
@@ -1420,6 +1797,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
         }
 
         renderPenjualanTable();
+        renderPenjualanCharts();
       });
     });
 
