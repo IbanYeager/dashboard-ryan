@@ -127,6 +127,13 @@
           </div>
         </a>
 
+        <a href="#tco" class="nav-link" data-tab="tco">
+          <div class="nav-link-content">
+            <i class="fa-solid fa-boxes-packing"></i>
+            <span>TCO &amp; Merchandise</span>
+          </div>
+        </a>
+
         <div class="nav-section-title">Aftersales &amp; Tim</div>
 
         <a href="#funnel" class="nav-link" data-tab="funnel">
@@ -1693,6 +1700,198 @@
             </div>
 
             <div id="oneAccountPagination" style="margin-top:12px;"></div>
+          </div>
+        </section>
+
+        <!-- PANE: TCO & MERCHANDISE -->
+        <section class="tab-pane" id="pane-tco">
+          <div class="section-header">
+            <div class="section-header-title">
+              <h3>Monitoring TCO &amp; Merchandise &mdash; Khusus Tim Ryan</h3>
+              <p>Monitoring 85 transaksi aksesoris resmi TCO (Toyota Customizing Options), merchandise Gazoo Racing, dan bundling khusus Tim Feryanto (Februari s.d. November 2026). Total omset tercapai Rp 77,52 Juta.</p>
+            </div>
+            <div class="section-header-actions" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <span class="badge-status badge-cash" style="font-size:12px; padding:6px 12px; font-weight:700;">
+                <i class="fa-solid fa-boxes-stacked"></i> Total Omset: Rp 77,52 Jt (85 Transaksi)
+              </span>
+              <button type="button" class="btn-refresh" id="btnRefreshTco" title="Refresh Data TCO">
+                <i class="fa-solid fa-rotate"></i> Refresh
+              </button>
+            </div>
+          </div>
+
+          <!-- Monthly Quick Selector Pill Buttons -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:12px; font-weight:700; color:var(--slate-600); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-calendar-days" style="color:var(--primary-red);"></i>
+              Pilih Bulan Transaksi:
+            </div>
+            <div class="subnav-container" id="tcoMonthPills" style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn-secondary active subnav-btn tco-month-pill" data-month="all" style="font-weight:700;">
+                <i class="fa-solid fa-layer-group"></i> Semua Bulan (85 Item)
+              </button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="Februari">Februari (11)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="Maret">Maret (5)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="April">April (9)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="Mei">Mei (5)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="Juni">Juni (11)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="Juli">Juli (11)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="Agustus">Agustus (7)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="September">September (10)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="Oktober">Oktober (12)</button>
+              <button type="button" class="btn-secondary subnav-btn tco-month-pill" data-month="November">November (5)</button>
+            </div>
+          </div>
+
+          <!-- 4 KPI Cards for TCO & Merchandise -->
+          <div class="kpi-grid">
+            <div class="kpi-card card-blue">
+              <div class="kpi-card-head">
+                <span class="kpi-label">TOTAL OMSET / REVENUE TCO</span>
+                <i class="fa-solid fa-money-bill-wave kpi-icon"></i>
+              </div>
+              <div class="kpi-val" id="tcoKpiTotalRevenue">Rp 77,52 Jt</div>
+              <div class="kpi-sub" id="tcoKpiTotalItems">85 Transaksi / Item Terjual</div>
+            </div>
+
+            <div class="kpi-card card-cyan">
+              <div class="kpi-card-head">
+                <span class="kpi-label">AKSESORIS TCO (OFFICIAL)</span>
+                <i class="fa-solid fa-car-side kpi-icon"></i>
+              </div>
+              <div class="kpi-val" id="tcoKpiTcoRev">Rp 33,23 Jt</div>
+              <div class="kpi-sub" id="tcoKpiTcoItems">41 Transaksi TCO (42.9% Share)</div>
+            </div>
+
+            <div class="kpi-card card-purple">
+              <div class="kpi-card-head">
+                <span class="kpi-label">MERCHANDISE GAZOO RACING</span>
+                <i class="fa-solid fa-shirt kpi-icon"></i>
+              </div>
+              <div class="kpi-val" id="tcoKpiMerchRev">Rp 41,93 Jt</div>
+              <div class="kpi-sub" id="tcoKpiMerchItems">41 Item Merchandise (54.1% Share)</div>
+            </div>
+
+            <div class="kpi-card card-green">
+              <div class="kpi-card-head">
+                <span class="kpi-label">BUNDLING &amp; STATUS PEMASANGAN</span>
+                <i class="fa-solid fa-circle-check kpi-icon"></i>
+              </div>
+              <div class="kpi-val" id="tcoKpiBundlingRev">Rp 2,36 Jt</div>
+              <div class="kpi-sub" id="tcoKpiStatusSummary">3 Bundling | 82 Terpasang (96.5%)</div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="charts-row" style="margin-top:20px;">
+            <div class="chart-box" style="flex: 2; min-width: 320px;">
+              <div class="chart-header">
+                <div>
+                  <h4 class="chart-title">Tren Omset Bulanan TCO vs Merchandise (Feb - Nov 2026)</h4>
+                  <p class="chart-subtitle">Distribusi perolehan omset bulanan Tim Ryan berdasarkan kategori produk</p>
+                </div>
+              </div>
+              <div id="tcoMonthlyChart" style="min-height: 320px;"></div>
+            </div>
+
+            <div class="chart-box" style="flex: 1; min-width: 280px;">
+              <div class="chart-header">
+                <div>
+                  <h4 class="chart-title">Komposisi Omset per Kategori</h4>
+                  <p class="chart-subtitle">Proporsi pendapatan Merchandise vs TCO vs Bundling</p>
+                </div>
+              </div>
+              <div id="tcoTypeChart" style="min-height: 320px;"></div>
+            </div>
+          </div>
+
+          <!-- Sales Leaderboard Chart -->
+          <div class="charts-row" style="margin-top:20px;">
+            <div class="chart-box" style="width: 100%;">
+              <div class="chart-header">
+                <div>
+                  <h4 class="chart-title">Leaderboard Perolehan Omset TCO &amp; Merchandise Wiraniaga Tim Ryan</h4>
+                  <p class="chart-subtitle">Peringkat kontribusi revenue aksesoris &amp; merchandise per salesperson Tim Feryanto</p>
+                </div>
+              </div>
+              <div id="tcoLeaderboardChart" style="min-height: 380px;"></div>
+            </div>
+          </div>
+
+          <!-- Filter & Data Table -->
+          <div class="card-box" style="margin-top:20px;">
+            <div class="card-box-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+              <div style="font-weight:700; font-size:15px; color:var(--navy-900); display:flex; align-items:center; gap:8px;">
+                <i class="fa-solid fa-list-check" style="color:var(--primary-red);"></i>
+                Daftar Detail Transaksi TCO &amp; Merchandise Tim Ryan
+                <span class="badge-status badge-cash" id="tcoTableFilteredBadge" style="font-size:11px; margin-left:6px;">85 Transaksi</span>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" class="btn-secondary" id="btnResetTcoFilter" style="font-size:12px; padding:6px 12px;">
+                  <i class="fa-solid fa-filter-circle-xmark"></i> Reset Filter
+                </button>
+                <button type="button" class="btn-primary" id="btnExportTcoCsv" style="font-size:12px; padding:6px 12px;">
+                  <i class="fa-solid fa-file-csv"></i> Ekspor CSV TCO
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-bar" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:16px;">
+              <div>
+                <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Pencarian Bebas:</label>
+                <input type="text" id="tcoSearchInput" class="form-control" placeholder="Cari konsumen, sales, part..." style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Filter Kategori:</label>
+                <select id="tcoTypeFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+                  <option value="all">Semua Kategori</option>
+                  <option value="MERCHANDISE">Merchandise GR</option>
+                  <option value="TCO">Aksesoris TCO</option>
+                  <option value="BUNDLING">Bundling</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Filter Wiraniaga:</label>
+                <select id="tcoSalesFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+                  <option value="all">Semua Wiraniaga</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:11px; font-weight:700; color:var(--slate-600); margin-bottom:4px; display:block;">Status Pemasangan:</label>
+                <select id="tcoStatusFilter" class="form-control" style="width:100%; font-size:12px; padding:8px 12px; border-radius:6px; border:1px solid var(--border-color);">
+                  <option value="all">Semua Status</option>
+                  <option value="TERPASANG">Terpasang</option>
+                  <option value="BELUM TERPASANG">Belum Terpasang</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive" style="overflow-x:auto;">
+              <table class="data-table" id="tcoTable" style="width:100%; font-size:12px;">
+                <thead>
+                  <tr>
+                    <th style="width:40px;">No</th>
+                    <th>Bulan</th>
+                    <th>Konsumen</th>
+                    <th>Wiraniaga Tim Ryan</th>
+                    <th>Nama Part / Aksesoris / Merchandise</th>
+                    <th>Kategori</th>
+                    <th style="text-align:right;">Harga Part</th>
+                    <th>Pembayaran</th>
+                    <th>Status Pemasangan</th>
+                    <th>Catatan</th>
+                  </tr>
+                </thead>
+                <tbody id="tcoTableBody">
+                  <!-- Dynamic rows via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div id="tcoPagination" style="margin-top:12px;"></div>
           </div>
         </section>
 

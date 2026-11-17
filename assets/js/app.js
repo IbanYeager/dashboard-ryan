@@ -96,6 +96,15 @@
       pma: 'all',
       sales: 'all'
     },
+    tco: {
+      search: '',
+      month: 'all',
+      type: 'all',
+      salesman: 'all',
+      status: 'all',
+      page: 1,
+      pageSize: 25
+    },
     charts: {}
   };
 
@@ -227,6 +236,10 @@
       } else if (tabId === 'oneaccount') {
         renderOneAccountCharts();
         renderOneAccountTable();
+      } else if (tabId === 'tco') {
+        renderTcoCharts();
+        renderTcoTable();
+        updateTcoKpis();
       }
     }, 50);
   }
@@ -4136,6 +4149,7 @@ Bpk. Dedi Supriadi	082112345678	Yudi Heryadi	New Calya 1.2 G AT	Tunai	SPK menung
     initSbi();
     initOneAccount();
     initAfi();
+    initTco();
 
     // Check initial hash in URL
     const hash = window.location.hash.replace('#', '');
